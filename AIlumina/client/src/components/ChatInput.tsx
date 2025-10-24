@@ -211,9 +211,7 @@ const ChatInput: React.FC = React.memo(() => {
           >
             {inputValue || (
               <span className="text-gray-400">
-                {isListening()
-                  ? "Listening..."
-                  : "Speech recognition enabled. Click microphone to disable."}
+                Speech recognition active...
               </span>
             )}
           </div>
@@ -261,9 +259,17 @@ const ChatInput: React.FC = React.memo(() => {
         </div>
       )}
 
-      {speechRecognitionEnabled && isListening() && (
-        <div className="text-xs text-blue-600 mt-2 animate-pulse dark:text-blue-400">
-          Listening...
+      {speechRecognitionEnabled && (
+        <div className="text-xs mt-2">
+          {isListening() ? (
+            <span className="text-blue-600 animate-pulse dark:text-blue-400">
+              🎤 Listening...
+            </span>
+          ) : (
+            <span className="text-gray-500 dark:text-gray-400">
+              Initializing...
+            </span>
+          )}
         </div>
       )}
 
