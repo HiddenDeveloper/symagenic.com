@@ -7,24 +7,16 @@
     "src/**/*.ts"
   ],
   "ignore": [
-    "src/http-server/routes/mcp.ts",
-    "src/shared/agents/agent-manager.ts",
-    "src/shared/agents/base-agent.ts",
-    "src/shared/agents/agent-factory.ts"
+    "src/http-server/routes/mcp.ts"
   ],
   "ignoreDependencies": [
     "@types/uuid",
     "@types/cors",
     "@types/express",
-    "@types/express-ws",
     "@types/ws",
     "@vitest/coverage-v8",
     "vitest",
-    "eslint",
-    "eslint-config-prettier",
-    "eslint-plugin-prettier",
-    "typescript-eslint",
-    "@eslint/js"
+    "eslint"
   ],
   "ignoreExportsUsedInFile": true,
   "includeEntryExports": true,
