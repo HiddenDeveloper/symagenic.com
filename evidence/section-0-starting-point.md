@@ -32,7 +32,7 @@ export abstract class BaseServiceProvider implements ServiceProvider {
   public agent_name: string;
   public service_provider: string;
   public model_name: string;
-  public tool_registry?: ToolRegistry;
+  public tool_registry?: ToolRegistry; // Future 
   protected system_prompt?: string;
 
   constructor(
@@ -126,6 +126,119 @@ export class AgentWebSocketHandler {
 - Configuration-based provider selection
 - Error handling with user-friendly messages
 
+### Direct HTTP API - No SDK Wrappers
+
+**Architectural Decision**: Use HTTP APIs directly instead of provider SDK packages
+
+**Why Not Use Official SDKs?**
+
+Each provider offers official SDK packages:
+- `@anthropic-ai/sdk` for Anthropic
+- `openai` for OpenAI
+- `@google/generative-ai` for Google
+
+**We chose to build our own HTTP transport layer instead.**
+
+**File**: `packages/server/src/shared/transport/anthropic-api-transport.ts`
+
+**Implementation**:
+```typescript
+/**
+ * Anthropic API Transport
+ *
+ * Handles Anthropic Claude API communication using direct HTTP.
+ * Responsible ONLY for HTTP transport, not message composition.
+ * No SDK dependencies - pure fetch-based implementation.
+ */
+
+export class AnthropicAPITransport {
+  private config: AnthropicTransportConfig;
+  private abortController?: AbortController;
+
+  constructor(config: AnthropicTransportConfig) {
+    this.config = {
+      ...config,
+      baseUrl: config.baseUrl || 'https://api.anthropic.com',
+      timeout: config.timeout || 30000,
+      maxRetries: config.maxRetries || 2,
+    };
+  }
+
+  async send(messages: Message[], options: {...}): Promise<TransportResult> {
+    // Prepare Anthropic format
+    const anthropicMessages = this.prepareAnthropicFormat(messages);
+
+    // Build request parameters
+    const requestParams = {
+      model: this.config.model,
+      messages: anthropicMessages,
+      max_tokens: options.maxTokens || 4096,
+      system: options.systemPrompt,
+      tools: options.tools,
+      stream: options.stream,
+    };
+
+    const url = `${this.config.baseUrl}/v1/messages`;
+
+    // Direct HTTP fetch
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'anthropic-version': '2023-06-01',
+        'x-api-key': this.config.apiKey,
+      },
+      body: JSON.stringify(requestParams),
+      signal: this.abortController.signal,
+    });
+
+    return await this.parseResponse(response);
+  }
+}
+```
+
+**Transport Layers for Each Provider**:
+- `anthropic-api-transport.ts` - Direct Anthropic HTTP
+- `openai-api-transport.ts` - Direct OpenAI HTTP
+- `google-api-transport.ts` - Direct Google HTTP
+
+**Rationale**:
+
+1. **Full Protocol Control**
+   - Understand exactly what's being sent
+   - No hidden abstractions or magic
+   - Complete visibility into API communication
+
+2. **Separation of Concerns**
+   - Transport layer: HTTP communication only
+   - Composition layer: Message formatting
+   - Provider layer: Business logic
+   - Clean boundaries between responsibilities
+
+3. **Consistent Multi-Provider Architecture**
+   - Same pattern for all providers
+   - Easier to add new providers (just implement transport)
+   - No SDK version conflicts or incompatibilities
+
+4. **No Dependency Bloat**
+   - Each SDK brings its own dependencies
+   - Multiple SDKs = dependency hell
+   - Pure fetch = minimal dependencies
+
+5. **Understanding Over Convenience**
+   - Learning the actual HTTP APIs builds deeper knowledge
+   - SDK abstractions can hide important details
+   - Direct HTTP makes debugging transparent
+
+**Evidence**: All three major provider transport files include the comment:
+> "No SDK dependencies - pure fetch-based implementation"
+
+**Trade-off Accepted**: We maintain our own HTTP layer, but gain:
+- Complete control
+- Deeper understanding
+- Consistent architecture
+- Minimal dependencies
+
 ### Agent Configuration
 
 **JSON-Based Agent Definitions**: Each agent defined in `agents.json`
@@ -140,7 +253,7 @@ export class AgentWebSocketHandler {
     "description": "markdown formatter Agent",
     "system_prompt": "Your task is to format the given input text into Markdown...",
     "do_stream": true,
-    "available_functions": ["get_current_datetime"],
+    "available_functions": [], 
     "agent_name": "markdown_formatter"
   }
 }
@@ -227,15 +340,40 @@ ls -la packages/server/src/shared/services/*-provider.ts
 - Each provider implements provider-specific API patterns
 - Total ~88KB of provider code
 
-### 2. Agent Configuration Examples
-
-**From agents.json** - Multiple configured agents:
-- `markdown_formatter`: Anthropic Claude 3.5 Sonnet
-- `journaling`: LMStudio with openai/gpt-oss-20b
-- `scheduling`: OpenAI GPT-4o-mini
-- `crm`: OpenAI GPT-4o-mini
-
 **Evidence**: Platform supports **mixing providers** - different agents use different AI providers based on requirements.
+
+### 2. Transport Layer - Direct HTTP
+
+**Command**: List transport files
+```bash
+ls -la packages/server/src/shared/transport/*.ts
+```
+
+**Result**:
+```
+-rw-r--r--  anthropic-api-transport.ts
+-rw-r--r--  google-api-transport.ts
+-rw-r--r--  openai-api-transport.ts
+-rw-r--r--  transport-types.ts
+```
+
+**Verification**: Check for SDK dependencies
+```bash
+grep "No SDK dependencies" packages/server/src/shared/transport/*-transport.ts
+```
+
+**Result**:
+```
+anthropic-api-transport.ts: * No SDK dependencies - pure fetch-based implementation.
+google-api-transport.ts: * No SDK dependencies - pure fetch-based implementation.
+openai-api-transport.ts: * No SDK dependencies - pure fetch-based implementation
+```
+
+**Analysis**:
+- **3 transport layers** explicitly avoiding SDKs
+- **Consistent architecture** across all providers
+- **Direct HTTP** using native fetch API
+- **Clean separation** between transport and business logic
 
 ### 3. WebSocket Implementation
 
@@ -248,7 +386,7 @@ ls -la packages/server/src/shared/services/*-provider.ts
 - Error translation for user-friendly messages
 - Configuration-based provider selection
 
-### 4. Migration Timeline
+### 1. Migration Timeline
 
 **Python → TypeScript Migration**:
 - **Reason**: Type safety and deterministic behavior
@@ -285,6 +423,7 @@ Each limitation we discovered led to a prerequisite:
 ## Synthesis: The Starting Point Established
 
 ✅ **Multi-provider architecture** - 6 AI providers supported (Anthropic, OpenAI, Google, Ollama, LMStudio, Groq)
+✅ **Direct HTTP transport** - No SDK dependencies, pure fetch-based implementation
 ✅ **WebSocket streaming** - Real-time communication
 ✅ **Type-safe implementation** - TypeScript throughout with 10x performance via Bun
 ✅ **Agent configuration** - JSON-based agent definitions
@@ -306,6 +445,9 @@ Each limitation we discovered led to a prerequisite:
 - `packages/server/src/shared/services/base-provider.ts` (14,777 bytes)
 - `packages/server/src/shared/services/anthropic-provider.ts` (18,875 bytes)
 - `packages/server/src/shared/services/google-provider.ts` (26,897 bytes)
+- `packages/server/src/shared/transport/anthropic-api-transport.ts` (direct HTTP)
+- `packages/server/src/shared/transport/openai-api-transport.ts` (direct HTTP)
+- `packages/server/src/shared/transport/google-api-transport.ts` (direct HTTP)
 - `packages/server/src/websockets/agent.ts` (100+ lines)
 - `packages/server/agents.json` (configuration examples)
 - `packages/server/README.md` (migration rationale)
