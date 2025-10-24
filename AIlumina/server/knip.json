@@ -4,8 +4,7 @@
     "src/http-server/index.ts"
   ],
   "project": [
-    "src/**/*.ts!",
-    "tests/**/*.ts!"
+    "src/**/*.ts"
   ],
   "ignore": [
     "src/http-server/routes/mcp.ts",
@@ -18,14 +17,16 @@
     "@types/cors",
     "@types/express",
     "@types/express-ws",
-    "@types/ws"
+    "@types/ws",
+    "@vitest/coverage-v8",
+    "vitest",
+    "eslint",
+    "eslint-config-prettier",
+    "eslint-plugin-prettier",
+    "typescript-eslint",
+    "@eslint/js"
   ],
   "ignoreExportsUsedInFile": true,
   "includeEntryExports": true,
-  "vitest": {
-    "entry": ["tests/**/*.test.ts", "src/**/*.test.ts"]
-  },
-  "eslint": {
-    "entry": ["eslint.config.mjs"]
-  }
+  "eslint": false
 }

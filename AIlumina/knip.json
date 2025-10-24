@@ -1,0 +1,50 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "eslint": false,
+  "workspaces": {
+    ".": {
+      "entry": ["package.json"],
+      "project": ["*.json"]
+    },
+    "server": {
+      "entry": ["src/http-server/index.ts"],
+      "project": ["src/**/*.ts"]
+    },
+    "client": {
+      "entry": ["src/main.tsx", "index.html"],
+      "project": ["src/**/*.{ts,tsx}"],
+      "ignoreDependencies": [
+        "@eslint/js",
+        "eslint",
+        "eslint-config-prettier",
+        "eslint-plugin-jsx-a11y",
+        "eslint-plugin-prettier",
+        "eslint-plugin-react",
+        "eslint-plugin-react-hooks",
+        "eslint-plugin-react-refresh",
+        "eslint-plugin-simple-import-sort",
+        "typescript-eslint",
+        "globals",
+        "prettier",
+        "@testing-library/jest-dom",
+        "@testing-library/react",
+        "@testing-library/user-event",
+        "vitest",
+        "jsdom"
+      ]
+    },
+    "shared": {
+      "entry": ["src/index.ts"],
+      "project": ["src/**/*.ts"]
+    }
+  },
+  "ignore": [
+    "**/dist/**",
+    "**/node_modules/**",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ],
+  "ignoreDependencies": [
+    "concurrently"
+  ]
+}
