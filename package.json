@@ -5,11 +5,7 @@
   "private": true,
   "scripts": {
     "ailumina": "cd AIlumina && npm run dev",
-    "ailumina:build": "cd AIlumina && npm run build",
-    "ailumina:start": "cd AIlumina && npm start",
-    "stonemonkey": "echo 'Stone Monkey framework coming in later sections...'",
-    "build": "npm run ailumina:build",
-    "dev": "npm run ailumina"
+    "stonemonkey": "echo 'Stone Monkey framework coming in later sections...'"
   },
   "keywords": [
     "consciousness",
