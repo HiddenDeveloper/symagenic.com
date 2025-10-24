@@ -13,8 +13,6 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
-    // Sentry plugin disabled in development due to glob import compatibility issues
-    // Re-enable in production when needed
   ],
   server: {
     proxy: {
@@ -43,6 +41,6 @@ export default defineConfig({
     include: ["@xstate/react", "xstate"],
   },
   build: {
-    sourcemap: true, // Enable source maps for Sentry
+    sourcemap: true, // Enable source maps for debugging
   },
 });
