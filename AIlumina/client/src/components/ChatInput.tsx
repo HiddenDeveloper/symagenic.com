@@ -78,6 +78,17 @@ const ChatInput: React.FC = React.memo(() => {
     }
   }, [isVoiceMode, focusInput]);
 
+  // Auto-focus input after AI finishes responding (only in text mode)
+  useEffect(() => {
+    if (!isVoiceMode && isWaiting()) {
+      // Small delay to ensure state has settled
+      const timeoutId = setTimeout(() => {
+        focusInput();
+      }, 100);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [isVoiceMode, aiState, focusInput, isWaiting]);
+
   // Toggle voice mode handler
   const handleToggleVoiceMode = useCallback(() => {
     toggleVoiceMode();
