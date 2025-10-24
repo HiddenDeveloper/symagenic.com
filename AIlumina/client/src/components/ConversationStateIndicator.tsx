@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useConversation } from "./ConversationHSMCoordinator";
+import { useConversation } from '../contexts/ConversationHSMCoordinator';
 
 const ConversationStateIndicator: React.FC = () => {
   const conversation = useConversation();

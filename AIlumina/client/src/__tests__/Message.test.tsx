@@ -1,8 +1,8 @@
 import { render } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import type { Message as MessageType } from "./AIServiceTypes";
-import Message from "./Message";
+import type { Message as MessageType } from '../types/AIServiceTypes';
+import Message from '../components/Message';
 
 describe("<Message />", () => {
   it("renders markdown content as text", () => {

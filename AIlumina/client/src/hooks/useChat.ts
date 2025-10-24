@@ -12,9 +12,9 @@ import {
   messageHasText,
   normalizeMessageContent,
   Role,
-} from "./AIServiceTypes";
-import type { ChatContextType } from "./ChatContext.types";
-import { useConversation } from "./ConversationHSMCoordinator";
+} from '../types/AIServiceTypes';
+import type { ChatContextType } from '../types/ChatContext.types';
+import { useConversation } from '../contexts/ConversationHSMCoordinator';
 
 /**
  * useChat - A hook to access the chat functionality

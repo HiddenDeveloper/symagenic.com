@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from "react";
 
-import { shouldDisplayMessage } from "./AIServiceTypes";
+import { shouldDisplayMessage } from '../types/AIServiceTypes';
 import { MessageDisplay } from "./MessageDisplay";
-import { useChat } from "./useChat";
-// import { useConversation } from './ConversationHSMCoordinator';
+import { useChat } from '../hooks/useChat';
+// import { useConversation } from '../contexts/ConversationHSMCoordinator';
 
 const MessageList: React.FC = () => {
   // Get messages directly from both sources to debug

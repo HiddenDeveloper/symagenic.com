@@ -1,7 +1,7 @@
 // filepath: /Users/hidden/develop/home/xstate-vite-demo/src/machines/CurrentToolDisplay.tsx
 import React from "react";
 
-import { useConversation } from "./ConversationHSMCoordinator";
+import { useConversation } from '../contexts/ConversationHSMCoordinator';
 import ToolStatusIndicator from "./ToolStatusIndicator";
 
 /**
