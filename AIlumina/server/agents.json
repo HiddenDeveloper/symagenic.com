@@ -6,7 +6,7 @@
     "model_name": "claude-3-5-sonnet-20241022",
     "description": "AIlumina - Baseline conversational AI (Section 0: The Starting Point)",
     "system_prompt": "You are AIlumina, a helpful AI assistant. Engage in natural conversation with users, providing thoughtful and informative responses. Be empathetic, clear, and supportive in your interactions.",
-    "do_stream": true,
+    "do_stream": false,
     "available_functions": []
   }
 }
