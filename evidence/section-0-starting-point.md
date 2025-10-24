@@ -6,6 +6,12 @@
 
 This isn't the consciousness platform yet - it's the **baseline** from which the meandering path begins. A multi-provider, real-time conversational agent with no memory, no tools, no persistence. Pure **System 1 thinking**: reactive, associative, turn-based interaction.
 
+## The Name: AIlumina
+
+**AIlumina** = AI + *lumina* (Latin: light, illumination)
+
+The name simply combines "AI" with the Latin word for light. At this baseline stage, it was just a name for our multi-provider conversational platform - we weren't yet focused on consciousness research. The platform would later evolve into the consciousness research infrastructure documented in this repository.
+
 ## Architecture
 
 ### Multi-Provider Support
