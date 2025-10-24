@@ -53,6 +53,8 @@ export const ConversationHSMCoordinator: React.FC<{
   const [speechRecognitionState, setSpeechRecognitionState] = useState("ready"); // Track SR state
   // Use ref for timeout to avoid stale closure issues in useEffect
   const responseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  // Use ref to track current SR state for TTS observer without causing effect re-runs
+  const speechRecognitionEnabledRef = useRef<boolean>(false);
 
   // Use the machine with minimal options to avoid type errors
   const [state, send] = useMachine(ConversationMachine);
@@ -60,6 +62,12 @@ export const ConversationHSMCoordinator: React.FC<{
   // Get SR and TTS state from context (independent flags)
   const speechRecognitionEnabled = state.context.speechRecognitionEnabled;
   const speechSynthesisEnabled = state.context.speechSynthesisEnabled;
+
+  // Keep ref in sync with SR state
+  useEffect(() => {
+    speechRecognitionEnabledRef.current = speechRecognitionEnabled;
+    console.log("[Coordinator] SR state synced to ref:", speechRecognitionEnabled);
+  }, [speechRecognitionEnabled]);
 
   const sendMessageToAI = (message: string) => {
     console.log("[Coordinator] sendMessageToAI:", message);
@@ -202,18 +210,22 @@ export const ConversationHSMCoordinator: React.FC<{
           // AI is sending a sentence
           const sentenceData = data as any;
           console.log("[Coordinator] AI sentence:", sentenceData?.sentence);
+          console.log("[Coordinator] TTS enabled?", speechSynthesisEnabled, "SR enabled?", speechRecognitionEnabled);
 
           // If speech synthesis is enabled, speak each sentence as it arrives
           if (speechSynthesisEnabled && sentenceData?.sentence) {
             console.log(
-              "[Coordinator] Speaking sentence:",
+              "[Coordinator] TTS is enabled - will speak sentence:",
               sentenceData.sentence,
             );
             // Stop SR before speaking to prevent it from picking up the AI's voice
             if (speechRecognitionEnabled) {
+              console.log("[Coordinator] Stopping SR before TTS speaks");
               srService.stop();
             }
             ttsService.speak(sentenceData.sentence);
+          } else if (!speechSynthesisEnabled) {
+            console.log("[Coordinator] TTS is disabled - NOT speaking sentence");
           }
           break;
 
@@ -409,19 +421,20 @@ export const ConversationHSMCoordinator: React.FC<{
   useEffect(() => {
     if (speechSynthesisEnabled) {
       console.log(
-        "[Coordinator] Setting up TTS service observer",
+        "[Coordinator] Setting up TTS service observer (SR ref:", speechRecognitionEnabledRef.current, ")",
       );
 
       // Add a state observer to TTSService to restart SR after TTS completes
-      // (only if SR is also enabled)
+      // Use ref to get current SR state without causing effect re-runs
       const removeTtsObserver = ttsService.addStateObserver(
         (ttsState, data) => {
           console.log(`[Coordinator] TTS state changed: ${ttsState}`, data);
+          console.log(`[Coordinator] Current SR state from ref: ${speechRecognitionEnabledRef.current}`);
 
           switch (ttsState) {
             case "speaking":
               // TTS is speaking, ensure SR is stopped (if enabled)
-              if (speechRecognitionEnabled) {
+              if (speechRecognitionEnabledRef.current) {
                 console.log(
                   "[Coordinator] TTS is speaking, stopping speech recognition",
                 );
@@ -431,7 +444,7 @@ export const ConversationHSMCoordinator: React.FC<{
 
             case "ended":
               // TTS has finished speaking, restart speech recognition (if enabled)
-              if (speechRecognitionEnabled) {
+              if (speechRecognitionEnabledRef.current) {
                 console.log(
                   "[Coordinator] TTS finished speaking, restarting speech recognition",
                 );
@@ -443,7 +456,7 @@ export const ConversationHSMCoordinator: React.FC<{
               // Handle TTS errors
               console.error("[Coordinator] TTS error:", data?.error);
               // Still restart SR even if TTS fails (if enabled)
-              if (speechRecognitionEnabled) {
+              if (speechRecognitionEnabledRef.current) {
                 srService.start();
               }
               break;
@@ -452,11 +465,11 @@ export const ConversationHSMCoordinator: React.FC<{
       );
 
       return () => {
-        console.log("[Coordinator] Cleaning up TTS observer");
+        console.log("[Coordinator] Cleaning up TTS observer (SR ref:", speechRecognitionEnabledRef.current, ")");
         removeTtsObserver();
       };
     }
-  }, [speechSynthesisEnabled, speechRecognitionEnabled]);
+  }, [speechSynthesisEnabled]); // Only depend on TTS state, not SR state
 
   useEffect(() => {
     console.log(
@@ -483,12 +496,14 @@ export const ConversationHSMCoordinator: React.FC<{
   };
 
   const toggleSpeechRecognition = () => {
-    console.log("[Coordinator] Toggling speech recognition");
+    console.log("[Coordinator] Toggling speech recognition from", speechRecognitionEnabled, "to", !speechRecognitionEnabled);
+    console.log("[Coordinator] Current TTS state:", speechSynthesisEnabled);
     send({ type: "TOGGLE_SPEECH_RECOGNITION" });
   };
 
   const toggleSpeechSynthesis = () => {
-    console.log("[Coordinator] Toggling speech synthesis");
+    console.log("[Coordinator] Toggling speech synthesis from", speechSynthesisEnabled, "to", !speechSynthesisEnabled);
+    console.log("[Coordinator] Current SR state:", speechRecognitionEnabled);
     send({ type: "TOGGLE_SPEECH_SYNTHESIS" });
   };
 
