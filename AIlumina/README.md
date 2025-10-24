@@ -43,14 +43,50 @@ This repository is being built section by section, each adding the code that imp
 
 ## Building and Running
 
-See individual package README files for build and run instructions:
-- `server/README.md`
-- `client/README.md`
+### Quick Start (Development)
+
+From the AIlumina directory:
+
+```bash
+# Install dependencies
+npm install
+
+# Start development servers (client + server)
+npm run dev
+```
+
+Server: http://localhost:8000
+Client: http://localhost:5173
+
+### Production Build
+
+```bash
+# Build everything (shared, server, client)
+npm run build
+
+# Start production server
+npm start
+```
+
+The client build is automatically deployed to `server/dist/client` for serving.
+
+### Individual Package Commands
+
+See individual package README files for detailed instructions:
+- `server/README.md` - Backend API and WebSocket server
+- `client/README.md` - React frontend
+- `shared/README.md` - Shared types and constants
+
+### Build Scripts
+
+- `npm run build` - Build all packages and deploy client
+- `npm run build:shared` - Build shared package only
+- `npm run build:server` - Build server only
+- `npm run build:client` - Build client only
+- `npm run deploy:client` - Copy client dist to server
+- `npm run dev` - Run both servers in dev mode
+- `npm run clean` - Remove all build artifacts
 
 ## Note on Build Artifacts
-
-This repository includes only source code. To run the code:
-1. `cd server && npm install && npm run build`
-2. `cd client && npm install && npm run dev`
 
 Build artifacts (`node_modules/`, `dist/`) are excluded from git.
