@@ -1,7 +1,7 @@
 // ConversationHSMCoordinator.tsx
 // Updated to observe AIService state changes
 import { useMachine } from "@xstate/react";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 
 import AIService from "../services/AIService";
 import { Message } from "../types/AIServiceTypes";
@@ -50,9 +50,8 @@ export const ConversationHSMCoordinator: React.FC<{
   const [interimTranscript, setInterimTranscript] = useState(""); // For storing interim transcripts
   const [transcript, setTranscript] = useState(""); // For storing interim transcripts
   const [speechRecognitionState, setSpeechRecognitionState] = useState("ready"); // Track SR state
-  const [responseTimeout, setResponseTimeout] = useState<NodeJS.Timeout | null>(
-    null,
-  );
+  // Use ref for timeout to avoid stale closure issues in useEffect
+  const responseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Use the machine with minimal options to avoid type errors
   const [state, send] = useMachine(ConversationMachine);
@@ -124,10 +123,10 @@ export const ConversationHSMCoordinator: React.FC<{
           }
 
           // Set a timeout to recover from stuck thinking state
-          if (responseTimeout) {
-            clearTimeout(responseTimeout);
+          if (responseTimeoutRef.current) {
+            clearTimeout(responseTimeoutRef.current);
           }
-          const timeout = setTimeout(() => {
+          responseTimeoutRef.current = setTimeout(() => {
             console.error(
               "[Coordinator] AI response timeout - recovering from stuck state",
             );
@@ -140,16 +139,15 @@ export const ConversationHSMCoordinator: React.FC<{
               srService.start();
             }
           }, 30000); // 30 second timeout
-          setResponseTimeout(timeout);
           break;
 
         case "chat_message":
           console.log("[Coordinator] chat_message received:", data);
 
           // Clear timeout when we receive a response
-          if (responseTimeout) {
-            clearTimeout(responseTimeout);
-            setResponseTimeout(null);
+          if (responseTimeoutRef.current) {
+            clearTimeout(responseTimeoutRef.current);
+            responseTimeoutRef.current = null;
           }
 
           // Type guard for chat_message data
@@ -237,9 +235,9 @@ export const ConversationHSMCoordinator: React.FC<{
           console.log("[Coordinator] AI response complete");
 
           // Clear timeout when response completes
-          if (responseTimeout) {
-            clearTimeout(responseTimeout);
-            setResponseTimeout(null);
+          if (responseTimeoutRef.current) {
+            clearTimeout(responseTimeoutRef.current);
+            responseTimeoutRef.current = null;
           }
 
           send({ type: "AI_COMPLETE" });
@@ -256,9 +254,9 @@ export const ConversationHSMCoordinator: React.FC<{
           const errorData = data as any;
 
           // Clear timeout on error
-          if (responseTimeout) {
-            clearTimeout(responseTimeout);
-            setResponseTimeout(null);
+          if (responseTimeoutRef.current) {
+            clearTimeout(responseTimeoutRef.current);
+            responseTimeoutRef.current = null;
           }
 
           send({ type: "AI_ERROR", message: errorData?.error || "Unknown error" });
@@ -281,8 +279,9 @@ export const ConversationHSMCoordinator: React.FC<{
       console.log("[Coordinator] Cleaning up observer");
       removeObserver();
       // Clear any pending timeout
-      if (responseTimeout) {
-        clearTimeout(responseTimeout);
+      if (responseTimeoutRef.current) {
+        clearTimeout(responseTimeoutRef.current);
+        responseTimeoutRef.current = null;
       }
     };
   }, [send, isVoiceMode]);
