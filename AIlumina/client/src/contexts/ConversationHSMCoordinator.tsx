@@ -66,7 +66,6 @@ export const ConversationHSMCoordinator: React.FC<{
   // Keep ref in sync with SR state
   useEffect(() => {
     speechRecognitionEnabledRef.current = speechRecognitionEnabled;
-    console.log("[Coordinator] SR state synced to ref:", speechRecognitionEnabled);
   }, [speechRecognitionEnabled]);
 
   const sendMessageToAI = (message: string) => {
@@ -301,7 +300,6 @@ export const ConversationHSMCoordinator: React.FC<{
 
   // Manage Speech Recognition lifecycle based on speechRecognitionEnabled flag
   useEffect(() => {
-    console.log("[Coordinator] Speech Recognition state changed:", speechRecognitionEnabled);
     if (speechRecognitionEnabled) {
       console.log("[Coordinator] Starting speech recognition");
       // Don't start SR immediately if TTS is speaking
@@ -315,20 +313,13 @@ export const ConversationHSMCoordinator: React.FC<{
 
       // Add a state observer to srService
       const removeObserver = srService.addStateObserver((srState, data) => {
-        console.log(`[Coordinator] SR state changed: ${srState}`, data);
-
         switch (srState) {
           case "listening":
             // Update UI to show actively listening
-            console.log("[Coordinator] SR is listening:", data?.transcript);
             setSpeechRecognitionState("listening");
 
             // Check if this is an interim result
             if (data?.state?.isInterim) {
-              console.log(
-                "[Coordinator] Interim transcript:",
-                data?.transcript,
-              );
               setInterimTranscript(data?.transcript || "");
             } else {
               // Clear interim transcript when we get a final result
@@ -357,7 +348,6 @@ export const ConversationHSMCoordinator: React.FC<{
 
           case "ready":
             // Handle speech recognition ready state
-            console.log("[Coordinator] SR is ready");
             setSpeechRecognitionState("ready");
             break;
 
@@ -372,7 +362,8 @@ export const ConversationHSMCoordinator: React.FC<{
             break;
 
           default:
-            console.log("[Coordinator] SR state:", srState, data);
+            // Unhandled SR state - no logging needed for normal operation
+            break;
         }
       });
 
@@ -416,21 +407,13 @@ export const ConversationHSMCoordinator: React.FC<{
   //   return cleanup;
   // }, [manageSR]);
 
-  // Log state changes for debugging
   // Effect to handle TTS service events (manages SR when both are enabled)
   useEffect(() => {
     if (speechSynthesisEnabled) {
-      console.log(
-        "[Coordinator] Setting up TTS service observer (SR ref:", speechRecognitionEnabledRef.current, ")",
-      );
-
       // Add a state observer to TTSService to restart SR after TTS completes
       // Use ref to get current SR state without causing effect re-runs
       const removeTtsObserver = ttsService.addStateObserver(
         (ttsState, data) => {
-          console.log(`[Coordinator] TTS state changed: ${ttsState}`, data);
-          console.log(`[Coordinator] Current SR state from ref: ${speechRecognitionEnabledRef.current}`);
-
           switch (ttsState) {
             case "speaking":
               // TTS is speaking, ensure SR is stopped (if enabled)
@@ -465,22 +448,13 @@ export const ConversationHSMCoordinator: React.FC<{
       );
 
       return () => {
-        console.log("[Coordinator] Cleaning up TTS observer (SR ref:", speechRecognitionEnabledRef.current, ")");
         removeTtsObserver();
       };
     }
   }, [speechSynthesisEnabled]); // Only depend on TTS state, not SR state
 
-  useEffect(() => {
-    console.log(
-      `[Coordinator] State changed: ${getCurrentSubstate()}`,
-      state.value,
-    );
-  }, [state]);
-
   // Get the current AI conversation state
   const getCurrentSubstate = (): string => {
-    console.log("[Coordinator] Getting current substate", state);
     // Use XState's matches to check state
     if (state.matches(AIState.WAITING)) return "WAITING_FOR_INPUT";
     if (state.matches(AIState.THINKING)) return "THINKING";
