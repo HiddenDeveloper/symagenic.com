@@ -12,9 +12,6 @@ const MessageList: React.FC = () => {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Debug both message sources
-  console.log("useChat messages:", messages);
-
   // Filter messages to hide system and tool messages for OpenAI
   const displayMessages = [...(messages || [])].filter((message) =>
     shouldDisplayMessage(message),
@@ -28,9 +25,6 @@ const MessageList: React.FC = () => {
   return (
     <div className="flex flex-col p-4 space-y-4 pb-20">
       {displayMessages.map((message, index) => {
-        // Debug each message we're trying to render
-        console.log(`Rendering message ${index}:`, message);
-
         // Handle various message formats
         const messageToDisplay = {
           id: message.id || `msg-${index}`,
