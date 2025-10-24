@@ -46,5 +46,13 @@ export type ChatContextType = {
   setSystemState: (state: unknown) => void;
 
   isConnected: boolean;
+
+  // Legacy voice mode (for backward compatibility)
   isVoiceMode: boolean;
+
+  // Independent input/output controls (new API)
+  speechRecognitionEnabled: boolean;
+  speechSynthesisEnabled: boolean;
+  toggleSpeechRecognition: () => void;
+  toggleSpeechSynthesis: () => void;
 };
