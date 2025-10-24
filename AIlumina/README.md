@@ -58,6 +58,16 @@ npm run dev
 Server: http://localhost:8000
 Client: http://localhost:5173
 
+### Configuration
+
+**Required**: Copy `server/.env.example` to `server/.env` and configure:
+- At minimum, provide one AI provider API key (Anthropic, OpenAI, Google, Groq, or Ollama/LMStudio URL)
+
+**Optional Features**:
+- **Voice Mode/TTS**: Requires Azure Cognitive Services Speech configuration
+  - Uncomment and configure `AZURE_SPEECH_KEY` and `AZURE_SPEECH_REGION` in `.env`
+  - Without this, text-only chat works perfectly - voice features just won't be available
+
 ### Production Build
 
 ```bash
