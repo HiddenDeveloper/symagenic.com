@@ -1,0 +1,31 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "src/http-server/index.ts"
+  ],
+  "project": [
+    "src/**/*.ts!",
+    "tests/**/*.ts!"
+  ],
+  "ignore": [
+    "src/http-server/routes/mcp.ts",
+    "src/shared/agents/agent-manager.ts",
+    "src/shared/agents/base-agent.ts",
+    "src/shared/agents/agent-factory.ts"
+  ],
+  "ignoreDependencies": [
+    "@types/uuid",
+    "@types/cors",
+    "@types/express",
+    "@types/express-ws",
+    "@types/ws"
+  ],
+  "ignoreExportsUsedInFile": true,
+  "includeEntryExports": true,
+  "vitest": {
+    "entry": ["tests/**/*.test.ts", "src/**/*.test.ts"]
+  },
+  "eslint": {
+    "entry": ["eslint.config.mjs"]
+  }
+}

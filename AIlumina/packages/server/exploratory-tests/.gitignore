@@ -1,0 +1,42 @@
+# API Keys and Secrets
+.env
+.env.local
+.env.*.local
+
+# API Key files
+*api-key*
+*apikey*
+*.key
+
+# Runtime files
+node_modules/
+*.log
+*.pid
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test artifacts
+coverage/
+.nyc_output/
+
+# Temporary files
+*.tmp
+*.temp
+temp-*
+test-output-*
+
+# Do not commit actual API responses
+*-response.json
+api-responses/
+
+# Exploratory test results
+results/
+output/
