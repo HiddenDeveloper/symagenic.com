@@ -13,7 +13,9 @@
     "dev:server": "cd server && bun src/http-server/index.ts",
     "dev:client": "cd client && npm run dev",
     "start": "cd server && npm start",
-    "clean": "rm -rf server/dist client/dist shared/dist server/node_modules client/node_modules shared/node_modules"
+    "clean": "rm -rf server/dist client/dist shared/dist server/node_modules client/node_modules shared/node_modules",
+    "audit": "knip",
+    "audit:fix": "knip --fix"
   },
   "keywords": [
     "ailumina",
@@ -24,6 +26,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "knip": "^5.37.0"
   }
 }
