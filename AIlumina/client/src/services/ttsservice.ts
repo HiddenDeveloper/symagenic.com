@@ -1,35 +1,25 @@
 import { createActor } from "xstate";
 
 import { TextToSpeechStateMachine } from '../statemachines/TextToSpeechStateMachine';
-
-// type TTSContext = {
-//   text: string;
-//   error?: Error;
-// };
+import type { TTSProvider } from './tts/TTSProvider.interface';
+import { BrowserTTSProvider } from './tts/BrowserTTSProvider';
+import { AzureTTSProvider } from './tts/AzureTTSProvider';
 
 // Type definition for state observers
 type TTSStateObserver = (state: string, data?: any) => void;
 
 class TTSService {
   private actor = createActor(TextToSpeechStateMachine).start();
-  private wsUrl =
-    ((import.meta as any).env?.VITE_WS_URL as string | undefined)?.replace(
-      /\/$/,
-      "",
-    ) || window.location.origin.replace(/^http/, "ws");
-
-  private wsPath = "/ws/tts";
-  private socket: WebSocket | null = null;
-  private audioQueue: Blob[] = [];
-  public isPlaying = false;
-  private currentAudio: HTMLAudioElement | null = null;
+  private provider: TTSProvider;
 
   // Observer pattern implementation
   private stateObservers: TTSStateObserver[] = [];
 
   constructor() {
+    // Select and initialize the appropriate TTS provider
+    this.provider = this.selectProvider();
     this.startActor();
-    this.initSocket();
+    this.initProvider();
   }
 
   private startActor() {
@@ -90,45 +80,54 @@ class TTSService {
     });
   }
 
-  private initSocket() {
+  /**
+   * Select the appropriate TTS provider based on configuration
+   *
+   * Strategy:
+   * 1. Check if Azure is explicitly enabled and configured
+   * 2. Fall back to Browser TTS if Azure is not available
+   * 3. Browser TTS is the default for zero-config setup
+   */
+  private selectProvider(): TTSProvider {
+    const useAzure = (import.meta as any).env?.VITE_USE_AZURE_TTS === 'true';
+    const azureConfigured = (import.meta as any).env?.VITE_WS_URL !== undefined;
+
+    if (useAzure && azureConfigured) {
+      console.log('[TTSService] Using Azure TTS provider');
+      return new AzureTTSProvider();
+    }
+
+    console.log('[TTSService] Using Browser TTS provider (default)');
+    return new BrowserTTSProvider();
+  }
+
+  /**
+   * Initialize the selected provider
+   */
+  private async initProvider(): Promise<void> {
     try {
       this.ensureActorActive();
       this.actor.send({ type: "INITIALIZE" });
       this.notifyStateObservers("initializing");
 
-      this.socket = new WebSocket(this.wsUrl + this.wsPath);
-      this.socket.binaryType = "arraybuffer";
+      console.log(`[TTSService] Initializing ${this.provider.getName()}...`);
 
-      this.socket.onopen = () => {
-        console.log("🔊 TTS WebSocket connected");
-        this.actor.send({ type: "INITIALIZED_SUCCESS" });
-        this.notifyStateObservers("connected");
-      };
+      // Set up provider state observer to bridge to our observers
+      this.provider.addStateObserver((state, data) => {
+        this.notifyStateObservers(state, data);
+      });
 
-      this.socket.onmessage = (event) => this.handleAudioResponse(event);
+      // Initialize the provider
+      await this.provider.initialize();
 
-      this.socket.onerror = (event) => {
-        console.error("TTS WebSocket error:", event);
-        // WebSocket onerror receives an Event, not an Error object
-        const errorObj = new Error("WebSocket connection error");
-        this.actor.send({
-          type: "ERROR",
-          error: errorObj,
-        });
-        this.notifyStateObservers("error", { error: errorObj });
-      };
-
-      this.socket.onclose = () => {
-        console.warn("TTS WebSocket closed. Reconnecting in 3s...");
-        this.notifyStateObservers("disconnected", { reconnecting: true });
-        setTimeout(() => this.initSocket(), 3000);
-      };
+      this.actor.send({ type: "INITIALIZED_SUCCESS" });
+      console.log(`[TTSService] ${this.provider.getName()} initialized successfully`);
     } catch (error) {
-      console.error("TTS WebSocket initialization failed:", error);
+      console.error("[TTSService] Provider initialization failed:", error);
       const errorObj =
         error instanceof Error
           ? error
-          : new Error("Failed to initialize WebSocket");
+          : new Error("Failed to initialize TTS provider");
       this.actor.send({
         type: "INITIALIZED_ERROR",
         error: errorObj,
@@ -137,80 +136,34 @@ class TTSService {
     }
   }
 
-  public speak(text: string) {
-    if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
-      console.warn("WebSocket not ready, cannot send speech request.");
-      this.notifyStateObservers("error", {
-        error: new Error("WebSocket not ready"),
-      });
-      return;
-    }
-
+  /**
+   * Speak the given text using the configured provider
+   */
+  public speak(text: string): void {
     this.ensureActorActive();
     this.actor.send({ type: "PREPARE_SPEECH", text });
-    this.notifyStateObservers("preparing", { text });
-    this.socket.send(JSON.stringify({ text }));
+
+    // Delegate to the provider
+    this.provider.speak(text);
   }
 
-  private handleAudioResponse(event: MessageEvent) {
-    const blob = new Blob([event.data], { type: "audio/mpeg" });
-    this.audioQueue.push(blob);
-
-    this.ensureActorActive();
-    this.actor.send({ type: "SPEECH_READY" });
-    this.notifyStateObservers("ready", { queueLength: this.audioQueue.length });
-
-    if (!this.isPlaying) {
-      this.playNextAudio();
-    }
-  }
-
-  private playNextAudio() {
-    if (this.audioQueue.length === 0) {
-      this.isPlaying = false;
-      this.actor.send({ type: "SPEECH_ENDED" });
-      this.notifyStateObservers("ended");
-      return;
-    }
-
-    const blob = this.audioQueue.shift();
-    if (!blob) return;
-
-    this.currentAudio = new Audio(URL.createObjectURL(blob));
-    this.isPlaying = true;
-
-    this.ensureActorActive();
-    this.actor.send({ type: "START_SPEAKING" });
-    this.notifyStateObservers("speaking", {
-      remainingAudio: this.audioQueue.length,
-    });
-
-    this.currentAudio.onended = () => {
-      this.playNextAudio();
-    };
-
-    this.currentAudio.onerror = (err) => {
-      console.error("Audio playback error:", err);
-      const error = new Error("Audio playback failed");
-      this.ensureActorActive();
-      this.actor.send({ type: "ERROR", error });
-      this.notifyStateObservers("error", { error });
-      this.playNextAudio();
-    };
-
-    this.currentAudio.play();
-  }
-
-  public stopSpeaking() {
-    if (this.currentAudio) {
-      this.currentAudio.pause();
-      this.currentAudio.currentTime = 0;
-    }
-    this.audioQueue = [];
-    this.isPlaying = false;
+  /**
+   * Stop any ongoing speech
+   */
+  public stopSpeaking(): void {
     this.ensureActorActive();
     this.actor.send({ type: "STOP_SPEAKING" });
-    this.notifyStateObservers("stopped");
+
+    // Delegate to the provider
+    this.provider.stop();
+  }
+
+  /**
+   * Check if speech is currently playing
+   * Delegates to the provider
+   */
+  public get isPlaying(): boolean {
+    return this.provider.isPlaying();
   }
 
   public getSnapshot() {
