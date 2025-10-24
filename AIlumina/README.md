@@ -4,7 +4,7 @@ This directory contains the AIlumina implementation code, organized section by s
 
 ## Current Contents (Section 0: The Starting Point)
 
-### packages/server
+### server
 
 The baseline conversational AI server implementation.
 
@@ -19,7 +19,7 @@ The baseline conversational AI server implementation.
 
 **What This Isn't Yet**: No memory, no tools, no deterministic operations (those come in later sections).
 
-### packages/client
+### client
 
 The web UI for interacting with AIlumina.
 
@@ -44,13 +44,13 @@ This repository is being built section by section, each adding the code that imp
 ## Building and Running
 
 See individual package README files for build and run instructions:
-- `packages/server/README.md`
-- `packages/client/README.md`
+- `server/README.md`
+- `client/README.md`
 
 ## Note on Build Artifacts
 
 This repository includes only source code. To run the code:
-1. `cd packages/server && npm install && npm run build`
-2. `cd packages/client && npm install && npm run dev`
+1. `cd server && npm install && npm run build`
+2. `cd client && npm install && npm run dev`
 
 Build artifacts (`node_modules/`, `dist/`) are excluded from git.
