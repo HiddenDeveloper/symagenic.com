@@ -15,12 +15,20 @@ const ConversationStateIndicator: React.FC = () => {
       <div className="mt-2 text-xs text-gray-700 dark:text-gray-300">
         <div className="mb-1">
           <span className="font-semibold">Input Mode:</span>{" "}
-          {speechRecognitionEnabled ? "Speech Recognition" : "Text"}
+          <span className={speechRecognitionEnabled ? "text-blue-600 font-bold dark:text-blue-400" : ""}>
+            {speechRecognitionEnabled ? "🎤 Speech Recognition" : "⌨️ Text"}
+          </span>
+          {" "}
+          <span className="text-gray-500">({String(speechRecognitionEnabled)})</span>
         </div>
 
         <div className="mb-1">
           <span className="font-semibold">Output Mode:</span>{" "}
-          {speechSynthesisEnabled ? "Speech Synthesis" : "Text"}
+          <span className={speechSynthesisEnabled ? "text-green-600 font-bold dark:text-green-400" : ""}>
+            {speechSynthesisEnabled ? "🔊 Speech Synthesis" : "📖 Text"}
+          </span>
+          {" "}
+          <span className="text-gray-500">({String(speechSynthesisEnabled)})</span>
         </div>
 
         <div className="mb-1">
