@@ -6,7 +6,7 @@ import React from "react";
 import {
   Message as MessageType,
   normalizeMessageContent,
-} from "./AIServiceTypes";
+} from '../types/AIServiceTypes';
 import ToolRunDisplay from "./ToolRunDisplay";
 
 interface MessageProps {

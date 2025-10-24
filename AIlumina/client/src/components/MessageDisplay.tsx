@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Message as MessageType } from "./AIServiceTypes";
-import Message from "./Message";
+import { Message as MessageType } from '../types/AIServiceTypes';
+import Message from './Message';
 
 interface MessageDisplayProps {
   message: MessageType;

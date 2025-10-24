@@ -1,6 +1,6 @@
 import { createActor } from "xstate";
 
-import { TextToSpeechStateMachine } from "./TextToSpeechStateMachine";
+import { TextToSpeechStateMachine } from '../statemachines/TextToSpeechStateMachine';
 
 // type TTSContext = {
 //   text: string;

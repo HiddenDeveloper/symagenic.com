@@ -1,6 +1,6 @@
 import React from "react";
 
-import ConversationContainer from "./machines/ConversationContainer";
+import ConversationContainer from "./components/ConversationContainer";
 
 // ConversationMachineProvider is now in main.tsx, so we don't need to wrap ConversationContainer
 

@@ -18,7 +18,7 @@ import {
   ServerMessageFormat,
   ServerMessageHistory,
   shouldDisplayMessage,
-} from "./AIServiceTypes";
+} from "../types/AIServiceTypes";
 
 describe("AIServiceTypes utils", () => {
   it("normalizes string content", () => {

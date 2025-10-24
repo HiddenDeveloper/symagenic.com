@@ -1,6 +1,6 @@
 import type { Message } from "@ailumina/shared/types";
 
-import type { ServerMessageFormat } from "./AIServiceTypes";
+import type { ServerMessageFormat } from '../types/AIServiceTypes';
 import {
   initialWebSocketState,
   WebSocketEvent,
@@ -8,7 +8,7 @@ import {
   WebSocketState,
   WS_EVENTS,
   WS_STATES,
-} from "./WebSocketStateMachine";
+} from '../statemachines/WebSocketStateMachine';
 
 // Outbound message payload to AI service
 export interface AIServicePayload {

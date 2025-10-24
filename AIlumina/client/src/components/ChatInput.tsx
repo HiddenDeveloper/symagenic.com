@@ -1,7 +1,7 @@
 import { Mic, Send } from "lucide-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
-import { useChat } from "./useChat";
+import { useChat } from '../hooks/useChat';
 
 // Memo-ized chat input component to prevent unnecessary re-renders
 const ChatInput: React.FC = React.memo(() => {

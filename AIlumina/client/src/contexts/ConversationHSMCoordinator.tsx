@@ -3,11 +3,11 @@
 import { useMachine } from "@xstate/react";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-import AIService from "./AIService";
-import { Message } from "./AIServiceTypes";
-import { AIState, ConversationMachine, Mode } from "./ConversationHSM";
-import srService from "./SRService";
-import ttsService from "./ttsservice";
+import AIService from "../services/AIService";
+import { Message } from "../types/AIServiceTypes";
+import { AIState, ConversationMachine, Mode } from "../statemachines/ConversationHSM";
+import srService from "../services/SRService";
+import ttsService from "../services/ttsservice";
 
 // Type for the values provided by this context
 export interface ConversationService {

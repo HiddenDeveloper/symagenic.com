@@ -6,7 +6,7 @@ import ReactDOM from "react-dom/client";
 import * as Sentry from '@sentry/react';
 
 import App from "./App";
-import { ConversationHSMCoordinator } from "./machines/ConversationHSMCoordinator";
+import { ConversationHSMCoordinator } from "./contexts/ConversationHSMCoordinator";
 
 // Initialize Sentry
 Sentry.init({

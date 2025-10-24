@@ -5,7 +5,7 @@ import ChatInput from "./ChatInput";
 import ConversationStateIndicator from "./ConversationStateIndicator";
 import CurrentToolDisplay from "./CurrentToolDisplay";
 import MessageList from "./MessageList";
-import { useChat } from "./useChat";
+import { useChat } from '../hooks/useChat';
 
 const isDebugMode = new URLSearchParams(window.location.search).has("debug");
 

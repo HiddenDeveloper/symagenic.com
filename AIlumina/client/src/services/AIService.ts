@@ -12,8 +12,8 @@ import {
   SentenceMessage,
   ServerMessageFormat,
   ToolStatusMessage,
-} from "./AIServiceTypes";
-import { AIStateMachine } from "./AIStateMachine";
+} from "../types/AIServiceTypes";
+import { AIStateMachine } from "../statemachines/AIStateMachine";
 import webSocketService, { type AIServicePayload } from "./WebSocketService";
 
 // Type definition for state observer data - observers get the full typed message
