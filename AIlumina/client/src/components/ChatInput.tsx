@@ -220,6 +220,8 @@ const ChatInput: React.FC = React.memo(() => {
         ) : (
           <textarea
             ref={inputRef}
+            id="chat-input"
+            name="message"
             value={inputValue}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
@@ -227,6 +229,7 @@ const ChatInput: React.FC = React.memo(() => {
             disabled={inputDisabled}
             className="flex-1 p-3 rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors dark:bg-gray-800 dark:border-gray-700 dark:text-white"
             rows={1}
+            aria-label="Message input"
           />
         )}
 
