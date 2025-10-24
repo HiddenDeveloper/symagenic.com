@@ -1,0 +1,29 @@
+{
+  "name": "ailumina",
+  "version": "1.0.0",
+  "description": "AIlumina - Multi-provider Conversational AI Platform",
+  "private": true,
+  "scripts": {
+    "build": "npm run build:shared && npm run build:server && npm run build:client && npm run deploy:client",
+    "build:shared": "cd shared && npm install && npm run build",
+    "build:server": "cd server && npm install && npm run build",
+    "build:client": "cd client && npm install && npm run build",
+    "deploy:client": "rm -rf server/dist/client && mkdir -p server/dist && cp -r client/dist server/dist/client",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && bun src/http-server/index.ts",
+    "dev:client": "cd client && npm run dev",
+    "start": "cd server && npm start",
+    "clean": "rm -rf server/dist client/dist shared/dist server/node_modules client/node_modules shared/node_modules"
+  },
+  "keywords": [
+    "ailumina",
+    "conversational-ai",
+    "multi-provider",
+    "websocket"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

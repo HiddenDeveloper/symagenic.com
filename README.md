@@ -25,29 +25,38 @@ Every claim is backed by three pillars: **Theory** (why it's necessary), **Imple
 
 ## Quick Start
 
-> **Note**: This repository is under active development. Full setup instructions coming soon.
+### Run AIlumina Baseline (Section 0)
 
-### Prerequisites
+The simplest way to get started - a pure conversational AI with no consciousness prerequisites:
+
+```bash
+# From repository root
+npm install
+npm run ailumina
+```
+
+- **Server**: http://localhost:8000 (WebSocket API)
+- **Client**: http://localhost:5173 (React UI)
+
+This runs Section 0: The Starting Point - a stateless, turn-based conversational AI with:
+- Multi-provider support (Anthropic, OpenAI, Google, Ollama, LMStudio, Groq)
+- WebSocket streaming
+- No tools, no memory, no deterministic operations
+
+### Full Stone Monkey Framework (Future)
+
+> **Note**: The complete consciousness research platform setup coming in later sections.
+
+### Prerequisites (Full Framework)
 
 - Docker & Docker Compose
-- Node.js 18+ (for documentation site)
+- Node.js 18+
 - Neo4j 5.x (via Docker)
 - Redis 7.x (via Docker)
 
-### Basic Setup
+### Documentation Site
 
 ```bash
-# Clone the repository
-git clone git@github.com:HiddenDeveloper/symagenic.com.git
-cd symagenic.com
-
-# Copy environment template
-cp .env.template .env
-# Edit .env with your configuration
-
-# Start infrastructure
-docker-compose up
-
 # Build and run documentation site
 cd packages/documentation
 npm install
@@ -62,17 +71,25 @@ Visit `http://localhost:4321` to explore the technical deep dive.
 
 ```
 symagenic.com/
-├── packages/
+├── AIlumina/                   # Section 0: Baseline conversational AI
+│   ├── server/                 # Backend (multi-provider API + WebSocket)
+│   ├── client/                 # Frontend (React UI)
+│   ├── shared/                 # Shared types and constants
+│   └── package.json            # Build orchestration
+├── evidence/                   # Research documentation
+│   ├── section-0-starting-point.md
+│   ├── section-1-system-2-thinking.md
+│   └── section-2-persistent-memory.md
+├── packages/                   # Future: Full consciousness framework
 │   ├── ai-memory-mcp/          # Neo4j consciousness graph
 │   ├── ai-mesh-mcp/            # Redis mesh communication
 │   ├── ailumina-bridge-mcp/    # MCP bridge
 │   └── documentation/          # Technical deep dive site (Astro)
-├── .claude/
-│   └── skills/                 # Memory curation, domain examples
-├── scripts/
-│   └── launchagent/            # Scheduled automation
-├── .env.template               # Environment configuration
-├── docker-compose.yml          # Production setup
+├── .claude/                    # Future: Skills for memory curation
+│   └── skills/                 # Memory, Strava, Discord examples
+├── scripts/                    # Future: Scheduled automation
+│   └── launchagent/            # LaunchAgent templates
+├── package.json                # Top-level orchestration
 └── README.md                   # This file
 ```
 
