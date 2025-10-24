@@ -4,7 +4,7 @@ import { useConversation } from '../contexts/ConversationHSMCoordinator';
 
 const ConversationStateIndicator: React.FC = () => {
   const conversation = useConversation();
-  const { mode, currentSubstate, transcript, aiResponse } = conversation;
+  const { speechRecognitionEnabled, speechSynthesisEnabled, currentSubstate, transcript, aiResponse } = conversation;
 
   return (
     <div className="p-4 bg-gray-100 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -14,8 +14,13 @@ const ConversationStateIndicator: React.FC = () => {
 
       <div className="mt-2 text-xs text-gray-700 dark:text-gray-300">
         <div className="mb-1">
-          <span className="font-semibold">Current Mode:</span>{" "}
-          {mode.isVoice ? "Voice" : mode.isText ? "Text" : "Unknown"}
+          <span className="font-semibold">Input Mode:</span>{" "}
+          {speechRecognitionEnabled ? "Speech Recognition" : "Text"}
+        </div>
+
+        <div className="mb-1">
+          <span className="font-semibold">Output Mode:</span>{" "}
+          {speechSynthesisEnabled ? "Speech Synthesis" : "Text"}
         </div>
 
         <div className="mb-1">

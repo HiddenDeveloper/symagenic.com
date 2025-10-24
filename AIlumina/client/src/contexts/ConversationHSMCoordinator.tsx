@@ -5,17 +5,13 @@ import React, { createContext, useContext, useEffect, useRef, useState } from "r
 
 import AIService from "../services/AIService";
 import { Message } from "../types/AIServiceTypes";
-import { AIState, ConversationMachine, Mode } from "../statemachines/ConversationHSM";
+import { AIState, ConversationMachine } from "../statemachines/ConversationHSM";
 import srService from "../services/SRService";
 import ttsService from "../services/ttsservice";
 
 // Type for the values provided by this context
 export interface ConversationService {
   // State information
-  mode: {
-    isText: boolean;
-    isVoice: boolean;
-  };
   currentSubstate: string;
   transcript: string;
   interimTranscript: string; // Add interim transcript
@@ -30,9 +26,14 @@ export interface ConversationService {
     errorMessage?: string;
   } | null;
 
+  // Input/Output mode flags (independent control)
+  speechRecognitionEnabled: boolean;
+  speechSynthesisEnabled: boolean;
+
   // Actions
   sendText: (input: string) => void;
-  switchMode: (isVoice: boolean) => void;
+  toggleSpeechRecognition: () => void;
+  toggleSpeechSynthesis: () => void;
   sendMessageToAI: (message: string) => void;
   clearTranscript: () => void;
   isToolMessage: (message: any) => boolean;
@@ -56,9 +57,9 @@ export const ConversationHSMCoordinator: React.FC<{
   // Use the machine with minimal options to avoid type errors
   const [state, send] = useMachine(ConversationMachine);
 
-  // Determine the current mode
-  const isVoiceMode = state.matches(Mode.VOICE);
-  const isTextMode = state.matches(Mode.TEXT);
+  // Get SR and TTS state from context (independent flags)
+  const speechRecognitionEnabled = state.context.speechRecognitionEnabled;
+  const speechSynthesisEnabled = state.context.speechSynthesisEnabled;
 
   const sendMessageToAI = (message: string) => {
     console.log("[Coordinator] sendMessageToAI:", message);
@@ -107,15 +108,14 @@ export const ConversationHSMCoordinator: React.FC<{
           // AI is processing the message - transition state machine to THINKING
           // Note: User message was already added when sendMessageToAI was called
           if (
-            state.matches({ [Mode.TEXT]: AIState.WAITING }) ||
-            state.matches({ [Mode.VOICE]: AIState.WAITING }) ||
-            state.matches({ [Mode.TEXT]: AIState.RESPONDING }) ||
-            state.matches({ [Mode.VOICE]: AIState.RESPONDING })
+            state.matches(AIState.WAITING) ||
+            state.matches(AIState.RESPONDING)
           ) {
             send({ type: "SUBMIT_TEXT", input: "" }); // Empty input since message already added
           }
           setAIResponse("");
-          if (isVoiceMode) {
+          // Stop SR while AI is thinking (will restart after response)
+          if (speechRecognitionEnabled) {
             console.log(
               "[Coordinator] AI is thinking, stopping SR to prepare for response",
             );
@@ -134,8 +134,8 @@ export const ConversationHSMCoordinator: React.FC<{
               type: "AI_ERROR",
               message: "Response timeout - please try again",
             });
-            // Restart SR if in voice mode
-            if (isVoiceMode && !ttsService.isPlaying) {
+            // Restart SR if enabled and TTS is not playing
+            if (speechRecognitionEnabled && !ttsService.isPlaying) {
               srService.start();
             }
           }, 30000); // 30 second timeout
@@ -203,15 +203,16 @@ export const ConversationHSMCoordinator: React.FC<{
           const sentenceData = data as any;
           console.log("[Coordinator] AI sentence:", sentenceData?.sentence);
 
-          // If in voice mode, speak each sentence as it arrives
-          // This is the ONLY place where we should call ttsService.speak for voice responses
-          if (isVoiceMode && sentenceData?.sentence) {
+          // If speech synthesis is enabled, speak each sentence as it arrives
+          if (speechSynthesisEnabled && sentenceData?.sentence) {
             console.log(
-              "[Coordinator] Speaking sentence in voice mode:",
+              "[Coordinator] Speaking sentence:",
               sentenceData.sentence,
             );
             // Stop SR before speaking to prevent it from picking up the AI's voice
-            srService.stop();
+            if (speechRecognitionEnabled) {
+              srService.stop();
+            }
             ttsService.speak(sentenceData.sentence);
           }
           break;
@@ -242,8 +243,8 @@ export const ConversationHSMCoordinator: React.FC<{
 
           send({ type: "AI_COMPLETE" });
 
-          // Restart SR if in voice mode and TTS is not playing
-          if (isVoiceMode && !ttsService.isPlaying) {
+          // Restart SR if enabled and TTS is not playing
+          if (speechRecognitionEnabled && !ttsService.isPlaying) {
             console.log("[Coordinator] Response complete, restarting SR");
             srService.start();
           }
@@ -262,8 +263,8 @@ export const ConversationHSMCoordinator: React.FC<{
           send({ type: "AI_ERROR", message: errorData?.error || "Unknown error" });
           console.error("[Coordinator] AI error:", errorData?.error);
 
-          // Restart SR if in voice mode
-          if (isVoiceMode && !ttsService.isPlaying) {
+          // Restart SR if enabled and TTS is not playing
+          if (speechRecognitionEnabled && !ttsService.isPlaying) {
             console.log("[Coordinator] Error occurred, restarting SR");
             srService.start();
           }
@@ -284,14 +285,15 @@ export const ConversationHSMCoordinator: React.FC<{
         responseTimeoutRef.current = null;
       }
     };
-  }, [send, isVoiceMode]);
+  }, [send, speechRecognitionEnabled, speechSynthesisEnabled]);
 
+  // Manage Speech Recognition lifecycle based on speechRecognitionEnabled flag
   useEffect(() => {
-    console.log("[Coordinator] Voice Mode changed:", isVoiceMode);
-    if (isVoiceMode) {
-      console.log("[Coordinator] Voice mode is active");
-      // Don't start SR immediately - wait for TTS to finish if it's speaking
-      // This prevents SR from picking up the AI's voice when switching modes
+    console.log("[Coordinator] Speech Recognition state changed:", speechRecognitionEnabled);
+    if (speechRecognitionEnabled) {
+      console.log("[Coordinator] Starting speech recognition");
+      // Don't start SR immediately if TTS is speaking
+      // This prevents SR from picking up the AI's voice
       if (!ttsService.isPlaying) {
         console.log("[Coordinator] TTS not playing, starting SR");
         srService.start();
@@ -367,8 +369,12 @@ export const ConversationHSMCoordinator: React.FC<{
         srService.stop();
         removeObserver();
       };
+    } else {
+      // Speech recognition disabled - ensure it's stopped
+      console.log("[Coordinator] Speech recognition disabled, stopping SR");
+      srService.stop();
     }
-  }, [isVoiceMode, send]);
+  }, [speechRecognitionEnabled, send]);
 
   // const manageSR = useCallback(() => {
   //   if (isVoiceMode) {
@@ -399,40 +405,47 @@ export const ConversationHSMCoordinator: React.FC<{
   // }, [manageSR]);
 
   // Log state changes for debugging
-  // Effect to handle TTS service events
+  // Effect to handle TTS service events (manages SR when both are enabled)
   useEffect(() => {
-    if (isVoiceMode) {
+    if (speechSynthesisEnabled) {
       console.log(
-        "[Coordinator] Setting up TTS service observer for voice mode",
+        "[Coordinator] Setting up TTS service observer",
       );
 
       // Add a state observer to TTSService to restart SR after TTS completes
+      // (only if SR is also enabled)
       const removeTtsObserver = ttsService.addStateObserver(
         (ttsState, data) => {
           console.log(`[Coordinator] TTS state changed: ${ttsState}`, data);
 
           switch (ttsState) {
             case "speaking":
-              // TTS is speaking, ensure SR is stopped
-              console.log(
-                "[Coordinator] TTS is speaking, stopping speech recognition",
-              );
-              srService.stop();
+              // TTS is speaking, ensure SR is stopped (if enabled)
+              if (speechRecognitionEnabled) {
+                console.log(
+                  "[Coordinator] TTS is speaking, stopping speech recognition",
+                );
+                srService.stop();
+              }
               break;
 
             case "ended":
-              // TTS has finished speaking, restart speech recognition
-              console.log(
-                "[Coordinator] TTS finished speaking, restarting speech recognition",
-              );
-              srService.start();
+              // TTS has finished speaking, restart speech recognition (if enabled)
+              if (speechRecognitionEnabled) {
+                console.log(
+                  "[Coordinator] TTS finished speaking, restarting speech recognition",
+                );
+                srService.start();
+              }
               break;
 
             case "error":
               // Handle TTS errors
               console.error("[Coordinator] TTS error:", data?.error);
-              // Still restart SR even if TTS fails
-              srService.start();
+              // Still restart SR even if TTS fails (if enabled)
+              if (speechRecognitionEnabled) {
+                srService.start();
+              }
               break;
           }
         },
@@ -443,7 +456,7 @@ export const ConversationHSMCoordinator: React.FC<{
         removeTtsObserver();
       };
     }
-  }, [isVoiceMode]);
+  }, [speechSynthesisEnabled, speechRecognitionEnabled]);
 
   useEffect(() => {
     console.log(
@@ -452,28 +465,14 @@ export const ConversationHSMCoordinator: React.FC<{
     );
   }, [state]);
 
-  // Get the current substate within the mode
+  // Get the current AI conversation state
   const getCurrentSubstate = (): string => {
     console.log("[Coordinator] Getting current substate", state);
     // Use XState's matches to check state
-    if (isTextMode) {
-      if (state.matches({ [Mode.TEXT]: AIState.WAITING }))
-        return "WAITING_FOR_INPUT";
-      if (state.matches({ [Mode.TEXT]: AIState.THINKING })) return "THINKING";
-      if (state.matches({ [Mode.TEXT]: AIState.RESPONDING }))
-        return "RESPONDING";
-      if (state.matches({ [Mode.TEXT]: AIState.ERROR })) return "ERROR";
-    }
-
-    if (isVoiceMode) {
-      if (state.matches({ [Mode.VOICE]: AIState.WAITING }))
-        return "WAITING_FOR_INPUT";
-      if (state.matches({ [Mode.VOICE]: AIState.THINKING })) return "THINKING";
-      if (state.matches({ [Mode.VOICE]: AIState.RESPONDING }))
-        return "RESPONDING";
-      if (state.matches({ [Mode.VOICE]: AIState.ERROR })) return "ERROR";
-    }
-
+    if (state.matches(AIState.WAITING)) return "WAITING_FOR_INPUT";
+    if (state.matches(AIState.THINKING)) return "THINKING";
+    if (state.matches(AIState.RESPONDING)) return "RESPONDING";
+    if (state.matches(AIState.ERROR)) return "ERROR";
     return "UNKNOWN";
   };
 
@@ -483,20 +482,18 @@ export const ConversationHSMCoordinator: React.FC<{
     send({ type: "SUBMIT_TEXT", input });
   };
 
-  const switchMode = (isVoice: boolean) => {
-    if (isVoice && !state.matches(Mode.VOICE)) {
-      send({ type: "ENABLE_VOICE_MODE" });
-    } else if (!isVoice && state.matches(Mode.VOICE)) {
-      send({ type: "DISABLE_VOICE_MODE" });
-    }
+  const toggleSpeechRecognition = () => {
+    console.log("[Coordinator] Toggling speech recognition");
+    send({ type: "TOGGLE_SPEECH_RECOGNITION" });
+  };
+
+  const toggleSpeechSynthesis = () => {
+    console.log("[Coordinator] Toggling speech synthesis");
+    send({ type: "TOGGLE_SPEECH_SYNTHESIS" });
   };
 
   // Create the provider value
   const value: ConversationService = {
-    mode: {
-      isText: isTextMode,
-      isVoice: isVoiceMode,
-    },
     currentSubstate: getCurrentSubstate(),
     transcript: transcript,
     interimTranscript: interimTranscript, // Add the interim transcript
@@ -504,8 +501,11 @@ export const ConversationHSMCoordinator: React.FC<{
     aiResponse: state.context.aiResponse || aiResponse,
     messages: state.context.messages || [],
     currentTool: state.context.currentTool,
+    speechRecognitionEnabled,
+    speechSynthesisEnabled,
     sendText,
-    switchMode,
+    toggleSpeechRecognition,
+    toggleSpeechSynthesis,
     sendMessageToAI,
     clearTranscript,
     isToolMessage: (message) => AIService.isToolMessage(message),

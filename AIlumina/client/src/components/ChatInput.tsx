@@ -1,4 +1,4 @@
-import { Mic, Send } from "lucide-react";
+import { Mic, Send, Volume2 } from "lucide-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { useChat } from '../hooks/useChat';
@@ -8,8 +8,10 @@ const ChatInput: React.FC = React.memo(() => {
   const {
     sendMessage,
     clearTranscript,
-    isVoiceMode,
-    toggleVoiceMode,
+    speechRecognitionEnabled,
+    speechSynthesisEnabled,
+    toggleSpeechRecognition,
+    toggleSpeechSynthesis,
     aiState,
     speechRecognitionState,
     transcription,
@@ -57,7 +59,7 @@ const ChatInput: React.FC = React.memo(() => {
   // Only auto-submit when speech recognition reaches 'completed' state
   useEffect(() => {
     if (
-      isVoiceMode &&
+      speechRecognitionEnabled &&
       transcription &&
       speechRecognitionState === "completed" &&
       !messageSent
@@ -69,39 +71,30 @@ const ChatInput: React.FC = React.memo(() => {
         handleSendMessage();
       }, 0);
     }
-  }, [isVoiceMode, transcription, speechRecognitionState, messageSent]);
+  }, [speechRecognitionEnabled, transcription, speechRecognitionState, messageSent]);
 
   // Focus when switching from voice to text mode
   useEffect(() => {
-    if (!isVoiceMode) {
+    if (!speechRecognitionEnabled) {
       focusInput();
     }
-  }, [isVoiceMode, focusInput]);
+  }, [speechRecognitionEnabled, focusInput]);
 
   // Auto-focus input after AI finishes responding (only in text mode)
   useEffect(() => {
-    if (!isVoiceMode && isWaiting()) {
+    if (!speechRecognitionEnabled && isWaiting()) {
       // Small delay to ensure state has settled
       const timeoutId = setTimeout(() => {
         focusInput();
       }, 100);
       return () => clearTimeout(timeoutId);
     }
-  }, [isVoiceMode, aiState, focusInput, isWaiting]);
+  }, [speechRecognitionEnabled, aiState, focusInput, isWaiting]);
 
-  // Toggle voice mode handler
-  const handleToggleVoiceMode = useCallback(() => {
-    toggleVoiceMode();
-    if (!isVoiceMode) {
-      // Delay focus when switching to text mode
-      setTimeout(focusInput, 100);
-    }
-  }, [toggleVoiceMode, isVoiceMode, focusInput]);
-
-  // Update input value when transcription or interim changes in voice mode
+  // Update input value when transcription or interim changes in speech recognition mode
   // But only if a message hasn't just been sent
   useEffect(() => {
-    if (isVoiceMode && !messageSent) {
+    if (speechRecognitionEnabled && !messageSent) {
       // If we have an interim transcript, show it, otherwise fall back to the final transcript
       if (interimTranscript) {
         setInputValue(interimTranscript);
@@ -109,7 +102,7 @@ const ChatInput: React.FC = React.memo(() => {
         setInputValue(transcription);
       }
     }
-  }, [isVoiceMode, transcription, interimTranscript, messageSent]);
+  }, [speechRecognitionEnabled, transcription, interimTranscript, messageSent]);
 
   // Create a debounced version of setInputValue
   const debouncedSetInputValue = useCallback((value: string) => {
@@ -130,14 +123,14 @@ const ChatInput: React.FC = React.memo(() => {
 
   // Memoized send message handler
   const handleSendMessage = useCallback(() => {
-    const messageToSend = isVoiceMode ? transcription : inputValue;
+    const messageToSend = speechRecognitionEnabled ? transcription : inputValue;
 
     if (!messageToSend || !messageToSend.trim()) return;
 
     sendMessage(messageToSend);
 
-    if (isVoiceMode) {
-      // Clear everything immediately in voice mode
+    if (speechRecognitionEnabled) {
+      // Clear everything immediately in speech recognition mode
       clearTranscript();
       setInputValue("");
       // Don't reset messageSent flag here - let it be handled by effects
@@ -145,7 +138,7 @@ const ChatInput: React.FC = React.memo(() => {
       // Clear input value for text mode
       setInputValue("");
     }
-  }, [isVoiceMode, transcription, inputValue, sendMessage, clearTranscript]);
+  }, [speechRecognitionEnabled, transcription, inputValue, sendMessage, clearTranscript]);
 
   // Memoized key down handler
   const handleKeyDown = useCallback(
@@ -160,43 +153,58 @@ const ChatInput: React.FC = React.memo(() => {
 
   // Clear input when transcript is cleared
   useEffect(() => {
-    if (isVoiceMode && transcription === "") {
+    if (speechRecognitionEnabled && transcription === "") {
       setInputValue("");
       // Also reset the message sent flag when transcript is cleared
       if (messageSent) {
         setMessageSent(false);
       }
     }
-  }, [transcription, isVoiceMode, messageSent]);
+  }, [transcription, speechRecognitionEnabled, messageSent]);
 
   // Reset messageSent flag when speech recognition starts listening for new input
   useEffect(() => {
-    if (isVoiceMode && speechRecognitionState === "listening" && messageSent) {
+    if (speechRecognitionEnabled && speechRecognitionState === "listening" && messageSent) {
       setMessageSent(false);
     }
-  }, [isVoiceMode, speechRecognitionState, messageSent]);
+  }, [speechRecognitionEnabled, speechRecognitionState, messageSent]);
 
   // Memo-ized render function to optimize render performance
   return (
     <div className="border-t border-gray-200 p-4 bg-white dark:bg-gray-900 dark:border-gray-800">
       <div className="relative flex items-center">
-        {/* Voice mode toggle button */}
+        {/* Speech Recognition toggle button */}
         <button
-          onClick={handleToggleVoiceMode}
+          onClick={toggleSpeechRecognition}
           className={`p-2 rounded-full mr-2 ${
-            isVoiceMode
+            speechRecognitionEnabled
               ? "bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300"
               : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
           }`}
           aria-label={
-            isVoiceMode ? "Disable voice input" : "Enable voice input"
+            speechRecognitionEnabled ? "Disable speech recognition" : "Enable speech recognition"
           }
         >
           <Mic size={20} />
         </button>
 
+        {/* Speech Synthesis toggle button */}
+        <button
+          onClick={toggleSpeechSynthesis}
+          className={`p-2 rounded-full mr-2 ${
+            speechSynthesisEnabled
+              ? "bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300"
+              : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+          }`}
+          aria-label={
+            speechSynthesisEnabled ? "Disable speech synthesis" : "Enable speech synthesis"
+          }
+        >
+          <Volume2 size={20} />
+        </button>
+
         {/* Input area - conditionally render either textarea or readonly div */}
-        {isVoiceMode ? (
+        {speechRecognitionEnabled ? (
           <div
             className="flex-1 p-3 rounded-md border border-gray-300 min-h-[40px] transition-colors dark:bg-gray-800 dark:border-gray-700 dark:text-white overflow-auto"
             style={{ cursor: "default" }}
@@ -205,7 +213,7 @@ const ChatInput: React.FC = React.memo(() => {
               <span className="text-gray-400">
                 {isListening()
                   ? "Listening..."
-                  : "Voice mode enabled. Click microphone to disable."}
+                  : "Speech recognition enabled. Click microphone to disable."}
               </span>
             )}
           </div>
@@ -250,13 +258,13 @@ const ChatInput: React.FC = React.memo(() => {
         </div>
       )}
 
-      {isVoiceMode && isListening() && (
+      {speechRecognitionEnabled && isListening() && (
         <div className="text-xs text-blue-600 mt-2 animate-pulse dark:text-blue-400">
           Listening...
         </div>
       )}
 
-      {isWaiting() && !isVoiceMode && (
+      {isWaiting() && !speechRecognitionEnabled && (
         <div className="text-xs text-blue-500 mt-2 dark:text-blue-400">
           Ready for your message
         </div>

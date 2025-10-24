@@ -24,7 +24,8 @@ export const useChat = (): ChatContextType => {
   const conversation = useConversation();
   const {
     currentSubstate,
-    mode,
+    speechRecognitionEnabled,
+    speechSynthesisEnabled,
     transcript,
     interimTranscript,
     speechRecognitionState,
@@ -108,7 +109,8 @@ export const useChat = (): ChatContextType => {
     // Voice-specific states
     ttsState: getTTSState(),
     speechRecognitionState: getSpeechRecognitionState(),
-    isVoiceMode: mode.isVoice,
+    // Legacy: isVoiceMode is true when both SR and TTS are enabled
+    isVoiceMode: speechRecognitionEnabled && speechSynthesisEnabled,
     transcription: transcript,
     interimTranscript: interimTranscript,
 
@@ -122,7 +124,24 @@ export const useChat = (): ChatContextType => {
 
     // Actions
     sendMessage: conversation.sendMessageToAI,
-    toggleVoiceMode: () => conversation.switchMode(!mode.isVoice),
+    // Legacy: toggleVoiceMode toggles both SR and TTS together
+    toggleVoiceMode: () => {
+      const targetState = !(speechRecognitionEnabled && speechSynthesisEnabled);
+      if (targetState) {
+        // Enable both
+        if (!speechRecognitionEnabled) conversation.toggleSpeechRecognition();
+        if (!speechSynthesisEnabled) conversation.toggleSpeechSynthesis();
+      } else {
+        // Disable both
+        if (speechRecognitionEnabled) conversation.toggleSpeechRecognition();
+        if (speechSynthesisEnabled) conversation.toggleSpeechSynthesis();
+      }
+    },
+    // New: Independent toggle functions
+    toggleSpeechRecognition: conversation.toggleSpeechRecognition,
+    toggleSpeechSynthesis: conversation.toggleSpeechSynthesis,
+    speechRecognitionEnabled,
+    speechSynthesisEnabled,
     clearTranscript: conversation.clearTranscript,
 
     // These methods would need real implementations in a production app, but we're just

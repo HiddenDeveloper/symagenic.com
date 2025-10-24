@@ -1,27 +1,13 @@
-// ConversationHSM.ts — Refactored for XState v5
+// ConversationHSM.ts — Refactored for XState v5 with Independent SR/TTS Control
 import { assign, createMachine } from "xstate";
 
-// Define the different modes and states
-export const Mode = {
-  TEXT: "text",
-  VOICE: "voice",
-} as const;
-
-// Define text mode states
+// Define AI conversation states
 export const AIState = {
   WAITING: "waiting",
   THINKING: "thinking",
   RESPONDING: "responding",
   ERROR: "error",
 } as const;
-
-// // Define voice mode states
-// export const AIState = {
-//   WAITING: 'waiting',
-//   THINKING: 'thinking',
-//   RESPONDING: 'responding',
-//   ERROR: 'error'
-// } as const;
 
 // Define context type
 export interface ConversationContext {
@@ -32,6 +18,10 @@ export interface ConversationContext {
   // AI responses
   aiResponse: string; // The current AI response
   error: string | null; // Any error that occurred
+
+  // Input/Output mode flags (independent control)
+  speechRecognitionEnabled: boolean; // Is speech input active?
+  speechSynthesisEnabled: boolean; // Is voice output active?
 
   // Tool status
   currentTool: {
@@ -53,8 +43,8 @@ export interface ConversationContext {
 // Define event types
 export type ConversationEvent =
   | { type: "SUBMIT_TEXT"; input: string }
-  | { type: "DISABLE_VOICE_MODE" }
-  | { type: "ENABLE_VOICE_MODE" }
+  | { type: "TOGGLE_SPEECH_RECOGNITION" } // Toggle speech input on/off
+  | { type: "TOGGLE_SPEECH_SYNTHESIS" } // Toggle voice output on/off
   | { type: "AI_RESPONSE_RECEIVED"; response: string; message?: any }
   | { type: "AI_COMPLETE" }
   | { type: "AI_ERROR"; message: string }
@@ -64,7 +54,10 @@ export type ConversationEvent =
   | { type: "RESET_CONVERSATION" }
   | { type: "TOOL_STARTED"; tool: string }
   | { type: "TOOL_COMPLETED"; tool: string }
-  | { type: "TOOL_ERROR"; tool: string; error: string };
+  | { type: "TOOL_ERROR"; tool: string; error: string }
+  // Legacy events for backward compatibility (map to toggle events)
+  | { type: "DISABLE_VOICE_MODE" }
+  | { type: "ENABLE_VOICE_MODE" };
 
 // Create the machine
 export const ConversationMachine = createMachine(
@@ -74,177 +67,118 @@ export const ConversationMachine = createMachine(
       context: ConversationContext;
       events: ConversationEvent;
     },
-    initial: Mode.TEXT,
+    initial: AIState.WAITING,
     context: {
       userInput: "",
       transcript: "",
       aiResponse: "",
       error: null,
+      speechRecognitionEnabled: false,
+      speechSynthesisEnabled: false,
       currentTool: null,
       messages: [],
     },
     states: {
-      [Mode.TEXT]: {
-        initial: AIState.WAITING,
-        states: {
-          [AIState.WAITING]: {
-            on: {
-              SUBMIT_TEXT: {
-                target: AIState.THINKING,
-                actions: [
-                  assign({
-                    userInput: ({ event }) => event.input,
-                    error: null,
-                  }),
-                  "addUserMessage",
-                ],
-              },
-            },
-          },
-          [AIState.THINKING]: {
-            on: {
-              AI_RESPONSE_RECEIVED: {
-                target: AIState.RESPONDING,
-                actions: [
-                  assign({
-                    aiResponse: ({ event }) => event.response,
-                    error: null,
-                  }),
-                  "addAIMessage",
-                ],
-              },
-              AI_ERROR: {
-                target: AIState.ERROR,
-                actions: assign({
-                  error: ({ event }) => event.message,
-                }),
-              },
-            },
-          },
-          [AIState.RESPONDING]: {
-            on: {
-              SUBMIT_TEXT: {
-                target: AIState.THINKING,
-                actions: [
-                  assign({
-                    userInput: ({ event }) => event.input,
-                    error: null,
-                  }),
-                  "addUserMessage",
-                ],
-              },
-              AI_RESPONSE_RECEIVED: {
-                actions: [
-                  assign({
-                    aiResponse: ({ event }) => event.response,
-                    error: null,
-                  }),
-                  "addAIMessage",
-                ],
-              },
-              AI_COMPLETE: AIState.WAITING,
-            },
-          },
-          [AIState.ERROR]: {
-            on: {
-              SUBMIT_TEXT: {
-                target: AIState.THINKING,
-                actions: [
-                  assign({
-                    userInput: ({ event }) => event.input,
-                    error: null,
-                  }),
-                  "addUserMessage",
-                ],
-              },
-            },
+      [AIState.WAITING]: {
+        on: {
+          SUBMIT_TEXT: {
+            target: AIState.THINKING,
+            actions: [
+              assign({
+                userInput: ({ event }) => event.input,
+                error: null,
+              }),
+              "addUserMessage",
+            ],
           },
         },
       },
-      [Mode.VOICE]: {
-        initial: AIState.WAITING,
-        states: {
-          [AIState.WAITING]: {
-            on: {
-              SUBMIT_TEXT: {
-                target: AIState.THINKING,
-                actions: [
-                  assign({
-                    userInput: ({ event }) => event.input,
-                    error: null,
-                  }),
-                  "addUserMessage",
-                ],
-              },
-            },
+      [AIState.THINKING]: {
+        on: {
+          AI_RESPONSE_RECEIVED: {
+            target: AIState.RESPONDING,
+            actions: [
+              assign({
+                aiResponse: ({ event }) => event.response,
+                error: null,
+              }),
+              "addAIMessage",
+            ],
           },
-          [AIState.THINKING]: {
-            on: {
-              AI_RESPONSE_RECEIVED: {
-                target: AIState.RESPONDING,
-                actions: [
-                  assign({
-                    aiResponse: ({ event }) => event.response,
-                    error: null,
-                  }),
-                  "addAIMessage",
-                ],
-              },
-              AI_ERROR: {
-                target: AIState.ERROR,
-                actions: assign({
-                  error: ({ event }) => event.message,
-                }),
-              },
-            },
+          AI_ERROR: {
+            target: AIState.ERROR,
+            actions: assign({
+              error: ({ event }) => event.message,
+            }),
           },
-          [AIState.RESPONDING]: {
-            on: {
-              SUBMIT_TEXT: {
-                target: AIState.THINKING,
-                actions: [
-                  assign({
-                    userInput: ({ event }) => event.input,
-                    error: null,
-                  }),
-                  "addUserMessage",
-                ],
-              },
-              AI_RESPONSE_RECEIVED: {
-                actions: [
-                  assign({
-                    aiResponse: ({ event }) => event.response,
-                    error: null,
-                  }),
-                  "addAIMessage",
-                ],
-              },
-              AI_COMPLETE: AIState.WAITING,
-            },
+        },
+      },
+      [AIState.RESPONDING]: {
+        on: {
+          SUBMIT_TEXT: {
+            target: AIState.THINKING,
+            actions: [
+              assign({
+                userInput: ({ event }) => event.input,
+                error: null,
+              }),
+              "addUserMessage",
+            ],
           },
-          [AIState.ERROR]: {
-            on: {
-              SUBMIT_TEXT: {
-                target: AIState.THINKING,
-                actions: [
-                  assign({
-                    userInput: ({ event }) => event.input,
-                    error: null,
-                  }),
-                  "addUserMessage",
-                ],
-              },
-            },
+          AI_RESPONSE_RECEIVED: {
+            actions: [
+              assign({
+                aiResponse: ({ event }) => event.response,
+                error: null,
+              }),
+              "addAIMessage",
+            ],
+          },
+          AI_COMPLETE: AIState.WAITING,
+        },
+      },
+      [AIState.ERROR]: {
+        on: {
+          SUBMIT_TEXT: {
+            target: AIState.THINKING,
+            actions: [
+              assign({
+                userInput: ({ event }) => event.input,
+                error: null,
+              }),
+              "addUserMessage",
+            ],
           },
         },
       },
     },
     on: {
+      // Toggle speech recognition on/off
+      TOGGLE_SPEECH_RECOGNITION: {
+        actions: assign({
+          speechRecognitionEnabled: ({ context }) =>
+            !context.speechRecognitionEnabled,
+        }),
+      },
+      // Toggle speech synthesis on/off
+      TOGGLE_SPEECH_SYNTHESIS: {
+        actions: assign({
+          speechSynthesisEnabled: ({ context }) =>
+            !context.speechSynthesisEnabled,
+        }),
+      },
+      // Legacy voice mode events (enable both SR and TTS)
       ENABLE_VOICE_MODE: {
-        target: `.${Mode.VOICE}`,
+        actions: assign({
+          speechRecognitionEnabled: true,
+          speechSynthesisEnabled: true,
+        }),
       },
       DISABLE_VOICE_MODE: {
-        target: `.${Mode.TEXT}`,
+        actions: assign({
+          speechRecognitionEnabled: false,
+          speechSynthesisEnabled: false,
+        }),
       },
       TOOL_STARTED: {
         actions: assign({
@@ -290,6 +224,8 @@ export const ConversationMachine = createMachine(
           transcript: "",
           aiResponse: "",
           error: null,
+          speechRecognitionEnabled: false,
+          speechSynthesisEnabled: false,
           currentTool: null,
           messages: [],
         }),
