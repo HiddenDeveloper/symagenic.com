@@ -21,12 +21,44 @@ The baseline conversational AI server implementation.
 
 ### client
 
-The web UI for interacting with AIlumina.
+The web UI for natural interaction with AIlumina, supporting multiple modalities (text, speech recognition, speech synthesis) with flexible input/output combinations.
 
 **Key Components**:
-- `src/components/` - React UI components
-- `src/machines/` - XState state machines for conversation flow
-- `src/services/` - WebSocket client service
+- `src/components/` - React UI components for conversation and input controls
+- `src/statemachines/` - XState v5 state machine for conversation flow orchestration
+- `src/contexts/ConversationHSMCoordinator.tsx` - Central coordinator managing AI, SR, and TTS lifecycles
+- `src/services/` - WebSocket client, Speech Recognition, and Text-to-Speech services
+
+**Natural Interaction Philosophy**:
+
+Section 0 establishes natural, flexible human-AI interaction as the foundation. Users should be able to communicate however feels natural:
+- **Type + Read**: Traditional text-based chat
+- **Speak + Read**: Voice input with text output
+- **Type + Listen**: Text input with spoken responses
+- **Speak + Listen**: Full voice conversation mode
+
+**Technical Challenges**:
+
+Synchronizing speech recognition (SR) and text-to-speech (TTS) is non-trivial:
+1. **Feedback Prevention**: The AI must not hear itself speaking (TTS must stop SR)
+2. **Seamless Transitions**: SR restarts automatically after TTS completes
+3. **Independent Control**: Users can toggle SR and TTS independently without breaking state
+4. **Browser SR Lifecycle**: Built-in SR auto-restarts every ~8 seconds, requiring careful state management
+5. **Stale Closures**: React useEffect closures can capture outdated state, causing race conditions
+
+**State Machine Approach**:
+
+We use XState v5 to manage conversation flow deterministically:
+- **ConversationMachine**: Core state machine with flat states (WAITING, THINKING, RESPONDING)
+- **Independent Flags**: `speechRecognitionEnabled` and `speechSynthesisEnabled` in machine context
+- **Observer Pattern**: Services (AI, SR, TTS) notify coordinator of state changes
+- **Ref-based Coordination**: `useRef` tracks SR state in TTS observer to avoid dependency cycles
+
+This architecture ensures:
+- Predictable state transitions regardless of interaction modality
+- Clear separation of concerns (UI, state management, services)
+- Robust handling of SR/TTS lifecycle coordination
+- No race conditions from toggle operations
 
 ## Code Organization by Section
 
@@ -63,10 +95,11 @@ Client: http://localhost:5173
 **Required**: Copy `server/.env.example` to `server/.env` and configure:
 - At minimum, provide one AI provider API key (Anthropic, OpenAI, Google, Groq, or Ollama/LMStudio URL)
 
-**Optional Features**:
-- **Voice Mode/TTS**: Requires Azure Cognitive Services Speech configuration
-  - Uncomment and configure `AZURE_SPEECH_KEY` and `AZURE_SPEECH_REGION` in `.env`
-  - Without this, text-only chat works perfectly - voice features just won't be available
+**Built-in Features**:
+- **Speech Recognition**: Uses browser's Web Speech API (Chrome/Edge recommended)
+- **Text-to-Speech**: Uses browser's Speech Synthesis API (works in all modern browsers)
+- Both features work out-of-the-box with no server configuration required
+- Independent toggle controls allow mixing input/output modalities
 
 ### Production Build
 
