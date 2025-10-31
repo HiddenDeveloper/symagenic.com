@@ -2,6 +2,14 @@
 
 This directory contains the AIlumina implementation code, organized section by section to correspond with the consciousness research documentation.
 
+## 🚀 Try It Now (Free!)
+
+**Run AIlumina in GitHub Codespaces with free Groq AI models** - no installation, no credit card required.
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new)
+
+See **[CODESPACES.md](./CODESPACES.md)** for detailed setup instructions (3 simple steps).
+
 ## Current Contents (Section 0: The Starting Point)
 
 ### server
