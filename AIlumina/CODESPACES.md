@@ -44,12 +44,14 @@ export GROQ_API_KEY="your_groq_api_key_here"
 In the Codespace terminal:
 
 ```bash
-# Use the demo configuration (Groq-based agents)
-cp server/agents.demo.json server/agents.json
+# Navigate to AIlumina directory
+cd AIlumina
 
 # Start both backend and frontend
 npm run dev
 ```
+
+> **Note:** The demo configuration is automatically set up during Codespace creation. No manual configuration needed!
 
 **That's it!** 🎉
 

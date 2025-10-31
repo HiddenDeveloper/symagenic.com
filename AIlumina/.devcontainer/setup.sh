@@ -12,9 +12,9 @@ export PATH="$HOME/.bun/bin:$PATH"
 echo "📦 Installing root dependencies..."
 npm install
 
-# Install shared dependencies
-echo "📦 Installing shared dependencies..."
-cd shared && npm install && cd ..
+# Install and build shared dependencies
+echo "📦 Installing and building shared package..."
+cd shared && npm install && npm run build && cd ..
 
 # Install server dependencies
 echo "📦 Installing server dependencies..."
@@ -23,6 +23,10 @@ cd server && npm install && cd ..
 # Install client dependencies
 echo "📦 Installing client dependencies..."
 cd client && npm install && cd ..
+
+# Set up demo agents configuration
+echo "⚙️  Setting up Groq demo configuration..."
+cp server/agents.demo.json server/agents.json
 
 echo "✅ Setup complete!"
 echo ""
