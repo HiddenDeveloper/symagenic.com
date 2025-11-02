@@ -1,0 +1,41 @@
+/**
+ * tsconfig.base.json
+ *
+ * Shared base TypeScript configuration:
+ * - Centralizes common compilerOptions (strictness, module flags, path aliases, interop)
+ * - Ensures consistency across app and node configurations
+ * - Enables safe defaults (strict checking, skipLibCheck, noUncheckedIndexedAccess)
+ */
+{
+    "compilerOptions": {
+      // Language and emit settings
+      "target": "ESNext",
+      "module": "ESNext",
+      "jsx": "react-jsx",
+      "strict": true,
+      "skipLibCheck": true,
+      "useDefineForClassFields": true,
+  
+      // Path aliases
+      "baseUrl": "./",
+      "paths": {
+        "@/*": ["src/*"]
+      },
+  
+      // Interop and module support
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+  
+      // Advanced safety
+      "noUncheckedIndexedAccess": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noFallthroughCasesInSwitch": true,
+      "noUncheckedSideEffectImports": true,
+
+      // Library definitions
+      "lib": ["ES2020", "DOM", "DOM.Iterable"],
+      "types": ["vitest/globals", "@testing-library/jest-dom"]
+    }
+  }
+  
