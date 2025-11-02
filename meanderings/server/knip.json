@@ -1,0 +1,24 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "src/http-server/index.ts"
+  ],
+  "project": [
+    "src/**/*.ts"
+  ],
+  "ignore": [
+    "src/http-server/routes/mcp.ts"
+  ],
+  "ignoreDependencies": [
+    "@types/uuid",
+    "@types/cors",
+    "@types/express",
+    "@types/ws",
+    "@vitest/coverage-v8",
+    "vitest",
+    "eslint"
+  ],
+  "ignoreExportsUsedInFile": true,
+  "includeEntryExports": true,
+  "eslint": false
+}

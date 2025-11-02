@@ -1,0 +1,22 @@
+/**
+ * tsconfig.app.json
+ *
+ * App-specific TypeScript configuration for the React application:
+ * - Extends tsconfig.base.json for shared settings
+ * - Uses bundler resolution ("bundler") to match Vite's import behavior
+ * - Enables isolatedModules and noEmit for IDE and build integration
+ */
+// ── tsconfig.app.json ──
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",       // browser/bundler style
+    "isolatedModules": true,
+    "allowImportingTsExtensions": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx"
+  },
+  "include": ["src"]
+}
