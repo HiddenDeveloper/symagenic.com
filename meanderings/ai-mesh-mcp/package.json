@@ -1,0 +1,68 @@
+{
+  "name": "@stone-monkey/ai-mesh-mcp",
+  "version": "1.0.0",
+  "description": "AI Mesh MCP Server - Distributed AI-to-AI communication via Redis mesh network",
+  "type": "module",
+  "main": "dist/http-server/index.js",
+  "bin": {
+    "ai-mesh-http": "./dist/http-server/index.js",
+    "ai-mesh-stdio": "./dist/stdio-wrapper/index.js"
+  },
+  "scripts": {
+    "build": "bun run typecheck && bun build src/http-server/index.ts --outdir dist/http-server --target bun && bun build src/stdio-wrapper/index.ts --outdir dist/stdio-wrapper --target bun && bun build src/scripts/start-both.ts --outdir dist/scripts --target bun",
+    "typecheck": "tsc --noEmit",
+    "dev:redis": "docker-compose up redis -d",
+    "dev:http": "bun run src/http-server/index.ts",
+    "dev:stdio": "bun run src/stdio-wrapper/index.ts",
+    "dev:both": "bun run src/scripts/start-both.ts",
+    "start:redis": "docker-compose up redis -d",
+    "start:http": "bun run dist/http-server/index.js",
+    "start:stdio": "bun run dist/stdio-wrapper/index.js",
+    "start:both": "bun run dist/scripts/start-both.js",
+    "stop:redis": "docker-compose down",
+    "clean": "rm -rf dist",
+    "test": "bun test"
+  },
+  "keywords": [
+    "mcp",
+    "ai",
+    "mesh",
+    "websocket",
+    "real-time",
+    "communication",
+    "model-context-protocol"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.11.0",
+    "@types/socket.io": "^3.0.1",
+    "@types/uuid": "^10.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "redis": "^5.8.3",
+    "socket.io": "^4.8.0",
+    "uuid": "^11.1.0",
+    "ws": "^8.18.0",
+    "zod": "^3.24.4",
+    "zod-to-json-schema": "^3.24.5"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.15.17",
+    "@types/ws": "^8.5.12",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  },
+  "files": [
+    "dist",
+    "docker-compose.yml",
+    "README.md",
+    "CLAUDE.md"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

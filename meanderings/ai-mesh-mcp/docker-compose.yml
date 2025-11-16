@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: ai-mesh-redis
+    hostname: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    networks:
+      - ai_mesh_net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    environment:
+      - REDIS_REPLICATION_MODE=master
+
+  # Optional: Redis Insight for GUI management (development only)
+  redis-insight:
+    image: redislabs/redisinsight:latest
+    container_name: ai-mesh-redis-insight
+    ports:
+      - "8001:8001"
+    volumes:
+      - redis_insight_data:/db
+    networks:
+      - ai_mesh_net
+    depends_on:
+      - redis
+    profiles:
+      - dev
+    environment:
+      - RIPORT=8001
+
+  # Optional: Redis Commander for web-based management (development only)
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: ai-mesh-redis-commander
+    ports:
+      - "8002:8081"
+    networks:
+      - ai_mesh_net
+    depends_on:
+      - redis
+    profiles:
+      - dev
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+
+volumes:
+  redis_data:
+    driver: local
+  redis_insight_data:
+    driver: local
+
+networks:
+  ai_mesh_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
