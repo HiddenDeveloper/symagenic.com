@@ -147,7 +147,16 @@ fi
 # Create/update client .env
 if [ ! -f client/.env ]; then
   echo "Creating client/.env..."
-  echo "VITE_WS_URL=ws://localhost:8000" > client/.env
+
+  # In Codespaces, don't set VITE_WS_URL - let it auto-detect from window.location
+  # In local dev, use ws://localhost:8000
+  if [ ! -z "$CODESPACES" ]; then
+    echo "# In Codespaces, WebSocket URL is auto-detected from the forwarded port" > client/.env
+    echo "# VITE_WS_URL=" >> client/.env
+  else
+    echo "VITE_WS_URL=ws://localhost:8000" > client/.env
+  fi
+
   echo "VITE_USE_AZURE_TTS=false" >> client/.env
   success "client/.env created"
 else
