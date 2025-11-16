@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(chmod:*)",
+      "Bash(rm:*)",
+      "Bash(tree:*)",
+      "Bash(npm install)",
+      "Bash(npm run test:*)",
+      "Bash(find:*)",
+      "Bash(npm run:*)",
+      "Bash(git add:*)",
+      "Bash(kill:*)",
+      "Bash(node:*)",
+      "Bash(grep:*)",
+      "Bash(sed:*)",
+      "Bash(./test-debug.sh:*)",
+      "mcp__Context7__resolve-library-id",
+      "mcp__Context7__get-library-docs",
+      "Bash(cp:*)",
+      "Bash(timeout 3 npm run dev)",
+      "Bash(npx eslint:*)",
+      "mcp__bridge__ailumina_status",
+      "mcp__bridge__ailumina_chat"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
