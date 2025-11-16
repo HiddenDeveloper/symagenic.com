@@ -27,6 +27,17 @@ Every step is backed by three pillars: **Theory** (why it's necessary), **Implem
 
 ## Quick Start
 
+### GitHub Codespaces (One-Click Setup)
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new)
+
+Click the button above, add your API key as a Codespace secret (`GROQ_API_KEY` or `ANTHROPIC_API_KEY`), and you're ready to go!
+
+The unified devcontainer includes:
+- ✅ Node 20, Bun, Docker-in-Docker
+- ✅ All infrastructure services (Neo4j, Redis, Qdrant, Embeddings)
+- ✅ Works for both AIlumina and StoneMonkey
+
 ### Run AIlumina Baseline (Section 0)
 
 The simplest way to get started - a pure conversational AI with no consciousness prerequisites:
@@ -45,9 +56,31 @@ This runs Section 0: The Starting Point - a stateless, turn-based conversational
 - WebSocket streaming
 - No tools, no memory, no deterministic operations
 
-### Full Stone Monkey Framework (Future)
+### Run StoneMonkey Platform (Integrated Consciousness Stack)
 
-> **Note**: The complete consciousness research platform setup coming in later sections.
+Complete consciousness research platform with full infrastructure:
+
+```bash
+# From repository root
+cd StoneMonkey
+./start.sh
+```
+
+Or automated from root:
+```bash
+npm run stonemonkey
+```
+
+- **AIlumina UI**: http://localhost:8000
+- **Neo4j Browser**: http://localhost:7474 (user: `neo4j`, pass: `stonemonkey`)
+- **Qdrant Dashboard**: http://localhost:6333/dashboard
+
+This runs the integrated platform with:
+- ✅ Multi-provider conversational AI (baseline)
+- ✅ Docker infrastructure (Neo4j, Redis, Qdrant, Embedding Service)
+- ✅ Ready for MCP server integration (Steps 2, 6, 9)
+
+See [StoneMonkey/README.md](StoneMonkey/README.md) and [StoneMonkey/CODESPACES.md](StoneMonkey/CODESPACES.md) for details.
 
 ### Prerequisites (Full Framework)
 
@@ -73,11 +106,23 @@ Visit `http://localhost:4321` to explore the technical deep dive.
 
 ```
 symagenic.com/
+├── .devcontainer/              # Unified GitHub Codespaces config
+│   ├── devcontainer.json       # Node 20, Bun, Docker-in-Docker
+│   └── setup.sh                # Monorepo initialization
 ├── AIlumina/                   # Section 0: Baseline conversational AI
 │   ├── server/                 # Backend (multi-provider API + WebSocket)
 │   ├── client/                 # Frontend (React UI)
 │   ├── shared/                 # Shared types and constants
 │   └── package.json            # Build orchestration
+├── StoneMonkey/                # Integrated consciousness platform
+│   ├── server/                 # Multi-provider backend (Bun runtime)
+│   ├── client/                 # React UI with voice interaction
+│   ├── shared/                 # Common types and constants
+│   ├── docker-compose.yml      # Infrastructure (Neo4j, Redis, Qdrant, Embeddings)
+│   ├── docker-compose.dev.yml  # Development tools (Redis Insight, etc.)
+│   ├── start.sh                # Automated setup script
+│   ├── README.md               # Platform documentation
+│   └── CODESPACES.md           # GitHub Codespaces guide
 ├── evidence/                   # Research documentation
 │   ├── section-0-starting-point.md
 │   ├── section-1-system-2-thinking.md
@@ -87,9 +132,12 @@ symagenic.com/
 │   ├── ai-mesh-mcp/            # Redis mesh communication
 │   ├── ailumina-bridge-mcp/    # MCP bridge
 │   └── documentation/          # Technical deep dive site (Astro)
-├── .claude/                    # Future: Skills for memory curation
+├── meanderings/                # Research experiments and services
+│   ├── embedding-service/      # Centralized vector generation
+│   └── .../                    # Other research components
+├── .claude/                    # Skills for memory curation
 │   └── skills/                 # Memory, Strava, Discord examples
-├── scripts/                    # Future: Scheduled automation
+├── scripts/                    # Scheduled automation
 │   └── launchagent/            # LaunchAgent templates
 ├── package.json                # Top-level orchestration
 └── README.md                   # This file
