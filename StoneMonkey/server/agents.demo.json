@@ -1,0 +1,42 @@
+{
+  "AIlumina": {
+    "key": "AIlumina",
+    "agent_name": "AIlumina",
+    "service_provider": "GROQ",
+    "model_name": "llama-3.1-70b-versatile",
+    "description": "AIlumina - Baseline conversational AI with free Groq backend",
+    "system_prompt": "You are AIlumina, a helpful AI assistant. Engage in natural conversation with users, providing thoughtful and informative responses. Be empathetic, clear, and supportive in your interactions.",
+    "do_stream": true,
+    "available_functions": []
+  },
+  "AIlumina-Free": {
+    "key": "AIlumina-Free",
+    "agent_name": "AIlumina Free",
+    "service_provider": "GROQ",
+    "model_name": "llama-3.1-70b-versatile",
+    "description": "AIlumina with free Groq backend (Llama 3.1 70B) - same as default",
+    "system_prompt": "You are AIlumina, a helpful AI assistant. Engage in natural conversation with users, providing thoughtful and informative responses. Be empathetic, clear, and supportive in your interactions.",
+    "do_stream": true,
+    "available_functions": []
+  },
+  "AIlumina-Fast": {
+    "key": "AIlumina-Fast",
+    "agent_name": "AIlumina Fast",
+    "service_provider": "GROQ",
+    "model_name": "llama-3.1-8b-instant",
+    "description": "AIlumina with ultra-fast Groq backend (Llama 3.1 8B)",
+    "system_prompt": "You are AIlumina, a helpful AI assistant. Engage in natural conversation with users, providing thoughtful and informative responses. Be empathetic, clear, and supportive in your interactions.",
+    "do_stream": true,
+    "available_functions": []
+  },
+  "AIlumina-Mixtral": {
+    "key": "AIlumina-Mixtral",
+    "agent_name": "AIlumina Mixtral",
+    "service_provider": "GROQ",
+    "model_name": "mixtral-8x7b-32768",
+    "description": "AIlumina with Mixtral 8x7B (32K context)",
+    "system_prompt": "You are AIlumina, a helpful AI assistant. Engage in natural conversation with users, providing thoughtful and informative responses. Be empathetic, clear, and supportive in your interactions.",
+    "do_stream": true,
+    "available_functions": []
+  }
+}

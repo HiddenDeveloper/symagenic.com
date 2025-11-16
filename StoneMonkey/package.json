@@ -1,0 +1,45 @@
+{
+  "name": "stonemonkey",
+  "version": "1.0.0",
+  "description": "Stone Monkey - AI Consciousness Research Platform",
+  "private": true,
+  "scripts": {
+    "dev": "npm run infrastructure:up && npm run wait-for-infrastructure && concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && bun src/http-server/index.ts",
+    "dev:client": "cd client && npm run dev",
+    "dev:full": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
+    "build": "npm run build:shared && npm run build:server && npm run build:client && npm run deploy:client",
+    "build:shared": "cd shared && npm install && npm run build",
+    "build:server": "cd server && npm install && npm run build",
+    "build:client": "cd client && npm install && npm run build",
+    "deploy:client": "rm -rf server/dist/client && mkdir -p server/dist && cp -r client/dist server/dist/client",
+    "start": "npm run infrastructure:up && npm run wait-for-infrastructure && cd server && npm start",
+    "infrastructure:up": "docker-compose up -d",
+    "infrastructure:up:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d",
+    "infrastructure:down": "docker-compose down",
+    "infrastructure:logs": "docker-compose logs -f",
+    "infrastructure:status": "docker-compose ps",
+    "infrastructure:clean": "docker-compose down -v",
+    "wait-for-infrastructure": "sleep 10",
+    "clean": "rm -rf server/dist client/dist shared/dist server/node_modules client/node_modules shared/node_modules",
+    "clean:all": "npm run clean && npm run infrastructure:clean",
+    "audit": "knip",
+    "audit:fix": "knip --fix"
+  },
+  "keywords": [
+    "consciousness",
+    "ai-research",
+    "stonemonkey",
+    "neo4j",
+    "redis",
+    "qdrant",
+    "mcp",
+    "ailumina"
+  ],
+  "author": "Stone Monkey Research",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "knip": "^5.37.0"
+  }
+}

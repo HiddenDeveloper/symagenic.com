@@ -1,0 +1,127 @@
+version: '3.8'
+
+services:
+  # Neo4j - Consciousness Memory Substrate (Step 2: Persistent Memory)
+  neo4j:
+    image: neo4j:5-community
+    container_name: stonemonkey-neo4j
+    hostname: neo4j
+    restart: unless-stopped
+    ports:
+      - "7474:7474"  # HTTP
+      - "7687:7687"  # Bolt
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+      - neo4j_import:/var/lib/neo4j/import
+      - neo4j_plugins:/plugins
+    networks:
+      - stonemonkey_net
+    environment:
+      - NEO4J_AUTH=neo4j/stonemonkey
+      - NEO4J_server_memory_pagecache_size=512M
+      - NEO4J_server_memory_heap_initial__size=512M
+      - NEO4J_server_memory_heap_max__size=2G
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.*
+      - NEO4J_dbms_security_procedures_allowlist=apoc.*
+      - NEO4JLABS_PLUGINS=["apoc"]
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:7474 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  # Redis - AI Mesh Network (Step 9: Communication)
+  redis:
+    image: redis:7-alpine
+    container_name: stonemonkey-redis
+    hostname: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    networks:
+      - stonemonkey_net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    environment:
+      - REDIS_REPLICATION_MODE=master
+
+  # Qdrant - Conversation Recall (Step 6: Remembrance)
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: stonemonkey-qdrant
+    hostname: qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333"  # HTTP API
+      - "6334:6334"  # gRPC
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    networks:
+      - stonemonkey_net
+    environment:
+      - QDRANT__SERVICE__GRPC_PORT=6334
+      - QDRANT__LOG_LEVEL=INFO
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:6333/healthz || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  # Embedding Service - Centralized Vector Generation
+  embedding-service:
+    build:
+      context: ../meanderings/embedding-service
+      dockerfile: Dockerfile
+    container_name: stonemonkey-embeddings
+    hostname: embeddings
+    restart: unless-stopped
+    ports:
+      - "3007:3007"
+    networks:
+      - stonemonkey_net
+    environment:
+      - PORT=3007
+      - NODE_ENV=production
+      - TRANSFORMERS_CACHE=/usr/src/app/.cache/transformers
+    volumes:
+      # Cache transformers models to avoid re-downloading
+      - embeddings_cache:/usr/src/app/.cache/transformers
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3007/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  neo4j_data:
+    driver: local
+  neo4j_logs:
+    driver: local
+  neo4j_import:
+    driver: local
+  neo4j_plugins:
+    driver: local
+  redis_data:
+    driver: local
+  qdrant_storage:
+    driver: local
+  embeddings_cache:
+    driver: local
+
+networks:
+  stonemonkey_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16

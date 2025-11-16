@@ -1,0 +1,23 @@
+/**
+ * tsconfig.build.json
+ *
+ * Build-focused TypeScript configuration:
+ * - Extends tsconfig.base.json for shared settings
+ * - Outputs compiled JavaScript, type declarations, and source maps to ./dist/ts-build
+ * - Excludes development-only scripts like vite.config.ts
+ */
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "inlineSources": true,
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "./dist/ts-build",
+    "rootDir": "./src"
+  },
+  "include": ["src"],
+  "exclude": ["vite.config.ts"]
+}

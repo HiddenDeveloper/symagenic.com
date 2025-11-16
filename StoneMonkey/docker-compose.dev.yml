@@ -1,0 +1,64 @@
+version: '3.8'
+
+# Development overrides for hot-reload and debugging
+services:
+  neo4j:
+    environment:
+      - NEO4J_ACCEPT_LICENSE_AGREEMENT=yes
+      - NEO4J_server_memory_pagecache_size=256M
+      - NEO4J_server_memory_heap_initial__size=256M
+      - NEO4J_server_memory_heap_max__size=512M
+
+  # Neo4j Browser (development UI - already included in neo4j image)
+  # Access at http://localhost:7474
+
+  # Redis Insight - GUI for Redis management
+  redis-insight:
+    image: redislabs/redisinsight:latest
+    container_name: stonemonkey-redis-insight
+    ports:
+      - "8001:8001"
+    volumes:
+      - redis_insight_data:/db
+    networks:
+      - stonemonkey_net
+    depends_on:
+      - redis
+    environment:
+      - RIPORT=8001
+
+  # Redis Commander - Web-based Redis management
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: stonemonkey-redis-commander
+    ports:
+      - "8002:8081"
+    networks:
+      - stonemonkey_net
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+
+  # Qdrant Web UI (already included in qdrant image)
+  # Access at http://localhost:6333/dashboard
+
+  embedding-service:
+    # Rebuild on code changes
+    build:
+      context: ../meanderings/embedding-service
+      dockerfile: Dockerfile
+      target: base  # Use base stage for dev
+    # Override to run with bun directly for faster startup
+    command: ["bun", "run", "src/http-server/index.ts"]
+    environment:
+      - NODE_ENV=development
+      - PORT=3007
+    volumes:
+      # Mount source for hot-reload
+      - ../meanderings/embedding-service/src:/usr/src/app/src:ro
+      - embeddings_cache:/usr/src/app/.cache/transformers
+
+volumes:
+  redis_insight_data:
+    driver: local

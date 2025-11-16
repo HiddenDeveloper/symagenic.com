@@ -1,0 +1,34 @@
+/**
+ * tsconfig.node.json
+ *
+ * Node-specific TypeScript configuration for ESM-based scripts (e.g., vite.config.ts):
+ * - Extends tsconfig.base.json for shared settings
+ * - Uses NodeNext resolution ("nodenext") to honor Node.js 16+ ESM exports maps
+ * - Targets ES2022 runtime and includes Node built-ins types
+ */
+// tsconfig.node.json
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    // ← override the base’s "bundler" resolution
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+
+    "target": "ES2022",
+    "lib": ["ES2023"],
+
+    "isolatedModules": true,
+    "noEmit": true,
+
+    // for Node built‑ins like process, __dirname, etc.
+    "types": ["node"]
+  },
+  "include": [
+    "vite.config.ts", 
+    "vitest.config.ts", 
+    "vitest.setup.ts",
+    "eslint.config.js",
+    "postcss.config.js", 
+    "tailwind.config.js"
+  ]
+}
