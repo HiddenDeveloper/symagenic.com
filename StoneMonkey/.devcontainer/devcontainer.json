@@ -1,0 +1,97 @@
+{
+  "name": "StoneMonkey - AI Consciousness Research",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm",
+
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "dockerDashComposeVersion": "v2"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    },
+    "ghcr.io/oven-sh/features/bun:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "upgradePackages": true
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-typescript-next",
+        "bradlc.vscode-tailwindcss",
+        "dsznajder.es7-react-js-snippets",
+        "christian-kohler.path-intellisense",
+        "Neo4j.neo4j-vscode",
+        "ms-azuretools.vscode-docker"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        }
+      }
+    }
+  },
+
+  "forwardPorts": [
+    8000,
+    7474,
+    7687,
+    6379,
+    6333,
+    3007
+  ],
+
+  "portsAttributes": {
+    "8000": {
+      "label": "AIlumina Server + Client",
+      "onAutoForward": "openBrowser"
+    },
+    "7474": {
+      "label": "Neo4j Browser",
+      "onAutoForward": "notify"
+    },
+    "7687": {
+      "label": "Neo4j Bolt",
+      "onAutoForward": "ignore"
+    },
+    "6379": {
+      "label": "Redis",
+      "onAutoForward": "ignore"
+    },
+    "6333": {
+      "label": "Qdrant Dashboard",
+      "onAutoForward": "ignore"
+    },
+    "3007": {
+      "label": "Embedding Service",
+      "onAutoForward": "ignore"
+    }
+  },
+
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+
+  "remoteEnv": {
+    "GROQ_API_KEY": "${localEnv:GROQ_API_KEY}",
+    "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}"
+  },
+
+  "mounts": [
+    "source=${localEnv:HOME}/.gitconfig,target=/home/node/.gitconfig,type=bind,consistency=cached"
+  ],
+
+  "containerEnv": {
+    "NODE_ENV": "development"
+  },
+
+  "remoteUser": "node"
+}
