@@ -43,8 +43,26 @@ export GROQ_API_KEY="your_groq_api_key_here"
 
 In the Codespace terminal:
 
+**Option A: Automated (Recommended)**
+
 ```bash
 # Navigate to AIlumina directory
+cd AIlumina
+
+# Run the startup script
+./start.sh
+```
+
+This will:
+- Install all dependencies
+- Build everything
+- Configure environment files
+- Deploy the client
+- Optionally start the server
+
+**Option B: Manual Development**
+
+```bash
 cd AIlumina
 
 # Start both backend and frontend

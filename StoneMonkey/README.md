@@ -224,19 +224,70 @@ StoneMonkey/
 
 ## ⚙️ Configuration
 
+### AI Provider Setup
+
+**Default Configuration**: `server/agents.json` is configured for **GROQ** (free tier):
+```json
+{
+  "AIlumina": {
+    "service_provider": "GROQ",
+    "model_name": "llama-3.3-70b-versatile"
+  }
+}
+```
+
+**To use a different provider**, edit `server/agents.json`:
+
+**Example: Anthropic Claude**
+```json
+{
+  "AIlumina": {
+    "service_provider": "ANTHROPIC",
+    "model_name": "claude-sonnet-4-20250514"
+  }
+}
+```
+
+**Example: OpenAI GPT-4**
+```json
+{
+  "AIlumina": {
+    "service_provider": "OPENAI",
+    "model_name": "gpt-4-turbo-preview"
+  }
+}
+```
+
+**Example: Google Gemini**
+```json
+{
+  "AIlumina": {
+    "service_provider": "GOOGLE",
+    "model_name": "gemini-1.5-pro"
+  }
+}
+```
+
+**See More Examples**: Check `server/agents.demo.json` for additional configurations including:
+- Multiple Groq models (llama-3.1-8b-instant, mixtral-8x7b)
+- Different provider examples with API key requirements
+- Pre-configured agent variations
+
 ### Environment Variables
 
 Copy `.env.example` to `.env` and configure:
 
-#### Required: AI Provider
+#### Required: AI Provider API Key
 
-At minimum, provide one API key:
+At minimum, provide one API key matching your `agents.json` provider:
 ```bash
-ANTHROPIC_API_KEY=sk-ant-...     # Claude models
+GROQ_API_KEY=gsk_...             # For GROQ provider (free tier!)
 # OR
-GROQ_API_KEY=gsk_...             # Free tier available!
+ANTHROPIC_API_KEY=sk-ant-...     # For ANTHROPIC provider
 # OR
-OPENAI_API_KEY=sk-...            # GPT models
+OPENAI_API_KEY=sk-...            # For OPENAI provider
+# OR
+GOOGLE_API_KEY=...               # For GOOGLE provider
 ```
 
 #### Infrastructure (Default values work for Docker Compose)
