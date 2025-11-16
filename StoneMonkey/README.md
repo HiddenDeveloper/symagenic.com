@@ -9,51 +9,72 @@
 ### Prerequisites
 
 - **Docker & Docker Compose** - For infrastructure (Neo4j, Redis, Qdrant, Embedding Service)
-- **Bun** - For server runtime
-- **Node.js 18+** - For client build
+- **Node.js 18+** - For package management
+- **Bun** - For server runtime (auto-installed by start script)
 
-### 1. Clone and Configure
+### Option 1: Automated Setup (Recommended)
+
+**One command to rule them all:**
 
 ```bash
-# From repository root
 cd StoneMonkey
-
-# Copy environment template
-cp .env.example .env
-
-# Edit .env and add at minimum one AI provider API key:
-# ANTHROPIC_API_KEY=your_key_here
-# OR
-# GROQ_API_KEY=your_key_here (free tier available)
+./start.sh
 ```
 
-### 2. Install Dependencies
+This script will:
+1. ✅ Install Bun (if not present)
+2. ✅ Install all dependencies (root, shared, server, client)
+3. ✅ Build shared package
+4. ✅ Configure environment files
+5. ✅ Start Docker infrastructure (Neo4j, Redis, Qdrant, Embeddings)
+6. ✅ Build and deploy client
+7. ✅ Optionally start the server
+
+**Requirements:**
+- Set `GROQ_API_KEY` or `ANTHROPIC_API_KEY` environment variable
+- Docker daemon running
+
+### Option 2: Manual Setup
 
 ```bash
-# Install root dependencies
-npm install
+# 1. Copy environment template
+cp server/.env.example server/.env
 
-# Install workspace dependencies
+# 2. Edit server/.env and add at minimum one AI provider API key:
+# GROQ_API_KEY=your_key_here (free tier available)
+# OR
+# ANTHROPIC_API_KEY=your_key_here
+
+# 3. Install Bun
+curl -fsSL https://bun.sh/install | bash
+source ~/.bashrc
+
+# 4. Install dependencies
+npm install
 cd shared && npm install && cd ..
 cd server && npm install && cd ..
 cd client && npm install && cd ..
+
+# 5. Start infrastructure
+docker-compose up -d
+sleep 15
+
+# 6. Build
+npm run build
+
+# 7. Start server
+cd server && bun src/http-server/index.ts
 ```
 
-### 3. Run Stone Monkey
+### Option 3: From Repository Root
 
 ```bash
-# From repository root
+# From symagenic.com root
 npm run stonemonkey
 
-# OR from StoneMonkey directory
-npm run dev
+# This runs the client with hot-reload on port 5173
+# Access at http://localhost:5173
 ```
-
-This will:
-1. Start infrastructure containers (Neo4j, Redis, Qdrant, Embedding Service)
-2. Wait for services to be ready
-3. Start AIlumina server (http://localhost:8000)
-4. Start client UI (http://localhost:5173)
 
 ---
 
