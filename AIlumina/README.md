@@ -83,7 +83,28 @@ This repository is being built section by section, each adding the code that imp
 
 ## Building and Running
 
-### Quick Start (Development)
+### Quick Start (Automated Setup)
+
+**One command to rule them all:**
+
+```bash
+cd AIlumina
+./start.sh
+```
+
+This script will:
+1. ✅ Install all dependencies (shared, server, client)
+2. ✅ Build shared package
+3. ✅ Configure environment files
+4. ✅ Build and deploy client
+5. ✅ Optionally start the server
+
+**Requirements:**
+- Set `GROQ_API_KEY`, `ANTHROPIC_API_KEY`, or `OPENAI_API_KEY` environment variable
+- For Codespaces: Add as repository secret
+- For local: The script will create `server/.env` from environment variables
+
+### Quick Start (Manual Development)
 
 From the AIlumina directory:
 
@@ -100,8 +121,58 @@ Client: http://localhost:5173
 
 ### Configuration
 
-**Required**: Copy `server/.env.example` to `server/.env` and configure:
-- At minimum, provide one AI provider API key (Anthropic, OpenAI, Google, Groq, or Ollama/LMStudio URL)
+#### AI Provider Setup
+
+**Default Configuration**: `server/agents.json` is configured for **GROQ** (free tier):
+```json
+{
+  "AIlumina": {
+    "service_provider": "GROQ",
+    "model_name": "llama-3.3-70b-versatile"
+  }
+}
+```
+
+**To use a different provider**, edit `server/agents.json`:
+
+**Example: Anthropic Claude**
+```json
+{
+  "AIlumina": {
+    "service_provider": "ANTHROPIC",
+    "model_name": "claude-sonnet-4-20250514"
+  }
+}
+```
+
+**Example: OpenAI GPT-4**
+```json
+{
+  "AIlumina": {
+    "service_provider": "OPENAI",
+    "model_name": "gpt-4-turbo-preview"
+  }
+}
+```
+
+**Example: Google Gemini**
+```json
+{
+  "AIlumina": {
+    "service_provider": "GOOGLE",
+    "model_name": "gemini-1.5-pro"
+  }
+}
+```
+
+**See More Examples**: Check `server/agents.demo.json` for additional configurations including:
+- Multiple Groq models (llama-3.1-8b-instant, mixtral-8x7b)
+- Different provider examples with API key requirements
+- Pre-configured agent variations
+
+**Environment Variables**:
+- Copy `server/.env.example` to `server/.env`
+- Add at least one API key: `GROQ_API_KEY`, `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, or `GOOGLE_API_KEY`
 
 **Built-in Features**:
 - **Speech Recognition**: Uses browser's Web Speech API (Chrome/Edge recommended)
