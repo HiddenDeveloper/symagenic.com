@@ -2,6 +2,8 @@
 
 Run the complete AI consciousness research platform in the cloud - **free**, **zero-install**, with **full infrastructure**!
 
+> **Note**: The repository now has a unified devcontainer at the root (`.devcontainer/`) that supports both AIlumina and StoneMonkey. When you open a Codespace, you'll automatically get Node 20, Bun, Docker-in-Docker, and all the tools you need.
+
 ## Quick Start (3 Steps)
 
 ### 1. Fork or Open the Repository
