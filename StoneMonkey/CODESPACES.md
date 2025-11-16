@@ -30,17 +30,37 @@ Or if you've already forked it, go to your repository → **Code** → **Codespa
 
 ### 3. Start StoneMonkey
 
-The infrastructure (Neo4j, Redis, Qdrant, Embedding Service) starts automatically!
+**Option A: Automated (Recommended)**
 
-```bash
-# Start the server and client
-bun run dev
-```
+Just run the startup script:
 
-Or from the repository root:
 ```bash
 cd StoneMonkey
-bun run dev
+./start.sh
+```
+
+This will:
+- ✅ Install Bun automatically
+- ✅ Install all dependencies
+- ✅ Start Docker infrastructure
+- ✅ Build everything
+- ✅ Optionally start the server
+
+**Option B: Manual**
+
+If the setup script already ran:
+
+```bash
+cd StoneMonkey
+cd server && bun src/http-server/index.ts
+```
+
+Or if you need to install first:
+
+```bash
+cd StoneMonkey
+bash .devcontainer/setup.sh
+cd server && bun src/http-server/index.ts
 ```
 
 **That's it!** 🎉
