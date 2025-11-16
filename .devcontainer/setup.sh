@@ -7,12 +7,12 @@ echo "🚀 Setting up Symagenic monorepo..."
 NODE_VERSION=$(node --version)
 echo "✅ Node.js version: $NODE_VERSION"
 
-# Verify Bun
+# Verify Bun (installed by start.sh, not in devcontainer)
 if command -v bun &> /dev/null; then
   BUN_VERSION=$(bun --version)
   echo "✅ Bun version: $BUN_VERSION"
 else
-  echo "⚠️  Bun not found (this is OK, will install on first use)"
+  echo "ℹ️  Bun not yet installed (start.sh will install it automatically)"
 fi
 
 # Verify Docker
