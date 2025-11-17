@@ -5,33 +5,31 @@ WORKDIR /usr/src/app
 
 # ===== Install dev dependencies (for building) =====
 FROM base AS install-dev
-RUN mkdir -p /temp/dev
-# Create workspace root package.json so bun recognizes shared as a workspace
-RUN echo '{"name":"workspace","workspaces":["shared","."]}' > /temp/dev/package.json
-# Copy workspace shared package first
+RUN mkdir -p /temp/dev/mcp
+# Create workspace root package.json
+RUN echo '{"name":"workspace","private":true,"workspaces":["shared","mcp"]}' > /temp/dev/package.json
+# Copy workspace packages
 COPY shared /temp/dev/shared
-# Copy ai-mesh-mcp package files
-COPY ai-mesh-mcp/package.json ai-mesh-mcp/bun.lock* /temp/dev/
-# Use BuildKit cache mount for faster rebuilds
+COPY ai-mesh-mcp/package.json ai-mesh-mcp/bun.lock* /temp/dev/mcp/
+# Install from workspace root
 RUN --mount=type=cache,target=/root/.bun/install/cache \
     cd /temp/dev && bun install --frozen-lockfile
 
 # ===== Install production dependencies =====
 FROM base AS install-prod
-RUN mkdir -p /temp/prod
-# Create workspace root package.json so bun recognizes shared as a workspace
-RUN echo '{"name":"workspace","workspaces":["shared","."]}' > /temp/prod/package.json
-# Copy workspace shared package first
+RUN mkdir -p /temp/prod/mcp
+# Create workspace root package.json
+RUN echo '{"name":"workspace","private":true,"workspaces":["shared","mcp"]}' > /temp/prod/package.json
+# Copy workspace packages
 COPY shared /temp/prod/shared
-# Copy ai-mesh-mcp package files
-COPY ai-mesh-mcp/package.json ai-mesh-mcp/bun.lock* /temp/prod/
-# Use BuildKit cache mount for faster rebuilds
+COPY ai-mesh-mcp/package.json ai-mesh-mcp/bun.lock* /temp/prod/mcp/
+# Install from workspace root
 RUN --mount=type=cache,target=/root/.bun/install/cache \
     cd /temp/prod && bun install --frozen-lockfile --production
 
 # ===== Build stage =====
 FROM base AS build
-COPY --from=install-dev /temp/dev/node_modules node_modules
+COPY --from=install-dev /temp/dev/mcp/node_modules node_modules
 COPY --from=install-dev /temp/dev/shared shared
 COPY ai-mesh-mcp .
 # Build TypeScript (using bun's built-in typescript support)
@@ -49,7 +47,7 @@ RUN apk add --no-cache wget
 RUN adduser -S mcp -u 1001 -G bun
 
 # Copy production dependencies and built code
-COPY --from=install-prod --chown=mcp:bun /temp/prod/node_modules node_modules
+COPY --from=install-prod --chown=mcp:bun /temp/prod/mcp/node_modules node_modules
 COPY --from=build --chown=mcp:bun /usr/src/app/dist ./dist
 COPY --from=build --chown=mcp:bun /usr/src/app/package.json ./package.json
 
