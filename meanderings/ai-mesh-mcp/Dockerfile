@@ -29,7 +29,8 @@ RUN --mount=type=cache,target=/root/.bun/install/cache \
 
 # ===== Build stage =====
 FROM base AS build
-COPY --from=install-dev /temp/dev/mcp/node_modules node_modules
+# Copy workspace root node_modules (contains hoisted deps)
+COPY --from=install-dev /temp/dev/node_modules node_modules
 COPY --from=install-dev /temp/dev/shared shared
 COPY ai-mesh-mcp .
 # Build TypeScript (using bun's built-in typescript support)
