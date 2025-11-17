@@ -124,6 +124,7 @@ services:
         condition: service_healthy
     environment:
       - PORT=3001
+      - HOST=0.0.0.0
       - NODE_ENV=production
       - NEO4J_URI=bolt://neo4j:7687
       - NEO4J_USER=neo4j
@@ -154,6 +155,7 @@ services:
         condition: service_healthy
     environment:
       - PORT=3002
+      - HOST=0.0.0.0
       - NODE_ENV=production
       - REDIS_URL=redis://redis:6379
       - MESH_NODE_ID=stonemonkey-main
@@ -183,6 +185,7 @@ services:
         condition: service_healthy
     environment:
       - PORT=3003
+      - HOST=0.0.0.0
       - NODE_ENV=production
       - QDRANT_URL=http://qdrant:6333
       - EMBEDDING_SERVICE_URL=http://embeddings:3007
@@ -208,6 +211,7 @@ services:
       - stonemonkey_net
     environment:
       - PORT=3004
+      - HOST=0.0.0.0
       - NODE_ENV=production
       - AILUMINA_SERVER_URL=http://host.docker.internal:8000
     healthcheck:
