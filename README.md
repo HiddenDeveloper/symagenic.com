@@ -31,12 +31,16 @@ Every step is backed by three pillars: **Theory** (why it's necessary), **Implem
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new)
 
-Click the button above, add your API key as a Codespace secret (`GROQ_API_KEY` or `ANTHROPIC_API_KEY`), and you're ready to go!
+Click the button above and you're ready to go!
 
 The unified devcontainer includes:
 - ✅ Node 20, Bun, Docker-in-Docker
-- ✅ All infrastructure services (Neo4j, Redis, Qdrant, Embeddings)
+- ✅ All infrastructure services (Neo4j, Redis, Qdrant, Embeddings, Ollama)
 - ✅ Works for both AIlumina and StoneMonkey
+
+**AI Provider Options:**
+- **StoneMonkey**: Uses Ollama cloud models (no API key needed, handles MCP tool calls well)
+- **AIlumina Baseline**: Optional - add `GROQ_API_KEY` as Codespace secret for faster responses
 
 ### Run AIlumina Baseline (Section 0)
 
