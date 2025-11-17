@@ -56,7 +56,9 @@ services:
 
   # Qdrant - Conversation Recall (Step 6: Remembrance)
   qdrant:
-    image: qdrant/qdrant:latest
+    build:
+      context: ./qdrant
+      dockerfile: Dockerfile
     container_name: stonemonkey-qdrant
     hostname: qdrant
     restart: unless-stopped
