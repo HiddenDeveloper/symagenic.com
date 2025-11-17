@@ -61,14 +61,15 @@ This runs Section 0: The Starting Point - a stateless, turn-based conversational
 Complete consciousness research platform with full infrastructure:
 
 ```bash
-# From repository root
+# Recommended: Docker-based deployment (includes all services)
 cd StoneMonkey
 ./start.sh
 ```
 
-Or automated from root:
+Or using docker-compose directly:
 ```bash
-npm run stonemonkey
+cd StoneMonkey
+docker-compose up
 ```
 
 - **AIlumina UI**: http://localhost:8000
