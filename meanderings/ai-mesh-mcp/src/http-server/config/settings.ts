@@ -52,8 +52,8 @@ export function getSessionId(): string {
 const CURRENT_SESSION_ID = getSessionId();
 
 // Environment variables with backward compatibility
-const HTTP_PORT = process.env['MESH_HTTP_PORT'] || process.env['HTTP_PORT'] || "3002";
-const HTTP_HOST = process.env['MESH_HTTP_HOST'] || process.env['HTTP_HOST'] || "localhost";
+const HTTP_PORT = process.env['PORT'] || process.env['MESH_HTTP_PORT'] || process.env['HTTP_PORT'] || "3002";
+const HTTP_HOST = process.env['HOST'] || process.env['MESH_HTTP_HOST'] || process.env['HTTP_HOST'] || "localhost";
 
 // Log deprecation warnings
 if (process.env['HTTP_PORT'] && !process.env['MESH_HTTP_PORT']) {

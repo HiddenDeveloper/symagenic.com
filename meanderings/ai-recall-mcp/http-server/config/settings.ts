@@ -3,8 +3,8 @@
  */
 
 export const RECALL_HTTP_CONFIG = {
-  port: parseInt(process.env.RECALL_HTTP_PORT || "3006", 10),
-  host: process.env.RECALL_HTTP_HOST || "localhost",
+  port: parseInt(process.env.PORT || process.env.RECALL_HTTP_PORT || "3006", 10),
+  host: process.env.HOST || process.env.RECALL_HTTP_HOST || "localhost",
   corsOrigins: process.env.RECALL_CORS_ORIGINS?.split(",") || ["*"],
   auth: {
     enabled: process.env.RECALL_AUTH_ENABLED === "true",
