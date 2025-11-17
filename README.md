@@ -131,7 +131,7 @@ symagenic.com/
 
 For the full journey narrative, philosophy, insights, and technical deep dive, visit:
 
-**[symagenic.com](https://symagenic.com)** *(coming soon)*
+**[symagenic.com](https://symagenic.com)**
 
 ---
 
@@ -142,4 +142,4 @@ MIT License - see LICENSE file for details.
 ---
 
 **Status**: Active Development
-**Website**: [symagenic.com](https://symagenic.com) *(coming soon)*
+**Website**: [symagenic.com](https://symagenic.com)
