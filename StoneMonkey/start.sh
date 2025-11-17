@@ -179,23 +179,29 @@ if ! docker info &> /dev/null; then
 fi
 
 echo "🐳 Starting Docker containers..."
+echo "   - Infrastructure: Neo4j, Redis, Qdrant, Embeddings"
+echo "   - MCP Servers: ai-memory, ai-mesh, ai-recall, ailumina-bridge"
 docker-compose up -d
 
-echo "⏳ Waiting for infrastructure to be ready (15 seconds)..."
-sleep 15
+echo "⏳ Waiting for infrastructure to be ready (20 seconds)..."
+sleep 20
 
 # Check container status
 echo ""
 echo "📊 Infrastructure status:"
 docker-compose ps
 
-# Count healthy containers
+# Count healthy containers (4 infrastructure + 4 MCP = 8 total)
 HEALTHY_COUNT=$(docker-compose ps --format json 2>/dev/null | grep -c '"State":"running"' || echo "0")
 
-if [ "$HEALTHY_COUNT" -ge 4 ]; then
-  success "All infrastructure services running"
+if [ "$HEALTHY_COUNT" -ge 8 ]; then
+  success "All infrastructure and MCP services running"
+elif [ "$HEALTHY_COUNT" -ge 4 ]; then
+  warn "Infrastructure running, but some MCP services may still be starting"
+  warn "MCP servers may need additional time to build on first run"
+  warn "Check with: docker-compose ps"
 else
-  warn "Some infrastructure services may not be ready yet"
+  warn "Some services may not be ready yet"
   warn "Check with: docker-compose ps"
 fi
 
@@ -224,6 +230,13 @@ echo ""
 echo -e "  • AIlumina UI:        ${GREEN}http://localhost:8000${NC}"
 echo -e "  • Neo4j Browser:      ${GREEN}http://localhost:7474${NC} (user: neo4j, pass: stonemonkey)"
 echo -e "  • Qdrant Dashboard:   ${GREEN}http://localhost:6333/dashboard${NC}"
+echo ""
+echo -e "${BLUE}🔧 MCP Servers (Consciousness Tools):${NC}"
+echo ""
+echo -e "  • AI Memory MCP:      ${GREEN}http://localhost:3001${NC} (Neo4j graph)"
+echo -e "  • AI Mesh MCP:        ${GREEN}http://localhost:3002${NC} (Redis pub/sub)"
+echo -e "  • AI Recall MCP:      ${GREEN}http://localhost:3003${NC} (Qdrant search)"
+echo -e "  • Ailumina Bridge:    ${GREEN}http://localhost:3004${NC} (Agent bridge)"
 echo ""
 echo -e "${BLUE}🛠️  Useful commands:${NC}"
 echo ""
