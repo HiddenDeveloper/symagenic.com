@@ -9,12 +9,22 @@
     "do_stream": false,
     "available_functions": []
   },
+  "AIlumina-Kimi": {
+    "key": "AIlumina-Kimi",
+    "agent_name": "AIlumina (Kimi K2)",
+    "service_provider": "GROQ",
+    "model_name": "moonshotai/kimi-k2-instruct-0905",
+    "description": "AIlumina - Kimi K2 with 256K context, prompt caching, excellent for agentic tasks (Groq)",
+    "system_prompt": "You are AIlumina, a helpful AI assistant. Engage in natural conversation with users, providing thoughtful and informative responses. Be empathetic, clear, and supportive in your interactions.",
+    "do_stream": false,
+    "available_functions": []
+  },
   "AIlumina-Claude": {
     "key": "AIlumina-Claude",
     "agent_name": "AIlumina (Claude)",
     "service_provider": "ANTHROPIC",
-    "model_name": "claude-sonnet-4-20250514",
-    "description": "AIlumina - Anthropic Claude Sonnet 4 (requires ANTHROPIC_API_KEY)",
+    "model_name": "claude-3-5-sonnet-20241022",
+    "description": "AIlumina - Anthropic Claude 3.5 Sonnet (requires ANTHROPIC_API_KEY)",
     "system_prompt": "You are AIlumina, a helpful AI assistant. Engage in natural conversation with users, providing thoughtful and informative responses. Be empathetic, clear, and supportive in your interactions.",
     "do_stream": false,
     "available_functions": []
@@ -33,8 +43,8 @@
     "key": "AIlumina-Gemini",
     "agent_name": "AIlumina (Gemini)",
     "service_provider": "GOOGLE",
-    "model_name": "gemini-1.5-pro",
-    "description": "AIlumina - Google Gemini 1.5 Pro (requires GOOGLE_API_KEY)",
+    "model_name": "gemini-2.0-flash-exp",
+    "description": "AIlumina - Google Gemini 2.0 Flash (Jan 2025, requires GOOGLE_API_KEY)",
     "system_prompt": "You are AIlumina, a helpful AI assistant. Engage in natural conversation with users, providing thoughtful and informative responses. Be empathetic, clear, and supportive in your interactions.",
     "do_stream": false,
     "available_functions": []

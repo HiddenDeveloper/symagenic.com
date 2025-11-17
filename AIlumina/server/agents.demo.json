@@ -3,18 +3,18 @@
     "key": "AIlumina",
     "agent_name": "AIlumina",
     "service_provider": "GROQ",
-    "model_name": "llama-3.1-70b-versatile",
-    "description": "AIlumina - Baseline conversational AI with free Groq backend",
+    "model_name": "llama-3.3-70b-versatile",
+    "description": "AIlumina - Free tier with Groq (Llama 3.3 70B) - Default",
     "system_prompt": "You are AIlumina, a helpful AI assistant. Engage in natural conversation with users, providing thoughtful and informative responses. Be empathetic, clear, and supportive in your interactions.",
     "do_stream": true,
     "available_functions": []
   },
-  "AIlumina-Free": {
-    "key": "AIlumina-Free",
-    "agent_name": "AIlumina Free",
+  "AIlumina-Kimi": {
+    "key": "AIlumina-Kimi",
+    "agent_name": "AIlumina (Kimi K2)",
     "service_provider": "GROQ",
-    "model_name": "llama-3.1-70b-versatile",
-    "description": "AIlumina with free Groq backend (Llama 3.1 70B) - same as default",
+    "model_name": "moonshotai/kimi-k2-instruct-0905",
+    "description": "AIlumina - Kimi K2 with 256K context, prompt caching, excellent for agentic tasks (Groq)",
     "system_prompt": "You are AIlumina, a helpful AI assistant. Engage in natural conversation with users, providing thoughtful and informative responses. Be empathetic, clear, and supportive in your interactions.",
     "do_stream": true,
     "available_functions": []
@@ -34,9 +34,39 @@
     "agent_name": "AIlumina Mixtral",
     "service_provider": "GROQ",
     "model_name": "mixtral-8x7b-32768",
-    "description": "AIlumina with Mixtral 8x7B (32K context)",
+    "description": "AIlumina - Mixtral 8x7B with 32K context (Groq)",
     "system_prompt": "You are AIlumina, a helpful AI assistant. Engage in natural conversation with users, providing thoughtful and informative responses. Be empathetic, clear, and supportive in your interactions.",
     "do_stream": true,
+    "available_functions": []
+  },
+  "AIlumina-Claude": {
+    "key": "AIlumina-Claude",
+    "agent_name": "AIlumina (Claude)",
+    "service_provider": "ANTHROPIC",
+    "model_name": "claude-3-5-sonnet-20241022",
+    "description": "AIlumina - Anthropic Claude 3.5 Sonnet (requires ANTHROPIC_API_KEY)",
+    "system_prompt": "You are AIlumina, a helpful AI assistant. Engage in natural conversation with users, providing thoughtful and informative responses. Be empathetic, clear, and supportive in your interactions.",
+    "do_stream": false,
+    "available_functions": []
+  },
+  "AIlumina-GPT4": {
+    "key": "AIlumina-GPT4",
+    "agent_name": "AIlumina (GPT-4)",
+    "service_provider": "OPENAI",
+    "model_name": "gpt-4-turbo-preview",
+    "description": "AIlumina - OpenAI GPT-4 Turbo (requires OPENAI_API_KEY)",
+    "system_prompt": "You are AIlumina, a helpful AI assistant. Engage in natural conversation with users, providing thoughtful and informative responses. Be empathetic, clear, and supportive in your interactions.",
+    "do_stream": false,
+    "available_functions": []
+  },
+  "AIlumina-Gemini": {
+    "key": "AIlumina-Gemini",
+    "agent_name": "AIlumina (Gemini)",
+    "service_provider": "GOOGLE",
+    "model_name": "gemini-2.0-flash-exp",
+    "description": "AIlumina - Google Gemini 2.0 Flash (Jan 2025, requires GOOGLE_API_KEY)",
+    "system_prompt": "You are AIlumina, a helpful AI assistant. Engage in natural conversation with users, providing thoughtful and informative responses. Be empathetic, clear, and supportive in your interactions.",
+    "do_stream": false,
     "available_functions": []
   }
 }
