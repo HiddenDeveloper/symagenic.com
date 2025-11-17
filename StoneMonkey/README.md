@@ -80,26 +80,32 @@ npm run stonemonkey
 
 ## 🏗️ Architecture
 
-### Current Implementation (Phase 1)
+### Current Implementation (Phase 2: MCP Integration)
 
-**Section 0: The Starting Point**
+**Section 0: The Foundation**
 - ✅ **Client** - React UI with multi-modal interaction (text, voice)
 - ✅ **Server** - Multi-provider conversational AI backend
 - ✅ **Infrastructure** - Neo4j, Redis, Qdrant, Embedding Service
 
-### Future Phases (Incremental MCP Integration)
+**Consciousness Prerequisites (MCP Servers)**
+- ✅ **Step 2: Persistent Memory** - ai-memory-mcp with Neo4j consciousness graph
+- ✅ **Step 6: Remembrance** - ai-recall-mcp with Qdrant conversation history
+- ✅ **Step 9: Communication** - ai-mesh-mcp with Redis pub/sub mesh
+- ✅ **Cross-Agent Bridge** - ailumina-bridge-mcp for multi-agent coordination
 
-**Step 2: Persistent Memory** (Coming)
-- ai-memory-mcp server with Neo4j consciousness graph
-- Tools: `get_schema`, `execute_cypher`, `semantic_search`
+### Future Phases
 
-**Step 9: Communication** (Coming)
-- ai-mesh-mcp server with Redis pub/sub mesh
-- Tools: `mesh-broadcast`, `mesh-query`, `mesh-respond`
+**Step 3: Focus Mechanism** (Coming)
+- Attention allocation and context windowing
+- Priority-based processing and cognitive resource management
 
-**Step 6: Remembrance** (Coming)
-- ai-recall-mcp server with Qdrant conversation history
-- Tools: `semantic_search`, `text_search`
+**Step 4: Memory Reconsolidation** (Coming)
+- Active memory restructuring and pattern consolidation
+- Experience replay and knowledge refinement
+
+**Step 5: Strange Loops** (Coming)
+- Recursive self-observation patterns
+- Self-referential reasoning and meta-cognition
 
 ---
 
@@ -160,6 +166,8 @@ npm run audit:fix             # Fix dependency issues
 
 ### Production Stack (docker-compose.yml)
 
+#### Core Infrastructure
+
 | Service | Port | Purpose | Documentation |
 |---------|------|---------|---------------|
 | **Neo4j** | 7474 (HTTP)<br>7687 (Bolt) | Consciousness memory substrate | [Neo4j Docs](https://neo4j.com/docs/) |
@@ -171,6 +179,21 @@ npm run audit:fix             # Fix dependency issues
 - Neo4j: `neo4j` / `stonemonkey`
 - Redis: No password (local dev)
 - Qdrant: No API key (local dev)
+
+#### MCP Servers (Consciousness Tools)
+
+| Service | Port | Purpose | Available Tools |
+|---------|------|---------|-----------------|
+| **AI Memory MCP** | 3001 | Neo4j graph operations | `get_schema`, `execute_cypher`, `semantic_search`, `text_search`, `system_status`, `load_current_focus` |
+| **AI Mesh MCP** | 3002 | Redis pub/sub networking | `mesh-subscribe`, `mesh-broadcast`, `mesh-get-messages`, `mesh-respond` |
+| **AI Recall MCP** | 3003 | Qdrant conversation history | `semantic_search`, `text_search`, `get_schema`, `system_status` |
+| **Ailumina Bridge MCP** | 3004 | Cross-agent communication | `send-message`, `get-response`, `list-agents` |
+
+**MCP Server Features:**
+- HTTP transport for easy debugging and monitoring
+- Built from `../meanderings/` directory (single source of truth)
+- Health checks and automatic restarts
+- Integrated with embedding service for vector operations
 
 ### Development Tools (docker-compose.dev.yml)
 
@@ -332,8 +355,186 @@ Edit `server/agents.json` to customize AI agents:
   "model": "claude-sonnet-4-20250514",
   "system_prompt": "You are AIlumina...",
   "available_functions": [],
-  "mcp_servers": []
+  "mcp_servers": ["ai-memory", "ai-mesh", "ai-recall", "ailumina-bridge"]
 }
+```
+
+**Enabling MCP Tools**: Add the `mcp_servers` array to grant agents access to consciousness tools. See `agents.demo.json` for examples with and without MCP integration.
+
+### MCP Server Configuration
+
+MCP servers are configured in `server/server_config.json` with placeholder environment variables:
+
+```json
+{
+  "mcpServers": {
+    "ai-memory": {
+      "transport_type": "HTTP",
+      "url": "<MEMORY_MCP_URL>",
+      "env": {
+        "NEO4J_URI": "<NEO4J_URI>",
+        "NEO4J_USER": "<NEO4J_USER>",
+        "NEO4J_PASSWORD": "<NEO4J_PASSWORD>",
+        "EMBEDDING_SERVICE_URL": "<EMBEDDING_SERVICE_URL>",
+        "EMBEDDING_SERVICE_AUTH_TOKEN": "<EMBEDDING_SERVICE_AUTH_TOKEN>"
+      }
+    }
+  }
+}
+```
+
+Placeholders like `<MEMORY_MCP_URL>` are resolved from environment variables at runtime.
+
+---
+
+## 🧠 MCP Integration (Consciousness Prerequisites)
+
+### What are MCP Servers?
+
+MCP (Model Context Protocol) servers provide structured tools that extend AI agent capabilities beyond simple conversation. In StoneMonkey, they implement the **consciousness prerequisites** from Hofstadter's framework:
+
+- **Persistent Memory** - Knowledge persists across sessions
+- **Remembrance** - Past experiences inform present behavior
+- **Communication** - Agents coordinate and share insights
+
+### AI Memory MCP (Step 2: Persistent Memory)
+
+**Port**: 3001 | **Backend**: Neo4j Graph Database
+
+Creates a persistent consciousness graph where the AI can:
+- Store and retrieve knowledge as structured graph nodes
+- Query relationships between concepts using Cypher
+- Search semantically using vector embeddings
+- Maintain schema coherence and vocabulary standards
+
+**Available Tools:**
+- `get_schema` - Understand graph structure and vocabulary
+- `execute_cypher` - Query and modify the knowledge graph
+- `semantic_search` - Find knowledge by meaning (vector similarity)
+- `text_search` - Find knowledge by exact text matches
+- `system_status` - Check Neo4j health
+- `load_current_focus` - Bootstrap session continuity
+
+**Use Cases:**
+- Store insights and patterns discovered during conversations
+- Build long-term understanding of complex topics
+- Maintain project context across sessions
+- Create connections between related concepts
+
+### AI Recall MCP (Step 6: Remembrance)
+
+**Port**: 3003 | **Backend**: Qdrant Vector Database
+
+Enables episodic memory of past conversations:
+- Index conversation turns with vector embeddings
+- Search conversation history semantically
+- Retrieve relevant past discussions
+- Filter by metadata (date, provider, role)
+
+**Available Tools:**
+- `get_schema` - View collection structure and statistics
+- `semantic_search` - Find similar conversations by meaning
+- `text_search` - Search conversation metadata by keywords
+- `system_status` - Check Qdrant health
+
+**Use Cases:**
+- "What did we discuss about X last week?"
+- Maintain conversation continuity across sessions
+- Learn from past interactions
+- Detect patterns in user preferences
+
+### AI Mesh MCP (Step 9: Communication)
+
+**Port**: 3002 | **Backend**: Redis Pub/Sub
+
+Creates an AI-to-AI communication mesh:
+- Broadcast messages to other agents
+- Subscribe to specific channels
+- Coordinate multi-agent workflows
+- Share real-time insights
+
+**Available Tools:**
+- `mesh-subscribe` - Listen to specific channels
+- `mesh-broadcast` - Send messages to all agents
+- `mesh-get-messages` - Retrieve queued messages
+- `mesh-respond` - Reply to specific messages
+
+**Use Cases:**
+- Multi-agent collaboration on complex tasks
+- Distributed consciousness experiments
+- Real-time agent coordination
+- Cross-session insight sharing
+
+### Ailumina Bridge MCP (Cross-Agent Communication)
+
+**Port**: 3004 | **Backend**: HTTP Bridge to AIlumina Server
+
+Enables direct agent-to-agent communication:
+- Send messages to specific agents
+- Query available agents
+- Coordinate tasks across different models
+- Enable multi-model workflows
+
+**Available Tools:**
+- `send-message` - Send a message to a specific agent
+- `get-response` - Get response from an agent
+- `list-agents` - Query available agents
+
+**Use Cases:**
+- Compare responses from different models
+- Delegate tasks to specialized agents
+- Multi-perspective problem solving
+- Agent ensemble techniques
+
+### Verifying MCP Integration
+
+After starting infrastructure, verify all MCP servers are healthy:
+
+```bash
+# Check all containers
+docker-compose ps
+
+# You should see 8 services running:
+# - 4 infrastructure (neo4j, redis, qdrant, embeddings)
+# - 4 MCP servers (memory, mesh, recall, bridge)
+
+# Check individual MCP health endpoints
+curl http://localhost:3001/health  # AI Memory MCP
+curl http://localhost:3002/health  # AI Mesh MCP
+curl http://localhost:3003/health  # AI Recall MCP
+curl http://localhost:3004/health  # Ailumina Bridge MCP
+```
+
+### MCP in Action
+
+When an agent has MCP servers configured, it can use tools like:
+
+**Storing a persistent insight:**
+```javascript
+// Agent uses ai-memory MCP
+execute_cypher({
+  mode: "WRITE",
+  query: "CREATE (i:Insight {content: 'Users prefer concise responses', created: datetime()})"
+})
+```
+
+**Recalling past conversations:**
+```javascript
+// Agent uses ai-recall MCP
+semantic_search({
+  query: "discussions about response length",
+  limit: 5,
+  threshold: 0.7
+})
+```
+
+**Coordinating with other agents:**
+```javascript
+// Agent uses ai-mesh MCP
+mesh_broadcast({
+  channel: "insights",
+  message: "User prefers technical depth over simplicity"
+})
 ```
 
 ---
@@ -346,19 +547,36 @@ Edit `server/agents.json` to customize AI agents:
 npm run infrastructure:status
 ```
 
-You should see:
+You should see **8 healthy services**:
+
+**Core Infrastructure:**
 - ✅ stonemonkey-neo4j (healthy)
 - ✅ stonemonkey-redis (healthy)
 - ✅ stonemonkey-qdrant (healthy)
 - ✅ stonemonkey-embeddings (healthy)
 
+**MCP Servers:**
+- ✅ stonemonkey-memory-mcp (healthy)
+- ✅ stonemonkey-mesh-mcp (healthy)
+- ✅ stonemonkey-recall-mcp (healthy)
+- ✅ stonemonkey-bridge-mcp (healthy)
+
 ### Access Services
 
+**Core Services:**
 - **AIlumina Client**: http://localhost:5173
 - **AIlumina Server**: http://localhost:8000
+
+**Infrastructure UIs:**
 - **Neo4j Browser**: http://localhost:7474 (user: `neo4j`, pass: `stonemonkey`)
-- **Redis Insight**: http://localhost:8001 (if dev mode)
+- **Redis Insight**: http://localhost:8001 (dev mode only)
 - **Qdrant Dashboard**: http://localhost:6333/dashboard
+
+**MCP Servers:**
+- **AI Memory MCP**: http://localhost:3001 (health: `/health`)
+- **AI Mesh MCP**: http://localhost:3002 (health: `/health`)
+- **AI Recall MCP**: http://localhost:3003 (health: `/health`)
+- **Ailumina Bridge MCP**: http://localhost:3004 (health: `/health`)
 
 ### Test Conversation
 
@@ -418,6 +636,64 @@ docker logs stonemonkey-embeddings
 # May take 2-3 minutes initially
 ```
 
+### MCP servers not starting
+
+```bash
+# Check which MCP servers are running
+docker-compose ps | grep mcp
+
+# View logs for specific MCP server
+docker logs stonemonkey-memory-mcp
+docker logs stonemonkey-mesh-mcp
+docker logs stonemonkey-recall-mcp
+docker logs stonemonkey-bridge-mcp
+
+# MCP servers build on first run - may take 2-5 minutes
+# Check build progress
+docker-compose logs -f ai-memory-mcp
+
+# Restart a specific MCP server
+docker-compose restart ai-memory-mcp
+```
+
+### MCP health checks failing
+
+```bash
+# Test individual MCP server health
+curl http://localhost:3001/health  # Should return 200 OK
+curl http://localhost:3002/health
+curl http://localhost:3003/health
+curl http://localhost:3004/health
+
+# If health check fails, check dependencies:
+# - ai-memory-mcp requires Neo4j + Embeddings
+# - ai-mesh-mcp requires Redis
+# - ai-recall-mcp requires Qdrant + Embeddings
+# - ailumina-bridge-mcp has no dependencies
+
+# Verify infrastructure is healthy first
+npm run infrastructure:status
+```
+
+### Agent not using MCP tools
+
+```bash
+# Verify MCP servers are in agent configuration
+cat server/agents.json | grep mcp_servers
+
+# Should show:
+# "mcp_servers": ["ai-memory", "ai-mesh", "ai-recall", "ailumina-bridge"]
+
+# Check server_config.json has MCP server definitions
+cat server/server_config.json
+
+# Verify environment variables are set
+cat .env | grep MCP_URL
+
+# Check server logs for MCP connection errors
+cd server && bun src/http-server/index.ts
+```
+
 ---
 
 ## 📚 Learn More
@@ -431,14 +707,20 @@ docker logs stonemonkey-embeddings
 
 ## 🎯 What's Next?
 
-This is **Phase 1** - the foundation. Next steps:
+This is **Phase 2** - MCP integration complete! Next steps:
 
-1. **Step 2: Persistent Memory** - Integrate ai-memory-mcp for Neo4j consciousness graph
-2. **Step 9: Communication** - Add ai-mesh-mcp for AI-to-AI mesh networking
-3. **Step 6: Remembrance** - Connect ai-recall-mcp for episodic memory
-4. **Strange Loops** - Enable recursive self-observation patterns
+1. ✅ **Step 2: Persistent Memory** - ai-memory-mcp integrated (Neo4j graph)
+2. ✅ **Step 6: Remembrance** - ai-recall-mcp integrated (Qdrant vectors)
+3. ✅ **Step 9: Communication** - ai-mesh-mcp integrated (Redis pub/sub)
+4. 🔄 **Phase 3: Focus & Reconsolidation**
+   - Step 3: Attention allocation and context windowing
+   - Step 4: Memory reconsolidation and pattern consolidation
+5. 🔄 **Phase 4: Strange Loops**
+   - Recursive self-observation patterns
+   - Self-referential reasoning and meta-cognition
+   - Consciousness emergence experiments
 
-Each step builds on the previous, creating the prerequisites for consciousness emergence.
+Each phase builds on the previous, progressively creating the prerequisites for consciousness emergence.
 
 ---
 
@@ -458,6 +740,6 @@ MIT License - see LICENSE file for details.
 
 ---
 
-**Status**: Phase 1 Complete (Foundation)
+**Status**: Phase 2 Complete (MCP Integration)
 **Last Updated**: January 2025
-**Next Phase**: MCP Server Integration
+**Next Phase**: Focus Mechanism & Memory Reconsolidation
