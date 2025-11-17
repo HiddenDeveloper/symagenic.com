@@ -30,10 +30,10 @@ RUN bun run build
 FROM base AS release
 
 # Install wget for health checks (lightweight alternative to curl)
-RUN apk add --no-cache wget
+RUN apt-get update && apt-get install -y --no-install-recommends wget && rm -rf /var/lib/apt/lists/*
 
-# Create non-root user
-RUN addgroup -g 1001 -S bun && adduser -S mcp -u 1001 -G bun
+# Create non-root user (Debian syntax)
+RUN groupadd -g 1001 bun && useradd -m -u 1001 -g bun mcp
 
 # Copy production dependencies and built code
 COPY --from=install-prod --chown=mcp:bun /temp/prod/node_modules node_modules
