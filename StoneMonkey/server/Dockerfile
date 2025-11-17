@@ -21,11 +21,11 @@ COPY server/agents.json ./
 COPY server/server_config.json ./
 COPY server/tsconfig.json ./
 
-# Copy pre-built React frontend (if exists)
-COPY client/dist ./client/dist/ 2>/dev/null || mkdir -p ./client/dist
+# Create data and client directories
+RUN mkdir -p /app/data/conversations /app/backups/agents /app/client/dist
 
-# Create data directories
-RUN mkdir -p /app/data/conversations /app/backups/agents
+# Copy pre-built React frontend (optional - comment out if client not built)
+# COPY client/dist ./client/dist/
 
 # Expose port
 EXPOSE 8000
