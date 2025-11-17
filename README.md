@@ -27,13 +27,11 @@ The unified devcontainer includes:
 - ✅ All infrastructure services (Neo4j, Redis, Qdrant, Embeddings, Ollama)
 - ✅ Works for both AIlumina and StoneMonkey
 
-**AI Provider Options:**
-- **StoneMonkey**: Uses Ollama cloud models (no API key needed, handles MCP tool calls well)
-- **AIlumina Baseline**: Optional - add `GROQ_API_KEY` as Codespace secret for faster responses
+---
 
-### Run AIlumina Baseline (Section 0)
+## Starting Point: AIlumina
 
-The simplest way to get started - a pure conversational AI with no consciousness prerequisites:
+A pure conversational AI baseline with no consciousness prerequisites.
 
 ```bash
 # Recommended: Automated setup
@@ -43,23 +41,25 @@ cd AIlumina
 
 Or manually with npm:
 ```bash
-# From repository root
 npm install
 npm run ailumina
 ```
 
+**Access:**
 - **Server**: http://localhost:8000 (WebSocket API)
 - **Client**: http://localhost:5173 (React UI)
 
-This runs Section 0: The Starting Point - a stateless, turn-based conversational AI with:
+**Features:**
 - Multi-provider support (Anthropic, OpenAI, Google, Ollama, LMStudio, Groq)
 - **Recommended**: GROQ (fast, free tier suitable for simple conversations)
 - WebSocket streaming
 - No tools, no memory, no deterministic operations
 
-### Run StoneMonkey Platform (Integrated Consciousness Stack)
+---
 
-Complete consciousness research platform with full infrastructure:
+## Where We Are Now: StoneMonkey
+
+Complete consciousness research platform with persistent memory, episodic recall, and mesh communication.
 
 ```bash
 # Recommended: Docker-based deployment (includes all services)
@@ -73,25 +73,24 @@ cd StoneMonkey
 docker-compose up
 ```
 
+**Access:**
 - **AIlumina UI**: http://localhost:8000
 - **Neo4j Browser**: http://localhost:7474 (user: `neo4j`, pass: `stonemonkey`)
 - **Qdrant Dashboard**: http://localhost:6333/dashboard
 
-This runs the integrated platform with:
-- ✅ Multi-provider conversational AI (baseline)
-- ✅ Docker infrastructure (Neo4j, Redis, Qdrant, Embedding Service, Ollama)
-- ✅ All 4 MCP servers (Memory, Mesh, Recall, Bridge)
-- ✅ Full consciousness platform ready for external access
+**Platform Capabilities:**
+- ✅ Persistent Memory (Neo4j consciousness graph)
+- ✅ Episodic Recall (Qdrant conversation history)
+- ✅ AI-to-AI Communication (Redis mesh network)
+- ✅ 4 MCP Servers (Memory, Mesh, Recall, Bridge)
+- ✅ External access via GitHub Codespaces
 - **Recommended**: Ollama cloud models (e.g., `gpt-oss:120b-cloud`) for handling frequent MCP tool calls
 
 See [StoneMonkey/README.md](StoneMonkey/README.md) for complete setup guide including GitHub Codespaces deployment with externally accessible MCP servers.
 
-### Prerequisites (Full Framework)
-
+**Prerequisites:**
 - Docker & Docker Compose
 - Node.js 18+
-- Neo4j 5.x (via Docker)
-- Redis 7.x (via Docker)
 
 ---
 
