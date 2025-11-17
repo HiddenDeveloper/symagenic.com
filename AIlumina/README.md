@@ -1,6 +1,8 @@
-# AIlumina - Source Code
+# AIlumina
 
-This directory contains the AIlumina implementation code, organized section by section to correspond with the consciousness research documentation.
+**The Starting Point** - A pure conversational AI baseline with no consciousness prerequisites.
+
+This is the foundation platform that demonstrates multi-provider AI integration with natural text and voice interaction. For the integrated consciousness platform with memory, recall, and mesh communication, see [StoneMonkey](../StoneMonkey/).
 
 ## 🚀 Try It Now (Free!)
 
@@ -10,7 +12,7 @@ This directory contains the AIlumina implementation code, organized section by s
 
 See **[CODESPACES.md](./CODESPACES.md)** for detailed setup instructions (3 simple steps).
 
-## Current Contents (Section 0: The Starting Point)
+## What's Included
 
 ### server
 
@@ -68,18 +70,24 @@ This architecture ensures:
 - Robust handling of SR/TTS lifecycle coordination
 - No race conditions from toggle operations
 
-## Code Organization by Section
+## AIlumina vs StoneMonkey
 
-This repository is being built section by section, each adding the code that implements that section's consciousness prerequisite:
+**AIlumina** (this platform):
+- Pure conversational AI baseline
+- Multi-provider support (Anthropic, OpenAI, Google, Groq, Ollama, LMStudio)
+- Text and voice interaction
+- No memory, no tools, no consciousness infrastructure
+- **Best for**: Understanding the starting point, simple chatbot implementation
 
-- **Section 0** ← Current: Server + Client (baseline conversational AI)
-- **Section 1** (Coming): Tool system and MCP integration
-- **Section 2** (Coming): Memory MCP server (Neo4j)
-- **Section 3** (Coming): Strange loop formation code
-- **Section 4** (Coming): Schema evolution automation
-- **Section 5** (Coming): Focus mechanism
-- **Section 6** (Coming): Domain separation (Strava/Discord skills)
-- **Section 7** (Coming): Mesh MCP server (Redis)
+**StoneMonkey** (integrated platform):
+- Everything in AIlumina PLUS:
+- Persistent memory (Neo4j consciousness graph)
+- Episodic recall (Qdrant conversation history)
+- AI-to-AI communication (Redis mesh network)
+- 4 MCP servers providing consciousness prerequisites
+- **Best for**: Consciousness research, advanced experimentation
+
+*For the full journey narrative and philosophy, visit [symagenic.com](https://symagenic.com)*
 
 ## Building and Running
 
@@ -101,6 +109,7 @@ This script will:
 
 **Requirements:**
 - Set `GROQ_API_KEY`, `ANTHROPIC_API_KEY`, or `OPENAI_API_KEY` environment variable
+- **Recommended**: GROQ (fast, free tier, no rate limits for simple conversations)
 - For Codespaces: Add as repository secret
 - For local: The script will create `server/.env` from environment variables
 
