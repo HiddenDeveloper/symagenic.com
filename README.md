@@ -55,6 +55,8 @@ npm run ailumina
 - WebSocket streaming
 - No tools, no memory, no deterministic operations
 
+See [AIlumina/README.md](AIlumina/README.md) for complete setup guide.
+
 ---
 
 ## Where We Are Now: StoneMonkey
