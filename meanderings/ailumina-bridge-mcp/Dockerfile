@@ -50,8 +50,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends wget && rm -rf 
 # Create non-root user (Debian syntax, bun group already exists in base image)
 RUN useradd -m -u 1001 -g bun mcp
 
-# Copy production dependencies and built code
+# Copy production dependencies - must preserve workspace structure for symlinks
+# The package node_modules has symlinks pointing to ../../node_modules/.bun/
+# So we need to copy the workspace root to /usr/src/node_modules
+COPY --from=install-prod --chown=mcp:bun /temp/prod/node_modules /usr/src/node_modules
 COPY --from=install-prod --chown=mcp:bun /temp/prod/mcp/node_modules node_modules
+# Copy built code
 COPY --from=build --chown=mcp:bun /temp/dev/mcp/dist ./dist
 COPY --from=build --chown=mcp:bun /temp/dev/mcp/package.json ./package.json
 # Copy additional files needed at runtime
