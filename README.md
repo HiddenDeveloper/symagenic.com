@@ -140,8 +140,3 @@ For the full journey narrative, philosophy, insights, and technical deep dive, v
 ## License
 
 MIT License - see LICENSE file for details.
-
----
-
-**Status**: Active Development
-**Website**: [symagenic.com](https://symagenic.com)
