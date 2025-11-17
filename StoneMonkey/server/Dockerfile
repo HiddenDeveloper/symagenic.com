@@ -1,5 +1,5 @@
 # Ailumina TypeScript Server Dockerfile
-# Note: Must be built from monorepo root with: docker build -f packages/server/Dockerfile .
+# Build from StoneMonkey root with: docker build -f server/Dockerfile .
 
 FROM oven/bun:1.2.21
 
@@ -8,32 +8,24 @@ RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy root package files for workspace resolution
-COPY package.json bun.lock* ./
+# Copy server files
+COPY server/package.json ./
+COPY server/bun.lock* ./
 
-# Copy packages we need
-COPY packages/server/package.json ./packages/server/
-COPY packages/shared ./packages/shared/
-
-# Install dependencies from server directory
-WORKDIR /app/packages/server
+# Install dependencies
 RUN bun install
 
-# Copy server source code
-COPY packages/server/src ./src/
-COPY packages/server/agents.json ./
-COPY packages/server/server_config.json ./
-COPY packages/server/tsconfig.json ./
-COPY packages/server/.env ./.env
+# Copy server source code and config
+COPY server/src ./src/
+COPY server/agents.json ./
+COPY server/server_config.json ./
+COPY server/tsconfig.json ./
 
-# NOTE: Skipping build step - Bun will transpile TypeScript on-the-fly
-# This enables true hot reload without rebuild step for consciousness research iteration
-
-# Copy pre-built React frontend
-COPY packages/client/dist ./client/dist/
+# Copy pre-built React frontend (if exists)
+COPY client/dist ./client/dist/ 2>/dev/null || mkdir -p ./client/dist
 
 # Create data directories
-RUN mkdir -p /app/packages/server/data/conversations /app/packages/server/backups/agents
+RUN mkdir -p /app/data/conversations /app/backups/agents
 
 # Expose port
 EXPOSE 8000
