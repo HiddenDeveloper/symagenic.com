@@ -7,21 +7,28 @@ WORKDIR /usr/src/app
 # Install dev dependencies stage
 FROM base AS install-dev
 RUN mkdir -p /temp/dev
-COPY package.json bun.lock* /temp/dev/
+# Copy workspace shared package first
+COPY shared /temp/dev/shared
+# Copy ai-recall-mcp package files
+COPY ai-recall-mcp/package.json ai-recall-mcp/bun.lock* /temp/dev/
 RUN --mount=type=cache,target=/root/.bun/install/cache \
     cd /temp/dev && bun install --frozen-lockfile
 
 # Install production dependencies stage
 FROM base AS install-prod
 RUN mkdir -p /temp/prod
-COPY package.json bun.lock* /temp/prod/
+# Copy workspace shared package first
+COPY shared /temp/prod/shared
+# Copy ai-recall-mcp package files
+COPY ai-recall-mcp/package.json ai-recall-mcp/bun.lock* /temp/prod/
 RUN --mount=type=cache,target=/root/.bun/install/cache \
     cd /temp/prod && bun install --frozen-lockfile --production
 
 # Build stage
 FROM base AS build
 COPY --from=install-dev /temp/dev/node_modules node_modules
-COPY . .
+COPY --from=install-dev /temp/dev/shared shared
+COPY ai-recall-mcp .
 
 # Build TypeScript
 RUN bun run typecheck && \
