@@ -5,31 +5,45 @@ WORKDIR /usr/src/app
 
 # ===== Install dev dependencies (for building) =====
 FROM base AS install-dev
-# Install build tools for native modules (sharp dependency from @xenova/transformers)
+# Install Node.js, npm and build tools for native modules (sharp dependency from @xenova/transformers)
 RUN apt-get update && apt-get install -y \
+    curl \
     python3 \
     make \
     g++ \
     && rm -rf /var/lib/apt/lists/*
+# Install Node.js and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
 RUN mkdir -p /temp/dev
 COPY package.json bun.lock* /temp/dev/
 # Use BuildKit cache mount for faster rebuilds
 RUN --mount=type=cache,target=/root/.bun/install/cache \
     cd /temp/dev && bun install --frozen-lockfile
+# Explicitly rebuild sharp native bindings (bun doesn't always run install scripts)
+RUN cd /temp/dev && npm rebuild sharp --verbose
 
 # ===== Install production dependencies =====
 FROM base AS install-prod
-# Install build tools for native modules (sharp dependency from @xenova/transformers)
+# Install Node.js, npm and build tools for native modules (sharp dependency from @xenova/transformers)
 RUN apt-get update && apt-get install -y \
+    curl \
     python3 \
     make \
     g++ \
     && rm -rf /var/lib/apt/lists/*
+# Install Node.js and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
 RUN mkdir -p /temp/prod
 COPY package.json bun.lock* /temp/prod/
 # Use BuildKit cache mount for faster rebuilds
 RUN --mount=type=cache,target=/root/.bun/install/cache \
     cd /temp/prod && bun install --frozen-lockfile --production
+# Explicitly rebuild sharp native bindings (bun doesn't always run install scripts)
+RUN cd /temp/prod && npm rebuild sharp --verbose
 
 # ===== Build stage =====
 FROM base AS build
