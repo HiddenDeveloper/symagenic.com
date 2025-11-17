@@ -47,6 +47,13 @@ The unified devcontainer includes:
 The simplest way to get started - a pure conversational AI with no consciousness prerequisites:
 
 ```bash
+# Recommended: Automated setup
+cd AIlumina
+./start.sh
+```
+
+Or manually with npm:
+```bash
 # From repository root
 npm install
 npm run ailumina
