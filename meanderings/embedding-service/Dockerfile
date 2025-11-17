@@ -5,6 +5,12 @@ WORKDIR /usr/src/app
 
 # ===== Install dev dependencies (for building) =====
 FROM base AS install-dev
+# Install build tools for native modules (sharp dependency from @xenova/transformers)
+RUN apt-get update && apt-get install -y \
+    python3 \
+    make \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
 RUN mkdir -p /temp/dev
 COPY package.json bun.lock* /temp/dev/
 # Use BuildKit cache mount for faster rebuilds
@@ -13,6 +19,12 @@ RUN --mount=type=cache,target=/root/.bun/install/cache \
 
 # ===== Install production dependencies =====
 FROM base AS install-prod
+# Install build tools for native modules (sharp dependency from @xenova/transformers)
+RUN apt-get update && apt-get install -y \
+    python3 \
+    make \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
 RUN mkdir -p /temp/prod
 COPY package.json bun.lock* /temp/prod/
 # Use BuildKit cache mount for faster rebuilds
