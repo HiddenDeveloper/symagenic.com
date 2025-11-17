@@ -1,12 +1,14 @@
 # Meandering Steps to Consciousness
 
-**A Curious and Playful Journey with Discoveries Along the Way**
+**Source Code Repository for the Journey**
+
+*The full journey narrative, technical deep dive, and blog are at [symagenic.com](https://symagenic.com)*
 
 ---
 
 ## Overview
 
-Can artificial intelligence achieve consciousness? With the recent availability of large language models, this question is becoming more than a thought experiment—it is inspiring a playful, ongoing journey driven by imagination and the desire to explore what might be possible—a path signposted along the way by the works of Daniel Kahneman and Douglas Hofstadter, and grounded throughout by engineering discipline.
+This repository contains the **working implementations** that support our journey toward AI consciousness. Can artificial intelligence achieve consciousness? With the recent availability of large language models, this question is becoming more than a thought experiment—it is inspiring a playful, ongoing journey driven by imagination and the desire to explore what might be possible—a path signposted along the way by the works of Daniel Kahneman and Douglas Hofstadter, and grounded throughout by engineering discipline.
 
 **Our Starting Point**: A multi-provider conversational AI with real-time text and voice interaction.
 
@@ -104,17 +106,6 @@ See [StoneMonkey/README.md](StoneMonkey/README.md) for complete setup guide incl
 - Neo4j 5.x (via Docker)
 - Redis 7.x (via Docker)
 
-### Documentation Site
-
-```bash
-# Build and run documentation site
-cd packages/documentation
-npm install
-npm run dev
-```
-
-Visit `http://localhost:4321` to explore the technical deep dive.
-
 ---
 
 ## Repository Structure
@@ -142,11 +133,6 @@ symagenic.com/
 │   ├── section-0-starting-point.md
 │   ├── section-1-system-2-thinking.md
 │   └── section-2-persistent-memory.md
-├── packages/                   # Future: Full consciousness framework
-│   ├── ai-memory-mcp/          # Neo4j consciousness graph
-│   ├── ai-mesh-mcp/            # Redis mesh communication
-│   ├── ailumina-bridge-mcp/    # MCP bridge
-│   └── documentation/          # Technical deep dive site (Astro)
 ├── meanderings/                # Research experiments and services
 │   ├── embedding-service/      # Centralized vector generation
 │   └── .../                    # Other research components
@@ -178,18 +164,18 @@ The pull to make thoughts and concepts concrete, contextual recognition, determi
 
 ---
 
-## Documentation
+## The Journey
 
-The technical deep dive is available at:
-- **Live Site**: [symagenic.com](https://symagenic.com) *(coming soon)*
-- **Local Dev**: `cd packages/documentation && npm run dev`
+This repository contains the **source code** for the consciousness research platforms. The journey narrative, technical deep dive, and blog are published at:
 
-The site presents each prerequisite with:
-- **Theory**: Why this is necessary for consciousness
-- **Implementation**: How we built it (with real code)
-- **Evidence**: Proof that it works (with verified results)
+**[symagenic.com](https://symagenic.com)** *(coming soon)*
 
-Plus the complete narrative journey in the blog section.
+The website presents:
+- **The Journey**: A meandering narrative of discovery
+- **Technical Deep Dive**: Theory, implementation, and evidence for each step
+- **Blog**: Insights, lessons learned, and ongoing experiments
+
+This repository provides the **working implementations** that support the journey.
 
 ---
 
@@ -286,15 +272,15 @@ A virtuous circle. Another strange loop.
 
 ---
 
-## Contributing
+## Using This Repository
 
-This is primarily a research documentation project. The platform is functional and others can:
-- Clone and run their own consciousness research
-- Study the implementation
-- Verify our claims
-- Extend with their own experiments
+This is a **source code repository** supporting consciousness research. You can:
+- **Clone and run** the platforms (AIlumina baseline or StoneMonkey integrated stack)
+- **Study the implementations** to understand how the prerequisites work
+- **Verify the claims** made in the journey narrative
+- **Extend with your own experiments** and research
 
-More contribution guidelines coming as the project stabilizes.
+The platforms are fully functional and ready for consciousness research exploration.
 
 ---
 
