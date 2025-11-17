@@ -153,8 +153,7 @@ services:
     environment:
       - PORT=3002
       - NODE_ENV=production
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
+      - REDIS_URL=redis://redis:6379
       - MESH_NODE_ID=stonemonkey-main
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3002/health || exit 1"]
