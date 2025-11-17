@@ -29,11 +29,16 @@ RUN --mount=type=cache,target=/root/.bun/install/cache \
 
 # ===== Build stage =====
 FROM base AS build
-# Copy workspace root node_modules (contains hoisted deps)
-COPY --from=install-dev /temp/dev/node_modules node_modules
-COPY --from=install-dev /temp/dev/shared shared
-COPY ai-mesh-mcp .
-# Build TypeScript (using bun's built-in typescript support)
+# Set up workspace structure for building
+WORKDIR /temp/dev
+# Copy workspace root node_modules first (hoisted deps like TypeScript)
+COPY --from=install-dev /temp/dev/node_modules ./node_modules
+COPY --from=install-dev /temp/dev/shared ./shared
+# Copy package to mcp subdirectory with its node_modules
+COPY --from=install-dev /temp/dev/mcp/node_modules ./mcp/node_modules
+COPY ai-mesh-mcp ./mcp
+# Build from within the mcp package directory
+WORKDIR /temp/dev/mcp
 RUN bun build src/http-server/index.ts --outdir dist/http-server --target bun && \
     bun build src/stdio-wrapper/index.ts --outdir dist/stdio-wrapper --target bun && \
     bun build src/scripts/start-both.ts --outdir dist/scripts --target bun
@@ -49,11 +54,11 @@ RUN adduser -S mcp -u 1001 -G bun
 
 # Copy production dependencies and built code
 COPY --from=install-prod --chown=mcp:bun /temp/prod/mcp/node_modules node_modules
-COPY --from=build --chown=mcp:bun /usr/src/app/dist ./dist
-COPY --from=build --chown=mcp:bun /usr/src/app/package.json ./package.json
+COPY --from=build --chown=mcp:bun /temp/dev/mcp/dist ./dist
+COPY --from=build --chown=mcp:bun /temp/dev/mcp/package.json ./package.json
 
 # Optional: Copy additional files needed at runtime
-COPY --from=build --chown=mcp:bun /usr/src/app/CLAUDE.md ./CLAUDE.md
+COPY --from=build --chown=mcp:bun /temp/dev/mcp/CLAUDE.md ./CLAUDE.md
 
 USER mcp
 EXPOSE 3002
