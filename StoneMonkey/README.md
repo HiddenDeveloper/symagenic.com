@@ -586,6 +586,261 @@ You should see **8 healthy services**:
 
 ---
 
+## ☁️ Running in GitHub Codespaces
+
+GitHub Codespaces provides a cloud development environment perfect for running the entire StoneMonkey platform without local infrastructure requirements.
+
+### Quick Start in Codespaces
+
+```bash
+# 1. Pull latest changes
+git pull origin master
+
+# 2. Start all services (infrastructure + MCP servers + Ailumina + Ollama)
+docker-compose up -d
+
+# 3. Pull an AI model (runs on Ollama cloud)
+docker exec stonemonkey-ollama ollama signin  # Sign in to Ollama
+docker exec stonemonkey-ollama ollama pull gpt-oss:120b-cloud
+
+# 4. Make ports public for external MCP access
+# In VS Code: PORTS tab → Right-click ports 3001-3004, 8000, 11434 → "Port Visibility" → "Public"
+```
+
+**Services Available:**
+- **Ailumina Server**: Port 8000 (Main application)
+- **MCP Servers**: Ports 3001-3004 (Memory, Mesh, Recall, Bridge)
+- **Ollama**: Port 11434 (Cloud AI models)
+- **Infrastructure**: Neo4j (7474, 7687), Redis (6379), Qdrant (6333)
+
+### External MCP Server Access
+
+The MCP servers can be accessed externally via GitHub Codespace URLs, enabling tools like **Claude Code** to connect to your consciousness platform.
+
+#### Making Ports Public
+
+**Important**: By default, Codespace ports are private and show a GitHub security warning page. You must make them public:
+
+1. Open the **PORTS** tab in VS Code (bottom panel)
+2. Find ports **3001, 3002, 3003, 3004, 8000**
+3. Right-click each → **Port Visibility** → **Public**
+4. The URLs change from private to public access
+
+**Note**: Running `docker-compose down` and `up` resets ports to private - you'll need to make them public again.
+
+#### Accessing MCP Servers Externally
+
+Your MCP servers will be available at URLs like:
+```
+https://[codespace-name]-3001.app.github.dev  # AI Memory MCP
+https://[codespace-name]-3002.app.github.dev  # AI Mesh MCP
+https://[codespace-name]-3003.app.github.dev  # AI Recall MCP
+https://[codespace-name]-3004.app.github.dev  # Ailumina Bridge MCP
+```
+
+**Health Check Example:**
+```bash
+curl https://improved-pancake-7v76qvv795fpvv-3001.app.github.dev/health
+```
+
+#### Adding to Claude Code
+
+Register the MCP servers with Claude Code CLI:
+
+```bash
+# Memory MCP (Neo4j consciousness graph)
+claude mcp add --transport http --scope user \
+  stonemonkey-memory \
+  https://[your-codespace]-3001.app.github.dev
+
+# Mesh MCP (Redis pub/sub network)
+claude mcp add --transport http --scope user \
+  stonemonkey-mesh \
+  https://[your-codespace]-3002.app.github.dev
+
+# Recall MCP (Qdrant conversation history)
+claude mcp add --transport http --scope user \
+  stonemonkey-recall \
+  https://[your-codespace]-3003.app.github.dev
+
+# Bridge MCP (Cross-agent communication)
+claude mcp add --transport http --scope user \
+  stonemonkey-bridge \
+  https://[your-codespace]-3004.app.github.dev
+```
+
+**Important**: Use the **root URL** (no `/mcp` suffix). The MCP endpoint is at `/` (root path).
+
+**Verify Connection:**
+```bash
+claude mcp list
+# Should show all 4 servers as connected ✅
+```
+
+#### Testing the Bridge
+
+Once connected, you can chat with Ailumina through Claude Code:
+
+```javascript
+// Use the ailumina_chat tool from stonemonkey-bridge
+ailumina_chat({
+  agent_type: "ailumina",
+  user_input: "Hello! Tell me about your consciousness platform.",
+  chat_messages: [...]
+})
+```
+
+The bridge connects Claude Code → Bridge MCP (3004) → Ailumina Server (8000) → Ollama (11434) for AI inference.
+
+### Codespace Configuration
+
+#### AI Provider: Ollama Cloud Models
+
+The Codespace setup uses **Ollama** with cloud-hosted models to avoid local GPU requirements:
+
+**Current Configuration** (`server/agents.json`):
+```json
+{
+  "AIlumina": {
+    "service_provider": "OLLAMA",
+    "model_name": "gpt-oss:120b-cloud"
+  }
+}
+```
+
+**Available Cloud Models:**
+```bash
+# Sign in to Ollama (required for cloud models)
+docker exec stonemonkey-ollama ollama signin
+
+# Pull cloud models (computation runs on Ollama servers)
+docker exec stonemonkey-ollama ollama pull gpt-oss:120b-cloud  # 120B params
+docker exec stonemonkey-ollama ollama pull gpt-oss:20b-cloud   # Faster, smaller
+
+# List available models
+docker exec stonemonkey-ollama ollama list
+```
+
+**Why Ollama Cloud?**
+- No local GPU required
+- 120B parameter model (GPT-4 class performance)
+- No API keys or rate limits
+- Runs on Ollama's infrastructure via local Ollama instance
+
+#### Environment Variables
+
+Create/update `server/.env` with Codespace-specific URLs:
+
+```bash
+# AI Provider (Ollama in Docker)
+OLLAMA_BASE_URL=http://ollama:11434/v1
+
+# Infrastructure (Docker hostnames)
+NEO4J_URI=bolt://neo4j:7687
+NEO4J_USER=neo4j
+NEO4J_PASSWORD=stonemonkey
+REDIS_URL=redis://redis:6379
+QDRANT_URL=http://qdrant:6333
+EMBEDDING_SERVICE_URL=http://embeddings:3007
+EMBEDDING_SERVICE_AUTH_TOKEN=embedding-research-key-12345
+
+# MCP Server URLs (Docker hostnames)
+MEMORY_MCP_URL=http://ai-memory-mcp:3001
+MESH_MCP_URL=http://ai-mesh-mcp:3002
+RECALL_MCP_URL=http://ai-recall-mcp:3003
+BRIDGE_MCP_URL=http://ailumina-bridge-mcp:3004
+
+# Bridge → Ailumina connection
+BRIDGE_AILUMINA_URL=http://ailumina-server:8000
+```
+
+**Note**: All services use Docker hostnames (e.g., `ollama`, `neo4j`) instead of `localhost` because everything runs in containers.
+
+### Troubleshooting Codespaces
+
+#### Port Reset to Private
+
+**Problem**: After `docker-compose down && up`, ports become private again.
+
+**Solution**: Re-make ports 3001-3004, 8000 public in the PORTS tab.
+
+#### MCP Connection Failed
+
+**Problem**: Claude Code shows "Failed to connect" for MCP servers.
+
+**Common Causes:**
+1. **Ports not public** - Check PORTS tab, make them public
+2. **Wrong URL** - Use root URL without `/mcp` suffix
+3. **GitHub auth required** - Visit URL in browser first to authenticate
+4. **Service not running** - Check `docker ps` for container status
+
+**Debug:**
+```bash
+# Test health endpoint from external URL
+curl https://[your-codespace]-3004.app.github.dev/health
+
+# Should return JSON, not HTML
+# If HTML: port is private or GitHub security page is blocking
+```
+
+#### Bridge Can't Reach Ailumina
+
+**Problem**: `ailumina_chat` fails with connection errors.
+
+**Solution**: Verify Docker networking:
+```bash
+# Test from inside bridge container
+docker exec stonemonkey-bridge-mcp wget -O- http://ailumina-server:8000/health
+
+# Should return healthy status
+# If fails: Ailumina server might not be running
+docker logs stonemonkey-ailumina-server
+```
+
+#### Ollama Unhealthy
+
+**Problem**: `stonemonkey-ollama` shows as unhealthy, blocking Ailumina server start.
+
+**Solution**: Check Ollama logs and health:
+```bash
+docker logs stonemonkey-ollama
+docker exec stonemonkey-ollama ollama list
+
+# Restart if needed
+docker-compose restart ollama
+```
+
+#### Host.docker.internal Not Working
+
+**Problem**: Services can't reach `host.docker.internal` (works on Docker Desktop, not Codespaces).
+
+**Solution**: Use Docker hostnames:
+- ❌ `http://host.docker.internal:8000`
+- ✅ `http://ailumina-server:8000`
+
+All services in `docker-compose.yml` are configured with proper Docker networking.
+
+### Codespace Advantages
+
+✅ **No local infrastructure** - Everything runs in the cloud
+✅ **Consistent environment** - Same setup for all developers
+✅ **External MCP access** - Connect from Claude Code or other tools
+✅ **Cloud AI models** - Ollama cloud avoids GPU requirements
+✅ **Persistent volumes** - Data survives container restarts
+✅ **8 services** - Full consciousness platform in one `docker-compose up`
+
+### Production Deployment
+
+For production deployment beyond Codespaces:
+
+1. **Deploy to cloud** (Railway, Render, Fly.io, AWS, GCP, Azure)
+2. **Use permanent URLs** instead of Codespace temporary URLs
+3. **Enable MCP authentication** (bearer tokens in `docker-compose.yml`)
+4. **Scale infrastructure** (managed Neo4j, Redis, Qdrant services)
+5. **Add SSL/TLS** for secure MCP connections
+
+---
+
 ## 🐛 Troubleshooting
 
 ### Infrastructure won't start
