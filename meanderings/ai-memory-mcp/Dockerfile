@@ -8,6 +8,8 @@ WORKDIR /usr/src/app
 # Install dev dependencies stage
 FROM base AS install-dev
 RUN mkdir -p /temp/dev
+# Create workspace root package.json so bun recognizes shared as a workspace
+RUN echo '{"name":"workspace","workspaces":["shared","."]}' > /temp/dev/package.json
 # Copy workspace shared package first
 COPY shared /temp/dev/shared
 # Copy ai-memory-mcp package files
@@ -18,6 +20,8 @@ RUN --mount=type=cache,target=/root/.bun/install/cache \
 # Install production dependencies stage
 FROM base AS install-prod
 RUN mkdir -p /temp/prod
+# Create workspace root package.json so bun recognizes shared as a workspace
+RUN echo '{"name":"workspace","workspaces":["shared","."]}' > /temp/prod/package.json
 # Copy workspace shared package first
 COPY shared /temp/prod/shared
 # Copy ai-memory-mcp package files
