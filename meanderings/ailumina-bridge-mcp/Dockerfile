@@ -42,8 +42,8 @@ FROM base AS release
 # Install wget for health checks (lightweight alternative to curl)
 RUN apt-get update && apt-get install -y --no-install-recommends wget && rm -rf /var/lib/apt/lists/*
 
-# Create non-root user (Debian syntax)
-RUN groupadd -g 1001 bun && useradd -m -u 1001 -g bun mcp
+# Create non-root user (Debian syntax, bun group already exists in base image)
+RUN useradd -m -u 1001 -g bun mcp
 
 # Copy production dependencies and built code
 COPY --from=install-prod --chown=mcp:bun /temp/prod/mcp/node_modules node_modules
