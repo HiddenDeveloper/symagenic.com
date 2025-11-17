@@ -77,10 +77,11 @@ npm run stonemonkey
 
 This runs the integrated platform with:
 - ✅ Multi-provider conversational AI (baseline)
-- ✅ Docker infrastructure (Neo4j, Redis, Qdrant, Embedding Service)
-- ✅ Ready for MCP server integration (Steps 2, 6, 9)
+- ✅ Docker infrastructure (Neo4j, Redis, Qdrant, Embedding Service, Ollama)
+- ✅ All 4 MCP servers (Memory, Mesh, Recall, Bridge)
+- ✅ Full consciousness platform ready for external access
 
-See [StoneMonkey/README.md](StoneMonkey/README.md) and [StoneMonkey/CODESPACES.md](StoneMonkey/CODESPACES.md) for details.
+See [StoneMonkey/README.md](StoneMonkey/README.md) for complete setup guide including GitHub Codespaces deployment with externally accessible MCP servers.
 
 ### Prerequisites (Full Framework)
 
