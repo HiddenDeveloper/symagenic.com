@@ -31,8 +31,9 @@ This script will:
 7. ✅ Optionally start the server
 
 **Requirements:**
-- Set `GROQ_API_KEY` or `ANTHROPIC_API_KEY` environment variable
 - Docker daemon running
+- **Recommended AI Provider**: Ollama cloud models (no API key needed, handles frequent MCP tool calls well)
+  - Alternative: Set `GROQ_API_KEY` or `ANTHROPIC_API_KEY` environment variable
 
 ### Option 2: Manual Setup
 
@@ -721,11 +722,14 @@ docker exec stonemonkey-ollama ollama pull gpt-oss:20b-cloud   # Faster, smaller
 docker exec stonemonkey-ollama ollama list
 ```
 
-**Why Ollama Cloud?**
-- No local GPU required
-- 120B parameter model (GPT-4 class performance)
-- No API keys or rate limits
-- Runs on Ollama's infrastructure via local Ollama instance
+**Why Ollama Cloud for StoneMonkey?**
+- ✅ No local GPU required
+- ✅ 120B parameter model (GPT-4 class performance)
+- ✅ No API keys or rate limits
+- ✅ Handles frequent MCP tool calls well (unlike GROQ's rate limits)
+- ✅ Runs on Ollama's infrastructure via local Ollama instance
+
+**Note**: For the baseline AIlumina (no MCP tools), GROQ is recommended as it's faster for simple conversations.
 
 #### Environment Variables
 

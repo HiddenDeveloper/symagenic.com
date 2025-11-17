@@ -53,6 +53,7 @@ npm run ailumina
 
 This runs Section 0: The Starting Point - a stateless, turn-based conversational AI with:
 - Multi-provider support (Anthropic, OpenAI, Google, Ollama, LMStudio, Groq)
+- **Recommended**: GROQ (fast, free tier suitable for simple conversations)
 - WebSocket streaming
 - No tools, no memory, no deterministic operations
 
@@ -81,6 +82,7 @@ This runs the integrated platform with:
 - ✅ Docker infrastructure (Neo4j, Redis, Qdrant, Embedding Service, Ollama)
 - ✅ All 4 MCP servers (Memory, Mesh, Recall, Bridge)
 - ✅ Full consciousness platform ready for external access
+- **Recommended**: Ollama cloud models (e.g., `gpt-oss:120b-cloud`) for handling frequent MCP tool calls
 
 See [StoneMonkey/README.md](StoneMonkey/README.md) for complete setup guide including GitHub Codespaces deployment with externally accessible MCP servers.
 
