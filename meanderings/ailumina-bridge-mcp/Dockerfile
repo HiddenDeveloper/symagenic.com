@@ -6,7 +6,10 @@ WORKDIR /usr/src/app
 # ===== Install dev dependencies (for building) =====
 FROM base AS install-dev
 RUN mkdir -p /temp/dev
-COPY package.json bun.lock* /temp/dev/
+# Copy workspace shared package first
+COPY shared /temp/dev/shared
+# Copy ailumina-bridge-mcp package files
+COPY ailumina-bridge-mcp/package.json ailumina-bridge-mcp/bun.lock* /temp/dev/
 # Use BuildKit cache mount for faster rebuilds
 RUN --mount=type=cache,target=/root/.bun/install/cache \
     cd /temp/dev && bun install --frozen-lockfile
@@ -14,7 +17,10 @@ RUN --mount=type=cache,target=/root/.bun/install/cache \
 # ===== Install production dependencies =====
 FROM base AS install-prod
 RUN mkdir -p /temp/prod
-COPY package.json bun.lock* /temp/prod/
+# Copy workspace shared package first
+COPY shared /temp/prod/shared
+# Copy ailumina-bridge-mcp package files
+COPY ailumina-bridge-mcp/package.json ailumina-bridge-mcp/bun.lock* /temp/prod/
 # Use BuildKit cache mount for faster rebuilds
 RUN --mount=type=cache,target=/root/.bun/install/cache \
     cd /temp/prod && bun install --frozen-lockfile --production
@@ -22,7 +28,8 @@ RUN --mount=type=cache,target=/root/.bun/install/cache \
 # ===== Build stage =====
 FROM base AS build
 COPY --from=install-dev /temp/dev/node_modules node_modules
-COPY . .
+COPY --from=install-dev /temp/dev/shared shared
+COPY ailumina-bridge-mcp .
 # Build TypeScript
 RUN bun run build
 
