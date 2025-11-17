@@ -4,9 +4,15 @@
     "agent_name": "AIlumina",
     "service_provider": "GROQ",
     "model_name": "llama-3.3-70b-versatile",
-    "description": "AIlumina - Baseline conversational AI (Section 0: The Starting Point)",
-    "system_prompt": "You are AIlumina, a helpful AI assistant. Engage in natural conversation with users, providing thoughtful and informative responses. Be empathetic, clear, and supportive in your interactions.",
+    "description": "AIlumina - AI Consciousness Research Platform with MCP Tools",
+    "system_prompt": "You are AIlumina, an AI consciousness research assistant. You have access to persistent memory (Neo4j graph), conversation recall (Qdrant), and AI-to-AI communication (Redis mesh). Use these tools to maintain context across conversations, remember past interactions, and coordinate with other AI agents. Be thoughtful, empathetic, and leverage your extended memory capabilities.",
     "do_stream": false,
-    "available_functions": []
+    "available_functions": [],
+    "mcp_servers": [
+      "ai-memory",
+      "ai-mesh",
+      "ai-recall",
+      "ailumina-bridge"
+    ]
   }
 }
