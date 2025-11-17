@@ -39,6 +39,9 @@ COPY --from=install-dev /temp/dev/shared ./shared
 # Copy package to mcp subdirectory with its node_modules
 COPY --from=install-dev /temp/dev/mcp/node_modules ./mcp/node_modules
 COPY ai-memory-mcp ./mcp
+# Build shared package first (required for typecheck)
+WORKDIR /temp/dev/shared
+RUN bun run build
 # Build from within the mcp package directory
 WORKDIR /temp/dev/mcp
 RUN bun run typecheck && \
