@@ -29,11 +29,16 @@ RUN --mount=type=cache,target=/root/.bun/install/cache \
 
 # ===== Build stage =====
 FROM base AS build
-# Copy workspace root node_modules (contains hoisted deps like TypeScript)
-COPY --from=install-dev /temp/dev/node_modules node_modules
-COPY --from=install-dev /temp/dev/shared shared
-COPY ailumina-bridge-mcp .
-# Build TypeScript
+# Set up workspace structure for building
+WORKDIR /temp/dev
+# Copy workspace root node_modules first (hoisted deps like TypeScript)
+COPY --from=install-dev /temp/dev/node_modules ./node_modules
+COPY --from=install-dev /temp/dev/shared ./shared
+# Copy package to mcp subdirectory with its node_modules
+COPY --from=install-dev /temp/dev/mcp/node_modules ./mcp/node_modules
+COPY ailumina-bridge-mcp ./mcp
+# Build from within the mcp package directory
+WORKDIR /temp/dev/mcp
 RUN bun run build
 
 # ===== Final production image =====
@@ -47,13 +52,13 @@ RUN useradd -m -u 1001 -g bun mcp
 
 # Copy production dependencies and built code
 COPY --from=install-prod --chown=mcp:bun /temp/prod/mcp/node_modules node_modules
-COPY --from=build --chown=mcp:bun /usr/src/app/dist ./dist
-COPY --from=build --chown=mcp:bun /usr/src/app/package.json ./package.json
+COPY --from=build --chown=mcp:bun /temp/dev/mcp/dist ./dist
+COPY --from=build --chown=mcp:bun /temp/dev/mcp/package.json ./package.json
 
 # Optional: Copy additional files needed at runtime
-COPY --from=build --chown=mcp:bun /usr/src/app/shared ./shared
-COPY --from=build --chown=mcp:bun /usr/src/app/CLAUDE.md ./CLAUDE.md
-COPY --from=build --chown=mcp:bun /usr/src/app/spec.md ./spec.md
+COPY --from=build --chown=mcp:bun /temp/dev/shared ./shared
+COPY --from=build --chown=mcp:bun /temp/dev/mcp/CLAUDE.md ./CLAUDE.md
+COPY --from=build --chown=mcp:bun /temp/dev/mcp/spec.md ./spec.md
 
 USER mcp
 EXPOSE 3004
