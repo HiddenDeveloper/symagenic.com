@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "ai-memory": {
-      "transport_type": "HTTP",
+      "transport_type": "http",
       "url": "<MEMORY_MCP_URL>",
       "env": {
         "NEO4J_URI": "<NEO4J_URI>",
@@ -12,7 +12,7 @@
       }
     },
     "ai-mesh": {
-      "transport_type": "HTTP",
+      "transport_type": "http",
       "url": "<MESH_MCP_URL>",
       "env": {
         "REDIS_HOST": "<REDIS_HOST>",
@@ -21,7 +21,7 @@
       }
     },
     "ai-recall": {
-      "transport_type": "HTTP",
+      "transport_type": "http",
       "url": "<RECALL_MCP_URL>",
       "env": {
         "QDRANT_URL": "<QDRANT_URL>",
@@ -30,7 +30,7 @@
       }
     },
     "ailumina-bridge": {
-      "transport_type": "HTTP",
+      "transport_type": "http",
       "url": "<BRIDGE_MCP_URL>",
       "env": {
         "AILUMINA_SERVER_URL": "<BRIDGE_AILUMINA_URL>"
