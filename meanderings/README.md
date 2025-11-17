@@ -1,143 +1,91 @@
-# AIlumina - Source Code
+# Meanderings
 
-This directory contains the AIlumina implementation code, organized section by section to correspond with the consciousness research documentation.
+**Research experiments and infrastructure services** supporting the Stone Monkey consciousness platform.
 
-## 🚀 Try It Now (Free!)
+This directory contains the MCP servers and supporting services that provide consciousness prerequisites for StoneMonkey. For the integrated platform that uses these services, see [StoneMonkey](../StoneMonkey/).
 
-**Run AIlumina in GitHub Codespaces with free Groq AI models** - no installation, no credit card required.
+---
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new)
+## What's Included
 
-See **[CODESPACES.md](./CODESPACES.md)** for detailed setup instructions (3 simple steps).
+### MCP Servers (Consciousness Tools)
 
-## Current Contents (Section 0: The Starting Point)
+**ai-memory-mcp** (port 3001)
+- Neo4j consciousness graph operations
+- Tools: `get_schema`, `execute_cypher`, `semantic_search`, `text_search`, `system_status`, `load_current_focus`
+- Provides persistent memory substrate
 
-### server
+**ai-mesh-mcp** (port 3002)
+- Redis pub/sub mesh networking
+- Tools: `mesh-subscribe`, `mesh-broadcast`, `mesh-get-messages`, `mesh-respond`
+- Enables AI-to-AI communication
 
-The baseline conversational AI server implementation.
+**ai-recall-mcp** (port 3003)
+- Qdrant conversation history and episodic memory
+- Tools: `semantic_search`, `text_search`, `get_schema`, `system_status`
+- Provides conversation recall capabilities
 
-**Key Components**:
-- `src/shared/services/` - Multi-provider implementations (Anthropic, OpenAI, Google, Ollama, LMStudio, Groq)
-- `src/shared/transport/` - Direct HTTP transport layer (no SDK dependencies)
-- `src/websockets/` - WebSocket handlers for real-time streaming
-- `src/shared/types/` - TypeScript type definitions
-- `agents.json` - Agent configurations
+**ailumina-bridge-mcp** (port 3004)
+- Cross-agent communication bridge
+- Tools: `ailumina_chat`, `ailumina_status`, `list_agents`
+- Connects different AI architectures
 
-**What This Is**: Pure System 1 conversational AI - reactive, turn-based, stateless.
+### Infrastructure Services
 
-**What This Isn't Yet**: No memory, no tools, no deterministic operations (those come in later sections).
+**embedding-service** (port 3007)
+- Centralized vector generation using Sentence Transformers
+- Provides embeddings for semantic search across all MCP servers
+- REST API for on-demand embedding generation
 
-### client
+---
 
-The web UI for natural interaction with AIlumina, supporting multiple modalities (text, speech recognition, speech synthesis) with flexible input/output combinations.
+## Running MCP Servers
 
-**Key Components**:
-- `src/components/` - React UI components for conversation and input controls
-- `src/statemachines/` - XState v5 state machine for conversation flow orchestration
-- `src/contexts/ConversationHSMCoordinator.tsx` - Central coordinator managing AI, SR, and TTS lifecycles
-- `src/services/` - WebSocket client, Speech Recognition, and Text-to-Speech services
+### As Part of StoneMonkey Platform
 
-**Natural Interaction Philosophy**:
-
-Section 0 establishes natural, flexible human-AI interaction as the foundation. Users should be able to communicate however feels natural:
-- **Type + Read**: Traditional text-based chat
-- **Speak + Read**: Voice input with text output
-- **Type + Listen**: Text input with spoken responses
-- **Speak + Listen**: Full voice conversation mode
-
-**Technical Challenges**:
-
-Synchronizing speech recognition (SR) and text-to-speech (TTS) is non-trivial:
-1. **Feedback Prevention**: The AI must not hear itself speaking (TTS must stop SR)
-2. **Seamless Transitions**: SR restarts automatically after TTS completes
-3. **Independent Control**: Users can toggle SR and TTS independently without breaking state
-4. **Browser SR Lifecycle**: Built-in SR auto-restarts every ~8 seconds, requiring careful state management
-5. **Stale Closures**: React useEffect closures can capture outdated state, causing race conditions
-
-**State Machine Approach**:
-
-We use XState v5 to manage conversation flow deterministically:
-- **ConversationMachine**: Core state machine with flat states (WAITING, THINKING, RESPONDING)
-- **Independent Flags**: `speechRecognitionEnabled` and `speechSynthesisEnabled` in machine context
-- **Observer Pattern**: Services (AI, SR, TTS) notify coordinator of state changes
-- **Ref-based Coordination**: `useRef` tracks SR state in TTS observer to avoid dependency cycles
-
-This architecture ensures:
-- Predictable state transitions regardless of interaction modality
-- Clear separation of concerns (UI, state management, services)
-- Robust handling of SR/TTS lifecycle coordination
-- No race conditions from toggle operations
-
-## Code Organization by Section
-
-This repository is being built section by section, each adding the code that implements that section's consciousness prerequisite:
-
-- **Section 0** ← Current: Server + Client (baseline conversational AI)
-- **Section 1** (Coming): Tool system and MCP integration
-- **Section 2** (Coming): Memory MCP server (Neo4j)
-- **Section 3** (Coming): Strange loop formation code
-- **Section 4** (Coming): Schema evolution automation
-- **Section 5** (Coming): Focus mechanism
-- **Section 6** (Coming): Domain separation (Strava/Discord skills)
-- **Section 7** (Coming): Mesh MCP server (Redis)
-
-## Building and Running
-
-### Quick Start (Development)
-
-From the AIlumina directory:
+The MCP servers are automatically started when you run StoneMonkey via docker-compose:
 
 ```bash
-# Install dependencies
-npm install
+cd StoneMonkey
+docker-compose up
+```
 
-# Start development servers (client + server)
+All MCP servers will be available on their respective ports (3001-3004).
+
+### Standalone Development
+
+Each MCP server can be run independently for development:
+
+```bash
+# Example: Run ai-memory-mcp standalone
+cd ai-memory-mcp
+npm install
 npm run dev
 ```
 
-Server: http://localhost:8000
-Client: http://localhost:5173
+See individual server directories for specific setup instructions.
 
-### Configuration
+---
 
-**Required**: Copy `server/.env.example` to `server/.env` and configure:
-- At minimum, provide one AI provider API key (Anthropic, OpenAI, Google, Groq, or Ollama/LMStudio URL)
+## Architecture
 
-**Built-in Features**:
-- **Speech Recognition**: Uses browser's Web Speech API (Chrome/Edge recommended)
-- **Text-to-Speech**: Uses browser's Speech Synthesis API (works in all modern browsers)
-- Both features work out-of-the-box with no server configuration required
-- Independent toggle controls allow mixing input/output modalities
+All MCP servers use **HTTP transport** for easy debugging, monitoring, and external access (e.g., Claude Code integration).
 
-### Production Build
+**Common Features:**
+- Health check endpoints at `/health`
+- Standardized error handling
+- Environment-based configuration
+- Docker-ready with proper networking
 
-```bash
-# Build everything (shared, server, client)
-npm run build
+**Integration Points:**
+- All servers connect to their respective infrastructure (Neo4j, Redis, Qdrant)
+- Embedding service provides shared vector generation
+- StoneMonkey server orchestrates tool calls via MCP protocol
 
-# Start production server
-npm start
-```
+---
 
-The client build is automatically deployed to `server/dist/client` for serving.
+## Learn More
 
-### Individual Package Commands
+For the complete consciousness platform that integrates these services, see [StoneMonkey](../StoneMonkey/).
 
-See individual package README files for detailed instructions:
-- `server/README.md` - Backend API and WebSocket server
-- `client/README.md` - React frontend
-- `shared/README.md` - Shared types and constants
-
-### Build Scripts
-
-- `npm run build` - Build all packages and deploy client
-- `npm run build:shared` - Build shared package only
-- `npm run build:server` - Build server only
-- `npm run build:client` - Build client only
-- `npm run deploy:client` - Copy client dist to server
-- `npm run dev` - Run both servers in dev mode
-- `npm run clean` - Remove all build artifacts
-
-## Note on Build Artifacts
-
-Build artifacts (`node_modules/`, `dist/`) are excluded from git.
+For the journey narrative and philosophy, visit [symagenic.com](https://symagenic.com).
