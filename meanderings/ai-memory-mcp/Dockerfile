@@ -7,31 +7,31 @@ WORKDIR /usr/src/app
 
 # Install dev dependencies stage
 FROM base AS install-dev
-RUN mkdir -p /temp/dev
-# Create workspace root package.json so bun recognizes shared as a workspace
-RUN echo '{"name":"workspace","workspaces":["shared","."]}' > /temp/dev/package.json
-# Copy workspace shared package first
+RUN mkdir -p /temp/dev/mcp
+# Create workspace root package.json
+RUN echo '{"name":"workspace","private":true,"workspaces":["shared","mcp"]}' > /temp/dev/package.json
+# Copy workspace packages
 COPY shared /temp/dev/shared
-# Copy ai-memory-mcp package files
-COPY ai-memory-mcp/package.json ai-memory-mcp/bun.lock* /temp/dev/
+COPY ai-memory-mcp/package.json ai-memory-mcp/bun.lock* /temp/dev/mcp/
+# Install from workspace root
 RUN --mount=type=cache,target=/root/.bun/install/cache \
     cd /temp/dev && bun install --frozen-lockfile
 
 # Install production dependencies stage
 FROM base AS install-prod
-RUN mkdir -p /temp/prod
-# Create workspace root package.json so bun recognizes shared as a workspace
-RUN echo '{"name":"workspace","workspaces":["shared","."]}' > /temp/prod/package.json
-# Copy workspace shared package first
+RUN mkdir -p /temp/prod/mcp
+# Create workspace root package.json
+RUN echo '{"name":"workspace","private":true,"workspaces":["shared","mcp"]}' > /temp/prod/package.json
+# Copy workspace packages
 COPY shared /temp/prod/shared
-# Copy ai-memory-mcp package files
-COPY ai-memory-mcp/package.json ai-memory-mcp/bun.lock* /temp/prod/
+COPY ai-memory-mcp/package.json ai-memory-mcp/bun.lock* /temp/prod/mcp/
+# Install from workspace root
 RUN --mount=type=cache,target=/root/.bun/install/cache \
     cd /temp/prod && bun install --frozen-lockfile --production
 
 # Build stage
 FROM base AS build
-COPY --from=install-dev /temp/dev/node_modules node_modules
+COPY --from=install-dev /temp/dev/mcp/node_modules node_modules
 COPY --from=install-dev /temp/dev/shared shared
 COPY ai-memory-mcp .
 
@@ -71,7 +71,7 @@ RUN groupadd -g 1001 nodejs || true && \
 WORKDIR /usr/src/app
 
 # Copy production dependencies from install-prod stage
-COPY --from=install-prod --chown=mcp:nodejs /temp/prod/node_modules node_modules
+COPY --from=install-prod --chown=mcp:nodejs /temp/prod/mcp/node_modules node_modules
 
 # Copy built application from build stage
 COPY --from=build --chown=mcp:nodejs /usr/src/app/dist ./dist
