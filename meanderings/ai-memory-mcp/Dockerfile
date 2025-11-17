@@ -31,7 +31,8 @@ RUN --mount=type=cache,target=/root/.bun/install/cache \
 
 # Build stage
 FROM base AS build
-COPY --from=install-dev /temp/dev/mcp/node_modules node_modules
+# Copy workspace root node_modules (contains hoisted deps like TypeScript)
+COPY --from=install-dev /temp/dev/node_modules ./node_modules
 COPY --from=install-dev /temp/dev/shared shared
 COPY ai-memory-mcp .
 
