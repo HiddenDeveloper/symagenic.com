@@ -105,6 +105,25 @@ services:
       retries: 3
       start_period: 60s
 
+  # Ollama - Local AI Model Server
+  ollama:
+    image: ollama/ollama:latest
+    container_name: stonemonkey-ollama
+    hostname: ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    networks:
+      - stonemonkey_net
+    volumes:
+      - ollama_models:/root/.ollama
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:11434/api/tags || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
   # AI Memory MCP - Neo4j Consciousness Graph (Step 2: Persistent Memory)
   ai-memory-mcp:
     build:
@@ -235,6 +254,8 @@ volumes:
   qdrant_storage:
     driver: local
   embeddings_cache:
+    driver: local
+  ollama_models:
     driver: local
 
 networks:
