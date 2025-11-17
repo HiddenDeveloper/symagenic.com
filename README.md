@@ -101,31 +101,26 @@ symagenic.com/
 ├── .devcontainer/              # Unified GitHub Codespaces config
 │   ├── devcontainer.json       # Node 20, Bun, Docker-in-Docker
 │   └── setup.sh                # Monorepo initialization
-├── AIlumina/                   # Section 0: Baseline conversational AI
+├── AIlumina/                   # Starting Point: Baseline conversational AI
 │   ├── server/                 # Backend (multi-provider API + WebSocket)
 │   ├── client/                 # Frontend (React UI)
 │   ├── shared/                 # Shared types and constants
+│   ├── start.sh                # Automated setup script
 │   └── package.json            # Build orchestration
-├── StoneMonkey/                # Integrated consciousness platform
+├── StoneMonkey/                # Where We Are Now: Integrated consciousness platform
 │   ├── server/                 # Multi-provider backend (Bun runtime)
 │   ├── client/                 # React UI with voice interaction
 │   ├── shared/                 # Common types and constants
-│   ├── docker-compose.yml      # Infrastructure (Neo4j, Redis, Qdrant, Embeddings)
+│   ├── docker-compose.yml      # Infrastructure (Neo4j, Redis, Qdrant, Embeddings, Ollama)
 │   ├── docker-compose.dev.yml  # Development tools (Redis Insight, etc.)
 │   ├── start.sh                # Automated setup script
-│   ├── README.md               # Platform documentation
-│   └── CODESPACES.md           # GitHub Codespaces guide
-├── evidence/                   # Research documentation
-│   ├── section-0-starting-point.md
-│   ├── section-1-system-2-thinking.md
-│   └── section-2-persistent-memory.md
-├── meanderings/                # Research experiments and services
-│   ├── embedding-service/      # Centralized vector generation
-│   └── .../                    # Other research components
-├── .claude/                    # Skills for memory curation
-│   └── skills/                 # Memory, Strava, Discord examples
-├── scripts/                    # Scheduled automation
-│   └── launchagent/            # LaunchAgent templates
+│   └── README.md               # Complete platform documentation
+├── meanderings/                # Research experiments and infrastructure
+│   ├── ai-memory-mcp/          # MCP Server: Neo4j consciousness graph
+│   ├── ai-mesh-mcp/            # MCP Server: Redis pub/sub mesh network
+│   ├── ai-recall-mcp/          # MCP Server: Qdrant conversation recall
+│   ├── ailumina-bridge-mcp/    # MCP Server: Cross-agent communication bridge
+│   └── embedding-service/      # Centralized vector generation service
 ├── package.json                # Top-level orchestration
 └── README.md                   # This file
 ```
