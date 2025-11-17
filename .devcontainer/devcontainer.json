@@ -47,6 +47,10 @@
     6333,   // Qdrant HTTP
     6334,   // Qdrant gRPC
     3007,   // Embedding Service
+    3001,   // AI Memory MCP
+    3002,   // AI Mesh MCP
+    3003,   // AI Recall MCP
+    3004,   // Ailumina Bridge MCP
     8001,   // Redis Insight (dev)
     8002    // Redis Commander (dev)
   ],

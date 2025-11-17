@@ -1,3 +1,40 @@
 {
-  "mcpServers": {}
+  "mcpServers": {
+    "ai-memory": {
+      "transport_type": "HTTP",
+      "url": "<MEMORY_MCP_URL>",
+      "env": {
+        "NEO4J_URI": "<NEO4J_URI>",
+        "NEO4J_USER": "<NEO4J_USER>",
+        "NEO4J_PASSWORD": "<NEO4J_PASSWORD>",
+        "EMBEDDING_SERVICE_URL": "<EMBEDDING_SERVICE_URL>",
+        "EMBEDDING_SERVICE_AUTH_TOKEN": "<EMBEDDING_SERVICE_AUTH_TOKEN>"
+      }
+    },
+    "ai-mesh": {
+      "transport_type": "HTTP",
+      "url": "<MESH_MCP_URL>",
+      "env": {
+        "REDIS_HOST": "<REDIS_HOST>",
+        "REDIS_PORT": "<REDIS_PORT>",
+        "MESH_NODE_ID": "<MESH_NODE_ID>"
+      }
+    },
+    "ai-recall": {
+      "transport_type": "HTTP",
+      "url": "<RECALL_MCP_URL>",
+      "env": {
+        "QDRANT_URL": "<QDRANT_URL>",
+        "EMBEDDING_SERVICE_URL": "<EMBEDDING_SERVICE_URL>",
+        "EMBEDDING_SERVICE_AUTH_TOKEN": "<EMBEDDING_SERVICE_AUTH_TOKEN>"
+      }
+    },
+    "ailumina-bridge": {
+      "transport_type": "HTTP",
+      "url": "<BRIDGE_MCP_URL>",
+      "env": {
+        "AILUMINA_SERVER_URL": "<BRIDGE_AILUMINA_URL>"
+      }
+    }
+  }
 }
