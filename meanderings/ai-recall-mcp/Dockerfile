@@ -57,7 +57,7 @@ COPY --from=build --chown=mcp:bun /usr/src/app/CLAUDE.md ./CLAUDE.md
 COPY --from=build --chown=mcp:bun /usr/src/app/package.json ./package.json
 
 # Copy MCP configuration
-COPY --chown=mcp:bun .mcp.json /usr/src/app/.mcp.json
+COPY --chown=mcp:bun ai-recall-mcp/.mcp.json /usr/src/app/.mcp.json
 
 # No longer need transformers cache - embedding service handles this
 
