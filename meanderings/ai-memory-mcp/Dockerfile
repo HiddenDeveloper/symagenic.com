@@ -78,8 +78,8 @@ COPY --from=build --chown=mcp:nodejs /usr/src/app/CLAUDE.md ./CLAUDE.md
 COPY --from=build --chown=mcp:nodejs /usr/src/app/package.json ./package.json
 
 # Copy curation scripts and MCP configuration
-COPY --chown=mcp:nodejs scripts/ /usr/src/app/scripts/
-COPY --chown=mcp:nodejs .mcp.json /usr/src/app/.mcp.json
+COPY --chown=mcp:nodejs ai-memory-mcp/scripts/ /usr/src/app/scripts/
+COPY --chown=mcp:nodejs ai-memory-mcp/.mcp.json /usr/src/app/.mcp.json
 
 # Create cron log directory
 RUN mkdir -p /usr/src/app/logs && \
@@ -105,7 +105,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
     CMD curl -f http://localhost:3003/health || exit 1
 
 # Copy and setup entrypoint (must be before USER directive)
-COPY docker-entrypoint.sh /usr/local/bin/
+COPY ai-memory-mcp/docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Note: Don't switch to mcp user yet - entrypoint needs root for cron setup
