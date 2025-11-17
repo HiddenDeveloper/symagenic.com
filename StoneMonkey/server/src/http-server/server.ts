@@ -1,5 +1,6 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 // eslint-disable-next-line no-restricted-syntax
 import { createServer as createHttpServer, Server } from 'http';
 import { WebSocketServer } from 'ws';
@@ -68,6 +69,27 @@ export function createServer(
   // Store state in app locals for access in routes
   app.locals.state = appState;
   app.locals.wss = wss;
+
+  // Security headers
+  app.use(helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:", "https:"],
+        connectSrc: ["'self'", "ws:", "wss:"],
+      }
+    },
+    hsts: {
+      maxAge: 31536000,
+      includeSubDomains: true,
+      preload: true
+    },
+    frameguard: { action: 'deny' },
+    noSniff: true,
+    xssFilter: true
+  }));
 
   // Middleware
   app.use(express.json({ limit: '50mb' }));
