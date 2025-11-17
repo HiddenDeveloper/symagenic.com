@@ -50,15 +50,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends wget && rm -rf 
 # Create non-root user (Debian syntax, bun group already exists in base image)
 RUN useradd -m -u 1001 -g bun mcp
 
-# Copy production dependencies from workspace root
-# In Bun workspaces, all dependencies are hoisted to workspace root
-COPY --from=install-prod --chown=mcp:bun /temp/prod/node_modules ./node_modules
-# Copy built code
+# Copy production dependencies and built code
+COPY --from=install-prod --chown=mcp:bun /temp/prod/mcp/node_modules node_modules
 COPY --from=build --chown=mcp:bun /temp/dev/mcp/dist ./dist
 COPY --from=build --chown=mcp:bun /temp/dev/mcp/package.json ./package.json
-
-# Optional: Copy additional files needed at runtime
-COPY --from=build --chown=mcp:bun /temp/dev/shared ./shared
+# Copy additional files needed at runtime
 COPY --from=build --chown=mcp:bun /temp/dev/mcp/CLAUDE.md ./CLAUDE.md
 COPY --from=build --chown=mcp:bun /temp/dev/mcp/spec.md ./spec.md
 
