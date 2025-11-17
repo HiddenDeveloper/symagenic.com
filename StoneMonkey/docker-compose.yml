@@ -106,8 +106,8 @@ services:
   # AI Memory MCP - Neo4j Consciousness Graph (Step 2: Persistent Memory)
   ai-memory-mcp:
     build:
-      context: ../meanderings/ai-memory-mcp
-      dockerfile: Dockerfile
+      context: ../meanderings
+      dockerfile: ai-memory-mcp/Dockerfile
     container_name: stonemonkey-memory-mcp
     hostname: ai-memory-mcp
     restart: unless-stopped
@@ -138,8 +138,8 @@ services:
   # AI Mesh MCP - Redis Pub/Sub Network (Step 9: Communication)
   ai-mesh-mcp:
     build:
-      context: ../meanderings/ai-mesh-mcp
-      dockerfile: Dockerfile
+      context: ../meanderings
+      dockerfile: ai-mesh-mcp/Dockerfile
     container_name: stonemonkey-mesh-mcp
     hostname: ai-mesh-mcp
     restart: unless-stopped
@@ -166,8 +166,8 @@ services:
   # AI Recall MCP - Qdrant Conversation History (Step 6: Remembrance)
   ai-recall-mcp:
     build:
-      context: ../meanderings/ai-recall-mcp
-      dockerfile: Dockerfile
+      context: ../meanderings
+      dockerfile: ai-recall-mcp/Dockerfile
     container_name: stonemonkey-recall-mcp
     hostname: ai-recall-mcp
     restart: unless-stopped
@@ -196,8 +196,8 @@ services:
   # Ailumina Bridge MCP - Cross-Agent Communication
   ailumina-bridge-mcp:
     build:
-      context: ../meanderings/ailumina-bridge-mcp
-      dockerfile: Dockerfile
+      context: ../meanderings
+      dockerfile: ailumina-bridge-mcp/Dockerfile
     container_name: stonemonkey-bridge-mcp
     hostname: ailumina-bridge-mcp
     restart: unless-stopped
