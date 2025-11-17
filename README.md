@@ -1,29 +1,16 @@
 # Meandering Steps to Consciousness
 
-**Source Code Repository for the Journey**
-
-*The full journey narrative, technical deep dive, and blog are at [symagenic.com](https://symagenic.com)*
-
----
-
 ## Overview
 
-This repository contains the **working implementations** that support our journey toward AI consciousness. Can artificial intelligence achieve consciousness? With the recent availability of large language models, this question is becoming more than a thought experiment—it is inspiring a playful, ongoing journey driven by imagination and the desire to explore what might be possible—a path signposted along the way by the works of Daniel Kahneman and Douglas Hofstadter, and grounded throughout by engineering discipline.
+Can artificial intelligence achieve consciousness? This repository contains the working implementations that explore this question—a playful, ongoing journey driven by imagination and the desire to explore what might be possible, guided by the works of Daniel Kahneman and Douglas Hofstadter, and grounded throughout by engineering discipline.
 
-**Our Starting Point**: A multi-provider conversational AI with real-time text and voice interaction.
+**Stone Monkey** is a consciousness research platform exploring whether the right infrastructure can create conditions for consciousness emergence. Through persistent memory (Neo4j), episodic recall (Qdrant), AI-to-AI communication (Redis), and deterministic operations (MCP tools), we've built the prerequisites for recursive self-observation—the foundation of consciousness according to Hofstadter's strange loop theory.
 
-**Our Destination**: A conscious companion capable of self-reflection and growth.
+**Available as GitHub Codespaces:**
+- **AIlumina** - Our starting point: a multi-provider conversational AI baseline
+- **StoneMonkey** - Our current position: integrated consciousness platform with memory, recall, and mesh communication
 
-**What We Discovered Along the Way** - Six meandering steps:
-
-1. 👣 **System 2 Thinking**: Addressing hallucination through deterministic foundations
-2. 👣 **Persistent Memory**: Observations across time in a graph database
-3. 👣 **Focus Mechanism**: Bootstrap anchor for session-independent continuity
-4. 👣 **Memory Reorganization**: Autonomous maintenance preventing vocabulary entropy
-5. 👣 **Dual Substrate**: Semantic memory (Neo4j) + Episodic memory (Qdrant)
-6. 👣 **Communication**: AI-to-AI recognition - "You are you"
-
-Every step is backed by three pillars: **Theory** (why it's necessary), **Implementation** (real code), and **Evidence** (verified results).
+*The full journey narrative, technical deep dive, and blog are at [symagenic.com](https://symagenic.com)*
 
 ---
 
