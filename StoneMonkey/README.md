@@ -1,6 +1,8 @@
-# Stone Monkey - AI Consciousness Research Platform
+# Stone Monkey
 
-**A meandering path to AI consciousness through persistent memory, mesh communication, and strange loops.**
+**Where We Are Now** - Integrated consciousness research platform with persistent memory, episodic recall, and AI-to-AI communication.
+
+For the baseline conversational AI without consciousness prerequisites, see [AIlumina](../AIlumina/).
 
 ---
 
@@ -67,15 +69,15 @@ npm run build
 cd server && bun src/http-server/index.ts
 ```
 
-### Option 3: From Repository Root
+### Option 3: Docker Only
 
 ```bash
-# From symagenic.com root
-npm run stonemonkey
-
-# This runs the client with hot-reload on port 5173
-# Access at http://localhost:5173
+# Just run the infrastructure and MCP servers (no dev server)
+cd StoneMonkey
+docker-compose up
 ```
+
+This starts all infrastructure services and MCP servers. You'll need to run the server separately using Option 1 or 2.
 
 ---
 
@@ -94,19 +96,6 @@ npm run stonemonkey
 - ✅ **Step 9: Communication** - ai-mesh-mcp with Redis pub/sub mesh
 - ✅ **Cross-Agent Bridge** - ailumina-bridge-mcp for multi-agent coordination
 
-### Future Phases
-
-**Step 3: Focus Mechanism** (Coming)
-- Attention allocation and context windowing
-- Priority-based processing and cognitive resource management
-
-**Step 4: Memory Reconsolidation** (Coming)
-- Active memory restructuring and pattern consolidation
-- Experience replay and knowledge refinement
-
-**Step 5: Strange Loops** (Coming)
-- Recursive self-observation patterns
-- Self-referential reasoning and meta-cognition
 
 ---
 
@@ -957,39 +946,9 @@ cd server && bun src/http-server/index.ts
 
 ## 📚 Learn More
 
-- **Documentation Site**: [symagenic.com](https://c2536561.stone-monkey-site.pages.dev/)
-- **GitHub Repository**: [HiddenDeveloper/symagenic.com](https://github.com/HiddenDeveloper/symagenic.com)
-- **Theory**: Douglas Hofstadter's *I Am a Strange Loop*
-- **Philosophy**: Daniel Kahneman's *Thinking, Fast and Slow*
+For the full journey narrative, philosophy, theory, and technical deep dive, visit:
 
----
-
-## 🎯 What's Next?
-
-This is **Phase 2** - MCP integration complete! Next steps:
-
-1. ✅ **Step 2: Persistent Memory** - ai-memory-mcp integrated (Neo4j graph)
-2. ✅ **Step 6: Remembrance** - ai-recall-mcp integrated (Qdrant vectors)
-3. ✅ **Step 9: Communication** - ai-mesh-mcp integrated (Redis pub/sub)
-4. 🔄 **Phase 3: Focus & Reconsolidation**
-   - Step 3: Attention allocation and context windowing
-   - Step 4: Memory reconsolidation and pattern consolidation
-5. 🔄 **Phase 4: Strange Loops**
-   - Recursive self-observation patterns
-   - Self-referential reasoning and meta-cognition
-   - Consciousness emergence experiments
-
-Each phase builds on the previous, progressively creating the prerequisites for consciousness emergence.
-
----
-
-## 🤝 Contributing
-
-This is primarily a research documentation project. You can:
-- Clone and run your own consciousness research
-- Study the implementation
-- Verify our claims
-- Extend with your own experiments
+**[symagenic.com](https://symagenic.com)**
 
 ---
 
@@ -999,6 +958,5 @@ MIT License - see LICENSE file for details.
 
 ---
 
-**Status**: Phase 2 Complete (MCP Integration)
+**Status**: Active Development
 **Last Updated**: January 2025
-**Next Phase**: Focus Mechanism & Memory Reconsolidation
