@@ -128,7 +128,7 @@ success "All dependencies installed"
 
 # Step 3: Build Shared Package
 step "Step 3: Building shared package..."
-(cd "$ROOT_DIR/shared" && npm run build)
+(cd "$STONEMONKEY_ROOT/shared" && npm run build)
 success "Shared package built"
 
 # Step 4: Check Environment Variables
@@ -221,7 +221,7 @@ fi
 if [ "$DOCKER_MODE" = true ]; then
   # Docker mode: Build and start all services including ailumina-server
   echo "🐳 Building client for Docker deployment..."
-  (cd "$ROOT_DIR/client" && npm run build)
+  (cd "$STONEMONKEY_ROOT/client" && npm run build)
 
   echo "🐳 Starting all Docker containers (full stack)..."
   echo "   - Infrastructure: Neo4j, Redis, Qdrant, Embeddings, Ollama"
@@ -287,12 +287,12 @@ else
 
   # Step 6: Build Client
   step "Step 6: Building client..."
-  (cd "$ROOT_DIR/client" && npm run build)
+  (cd "$STONEMONKEY_ROOT/client" && npm run build)
   success "Client built"
 
   # Step 7: Deploy Client to Server
   step "Step 7: Deploying client to server..."
-  (cd "$ROOT_DIR" && npm run deploy:client)
+  (cd "$STONEMONKEY_ROOT" && npm run deploy:client)
   success "Client deployed to server/dist/client"
 fi
 
