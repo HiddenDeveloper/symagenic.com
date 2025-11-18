@@ -13,6 +13,12 @@ dist/
 .env
 .env.local
 
+# Security - Never commit secrets
+.env.secrets
+.env.production
+.env.*.local
+**/secrets/
+
 # IDE
 .vscode/
 .idea/
