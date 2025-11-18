@@ -25,6 +25,14 @@ services:
       - NEO4J_dbms_security_procedures_unrestricted=apoc.*
       - NEO4J_dbms_security_procedures_allowlist=apoc.*
       - NEO4JLABS_PLUGINS=["apoc"]
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:7474 || exit 1"]
       interval: 30s
@@ -58,6 +66,14 @@ services:
       start_period: 10s
     environment:
       - REDIS_REPLICATION_MODE=master
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
 
   # Qdrant - Conversation Recall (Step 6: Remembrance)
   qdrant:
@@ -77,6 +93,14 @@ services:
     environment:
       - QDRANT__SERVICE__GRPC_PORT=6334
       - QDRANT__LOG_LEVEL=INFO
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:6333/healthz || curl -f http://localhost:6333/ || exit 1"]
       interval: 30s
@@ -103,6 +127,14 @@ services:
     volumes:
       # Cache transformers models to avoid re-downloading
       - embeddings_cache:/usr/src/app/.cache/transformers
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 3G
+        reservations:
+          cpus: '1.0'
+          memory: 1G
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3007/health || exit 1"]
       interval: 30s
@@ -122,6 +154,14 @@ services:
       - stonemonkey_net
     volumes:
       - ollama_models:/root/.ollama
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 3G
+        reservations:
+          cpus: '1.0'
+          memory: 1G
     healthcheck:
       test: ["CMD-SHELL", "ollama list || exit 1"]
       interval: 30s
@@ -155,6 +195,14 @@ services:
       - NEO4J_PASSWORD=${NEO4J_PASSWORD:?NEO4J_PASSWORD must be set}
       - EMBEDDING_SERVICE_URL=http://embeddings:3007
       - EMBEDDING_SERVICE_AUTH_TOKEN=${EMBEDDING_SERVICE_AUTH_TOKEN:?Token required}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3001/health || exit 1"]
       interval: 30s
@@ -184,6 +232,14 @@ services:
       - REDIS_URL=redis://:${REDIS_PASSWORD:?REDIS_PASSWORD required}@redis:6379
       - REDIS_PASSWORD=${REDIS_PASSWORD:?REDIS_PASSWORD required}
       - MESH_NODE_ID=stonemonkey-main
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3002/health || exit 1"]
       interval: 30s
@@ -215,6 +271,14 @@ services:
       - QDRANT_URL=http://qdrant:6333
       - EMBEDDING_SERVICE_URL=http://embeddings:3007
       - EMBEDDING_SERVICE_AUTH_TOKEN=${EMBEDDING_SERVICE_AUTH_TOKEN:?Token required}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3003/health || exit 1"]
       interval: 30s
@@ -239,6 +303,14 @@ services:
       - HOST=0.0.0.0
       - NODE_ENV=production
       - AILUMINA_SERVER_URL=http://ailumina-server:8000
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3004/health || exit 1"]
       interval: 30s
@@ -291,6 +363,14 @@ services:
       - MESH_MCP_URL=http://ai-mesh-mcp:3002
       - RECALL_MCP_URL=http://ai-recall-mcp:3003
       - BRIDGE_MCP_URL=http://ailumina-bridge-mcp:3004
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8000/health || exit 1"]
       interval: 30s
