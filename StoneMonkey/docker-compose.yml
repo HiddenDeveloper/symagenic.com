@@ -349,7 +349,7 @@ services:
       - AUTH_ENABLED=${AUTH_ENABLED:-true}
       - BEARER_TOKEN=${BEARER_TOKEN:?BEARER_TOKEN must be set}
       - CORS_ENABLED=true
-      - CORS_ORIGINS=*
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:8000,http://localhost:3000}
       - OLLAMA_BASE_URL=http://ollama:11434/v1
       - NEO4J_URI=bolt://neo4j:7687
       - NEO4J_USER=neo4j
