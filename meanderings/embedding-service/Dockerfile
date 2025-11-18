@@ -55,8 +55,20 @@ RUN bun run build
 # ===== Final production image =====
 FROM base AS release
 
-# Install wget for health checks
-RUN apt-get update && apt-get install -y wget ca-certificates && rm -rf /var/lib/apt/lists/*
+# Install wget for health checks, build tools for sharp rebuild
+RUN apt-get update && apt-get install -y \
+    wget \
+    ca-certificates \
+    curl \
+    python3 \
+    make \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js and npm for rebuilding sharp
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
 
 # Create non-root user (use existing bun group)
 RUN useradd --system --uid 1001 --gid $(getent group bun | cut -d: -f3) --no-create-home embeddings
@@ -69,6 +81,10 @@ RUN mkdir -p /usr/src/app/.cache/transformers && \
 COPY --from=install-prod --chown=embeddings:bun /temp/prod/node_modules node_modules
 COPY --from=build --chown=embeddings:bun /usr/src/app/dist ./dist
 COPY --from=build --chown=embeddings:bun /usr/src/app/package.json ./package.json
+
+# Rebuild sharp for the target architecture (works on both ARM64 and AMD64)
+# The --platform flag in docker-compose.yml determines which architecture to build for
+RUN npm rebuild sharp --verbose
 
 USER embeddings
 EXPOSE 3007

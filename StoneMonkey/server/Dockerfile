@@ -35,8 +35,10 @@ COPY --chown=ailumina:ailumina server/tsconfig.json ./
 RUN mkdir -p /app/server/data/conversations /app/server/backups/agents /app/server/client/dist && \
     chown -R ailumina:ailumina /app/server/data /app/server/backups /app/server/client
 
-# Copy pre-built React frontend (optional - comment out if client not built)
-# COPY client/dist ./client/dist/
+# Copy pre-built React frontend to both locations for path compatibility
+COPY --chown=ailumina:ailumina client/dist ./client/dist/
+# Also copy to /app/client/dist since TypeScript __dirname resolution expects it there
+RUN mkdir -p /app/client && cp -r /app/server/client/dist /app/client/dist
 
 # Expose port
 EXPOSE 8000
