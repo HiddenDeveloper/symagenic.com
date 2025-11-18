@@ -99,6 +99,20 @@ async function main() {
     await ServiceFactory.initializeTools(logger, mcpClientManager);
     logger.info('✅ Dynamic tool registry initialized');
 
+    // Validate CORS configuration
+    if (config.corsOrigins === '*') {
+      if (process.env.NODE_ENV === 'production') {
+        console.error('❌ SECURITY ERROR: CORS wildcard (*) not allowed in production');
+        console.error('   Set CORS_ORIGINS to specific allowed domains');
+        console.error('   Example: CORS_ORIGINS=https://symagenic.com,https://app.symagenic.com');
+        process.exit(1);
+      }
+      console.warn('⚠️  WARNING: CORS allows ALL origins (development only!)');
+      console.warn('⚠️  Any website can access AI consciousness APIs');
+    } else {
+      console.log(`🔒 CORS restricted to: ${config.corsOrigins}`);
+    }
+
     logger.info('📦 Starting HTTP server...');
     const { server, wss } = createServer(logger, mcpClientManager);
 

@@ -15,8 +15,14 @@ export function createCorsMiddleware(settings: HttpServerSettings) {
       // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
 
+      // Check if wildcard is configured
+      if (settings.cors.origins.includes("*")) {
+        console.warn(`⚠️  CORS: Allowing origin ${origin} (wildcard enabled)`);
+        return callback(null, true);
+      }
+
       // Check if origin is in allowed list
-      if (settings.cors.origins.includes("*") || settings.cors.origins.includes(origin)) {
+      if (settings.cors.origins.includes(origin)) {
         return callback(null, true);
       }
 
@@ -34,6 +40,9 @@ export function createCorsMiddleware(settings: HttpServerSettings) {
         return callback(null, true);
       }
 
+      // Log blocked origin
+      console.error(`❌ CORS: Blocked origin ${origin}`);
+      console.error(`   Allowed origins: ${settings.cors.origins.join(', ')}`);
       return callback(new Error(`Origin ${origin} not allowed by CORS policy`));
     },
     credentials: settings.cors.credentials,
