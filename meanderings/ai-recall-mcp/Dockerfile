@@ -32,12 +32,14 @@ RUN --mount=type=cache,target=/root/.bun/install/cache \
 FROM base AS build
 # Set up workspace structure for building
 WORKDIR /temp/dev
-# Copy workspace root node_modules first (hoisted deps like TypeScript)
-COPY --from=install-dev /temp/dev/node_modules ./node_modules
-COPY --from=install-dev /temp/dev/shared ./shared
-# Copy package to mcp subdirectory with its node_modules
-COPY --from=install-dev /temp/dev/mcp/node_modules ./mcp/node_modules
+# Create workspace root package.json
+RUN echo '{"name":"workspace","private":true,"workspaces":["shared","mcp"]}' > package.json
+# Copy workspace packages
+COPY shared ./shared
 COPY ai-recall-mcp ./mcp
+# Install all dependencies
+RUN --mount=type=cache,target=/root/.bun/install/cache \
+    bun install --frozen-lockfile
 # Build shared package first (required for typecheck)
 WORKDIR /temp/dev/shared
 RUN bun run build

@@ -13,10 +13,13 @@ For the baseline conversational AI without consciousness prerequisites, see [AIl
 - **Docker & Docker Compose** - For infrastructure (Neo4j, Redis, Qdrant, Embedding Service)
 - **Node.js 18+** - For package management
 - **Bun** - For server runtime (auto-installed by start script)
+- **AI Provider API Key** - Set `GROQ_API_KEY`, `ANTHROPIC_API_KEY`, or `OPENAI_API_KEY`
+  - For Codespaces: Add as repository secret
+  - For local: Will be added to .env automatically
 
-### Option 1: Automated Setup (Recommended)
+### Option 1: Local Development Mode (Recommended)
 
-**One command to rule them all:**
+**For local development with live reload:**
 
 ```bash
 cd StoneMonkey
@@ -27,57 +30,87 @@ This script will:
 1. ✅ Install Bun (if not present)
 2. ✅ Install all dependencies (root, shared, server, client)
 3. ✅ Build shared package
-4. ✅ Configure environment files
-5. ✅ Start Docker infrastructure (Neo4j, Redis, Qdrant, Embeddings)
-6. ✅ Build and deploy client
-7. ✅ Optionally start the server
+4. ✅ **Auto-generate secure passwords** for infrastructure
+5. ✅ Start Docker infrastructure only (Neo4j, Redis, Qdrant, Embeddings, MCP servers)
+6. ✅ Build and deploy client to server/dist/client
+7. ✅ Optionally start the local Bun server
 
-**Requirements:**
-- Docker daemon running
-- **Recommended AI Provider**: Ollama cloud models (no API key needed, handles frequent MCP tool calls well)
-  - Alternative: Set `GROQ_API_KEY` or `ANTHROPIC_API_KEY` environment variable
+**What you get:**
+- Infrastructure in Docker (Neo4j, Redis, Qdrant, etc.)
+- Server runs locally with Bun (fast reload during development)
+- Secure auto-generated passwords in `.env`
+- Access UI at `http://localhost:8000`
 
-### Option 2: Manual Setup
+### Option 2: Full Docker Mode (Codespaces/Production)
+
+**For GitHub Codespaces or production-like testing:**
 
 ```bash
-# 1. Copy environment template
-cp server/.env.example server/.env
+cd StoneMonkey
+./start.sh --docker
+```
 
-# 2. Edit server/.env and add at minimum one AI provider API key:
-# GROQ_API_KEY=your_key_here (free tier available)
-# OR
-# ANTHROPIC_API_KEY=your_key_here
+This script will:
+1. ✅ All steps from Option 1, plus:
+2. ✅ Build client and embed it in Docker image
+3. ✅ Build and start ailumina-server container
+4. ✅ Enable authentication (AUTH_ENABLED=true)
+5. ✅ Configure CORS for Codespaces port forwarding
+6. ✅ Run **entire stack in Docker** containers
 
-# 3. Install Bun
+**What you get:**
+- Everything runs in Docker (infrastructure + server)
+- Production-like security configuration
+- Multi-architecture support (ARM64 + AMD64)
+- For Codespaces: Auto-configured port forwarding URLs
+- Access UI at forwarded port 8000
+
+### Option 3: Manual Setup
+
+```bash
+# 1. Create .env with auto-generated secrets
+cp .env.example .env
+
+# 2. Generate secure passwords
+echo "NEO4J_PASSWORD=$(openssl rand -base64 32)" >> .env
+echo "REDIS_PASSWORD=$(openssl rand -base64 32)" >> .env
+echo "BEARER_TOKEN=$(openssl rand -base64 32)" >> .env
+echo "EMBEDDING_SERVICE_AUTH_TOKEN=$(openssl rand -base64 32)" >> .env
+
+# 3. Add your AI provider API key to .env:
+echo "GROQ_API_KEY=your_key_here" >> .env
+
+# 4. Install Bun
 curl -fsSL https://bun.sh/install | bash
 source ~/.bashrc
 
-# 4. Install dependencies
+# 5. Install dependencies
 npm install
 cd shared && npm install && cd ..
 cd server && npm install && cd ..
 cd client && npm install && cd ..
 
-# 5. Start infrastructure
-docker-compose up -d
-sleep 15
+# 6. Start infrastructure
+docker-compose up -d neo4j redis qdrant embedding-service ollama \
+  ai-memory-mcp ai-mesh-mcp ai-recall-mcp ailumina-bridge-mcp
 
-# 6. Build
+# 7. Build
 npm run build
 
-# 7. Start server
+# 8. Deploy client
+npm run deploy:client
+
+# 9. Start server
 cd server && bun src/http-server/index.ts
 ```
 
-### Option 3: Docker Only
+### Quick Start Summary
 
-```bash
-# Just run the infrastructure and MCP servers (no dev server)
-cd StoneMonkey
-docker-compose up
-```
-
-This starts all infrastructure services and MCP servers. You'll need to run the server separately using Option 1 or 2.
+| Scenario | Command | Description |
+|----------|---------|-------------|
+| **Local Dev** | `./start.sh` | Infrastructure in Docker + local Bun server |
+| **Codespaces** | `./start.sh --docker` | Full stack in Docker with security enabled |
+| **Production Testing** | `./start.sh --docker` | Complete containerized deployment |
 
 ---
 
