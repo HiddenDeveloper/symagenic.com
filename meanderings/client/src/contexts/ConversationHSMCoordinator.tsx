@@ -231,15 +231,15 @@ export const ConversationHSMCoordinator: React.FC<{
         case "tool_running":
           // AI is running a tool
           const toolRunningData = data as any;
-          console.log("[Coordinator] Tool running:", toolRunningData?.tool);
-          send({ type: "TOOL_STARTED", tool: toolRunningData?.tool || "unknown" });
+          console.log("[Coordinator] Tool running:", toolRunningData?.tool_name);
+          send({ type: "TOOL_STARTED", tool: toolRunningData?.tool_name || "unknown" });
           break;
 
         case "tool_complete":
           // AI completed running a tool
           const toolCompleteData = data as any;
-          console.log("[Coordinator] Tool complete:", toolCompleteData?.tool);
-          send({ type: "TOOL_COMPLETED", tool: toolCompleteData?.tool || "unknown" });
+          console.log("[Coordinator] Tool complete:", toolCompleteData?.tool_name);
+          send({ type: "TOOL_COMPLETED", tool: toolCompleteData?.tool_name || "unknown" });
           break;
 
         case "complete":
