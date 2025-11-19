@@ -59,6 +59,13 @@ export const ConversationHSMCoordinator: React.FC<{
   // Use the machine with minimal options to avoid type errors
   const [state, send] = useMachine(ConversationMachine);
 
+  // Log state transitions for debugging
+  useEffect(() => {
+    console.log(
+      `[Coordinator] State transition: ${state.value} | Messages: ${state.context.messages.length} | Current tool: ${state.context.currentTool?.name || "none"}`
+    );
+  }, [state.value, state.context.messages.length, state.context.currentTool]);
+
   // Get SR and TTS state from context (independent flags)
   const speechRecognitionEnabled = state.context.speechRecognitionEnabled;
   const speechSynthesisEnabled = state.context.speechSynthesisEnabled;
@@ -108,7 +115,10 @@ export const ConversationHSMCoordinator: React.FC<{
 
     // Add a state observer to AIService
     const removeObserver = AIService.addStateObserver((aiState, data) => {
-      console.log(`[Coordinator] AI state changed: ${aiState}`, data);
+      console.log(
+        `[Coordinator] AI state changed: ${aiState} | Current conversation state: ${state.value} | Messages: ${state.context.messages.length}`,
+        data
+      );
 
       switch (aiState) {
         case AIState.THINKING:
@@ -244,7 +254,7 @@ export const ConversationHSMCoordinator: React.FC<{
 
         case "complete":
           // AI has finished its entire response
-          console.log("[Coordinator] AI response complete");
+          console.log("[Coordinator] AI response complete, current state:", state.value);
 
           // Clear timeout when response completes
           if (responseTimeoutRef.current) {
@@ -252,7 +262,18 @@ export const ConversationHSMCoordinator: React.FC<{
             responseTimeoutRef.current = null;
           }
 
-          send({ type: "AI_COMPLETE" });
+          // Defensive check: Only send AI_COMPLETE if we're in RESPONDING state
+          // This prevents premature transitions back to WAITING during tool execution
+          if (state.matches("responding")) {
+            console.log("[Coordinator] Sending AI_COMPLETE event");
+            send({ type: "AI_COMPLETE" });
+          } else {
+            console.warn(
+              `[Coordinator] Ignoring 'complete' event - not in responding state (current: ${state.value})`
+            );
+            // If we're in THINKING, the AI might be executing tools
+            // We should wait for the actual response before completing
+          }
 
           // Restart SR if enabled and TTS is not playing
           if (speechRecognitionEnabled && !ttsService.isPlaying) {
