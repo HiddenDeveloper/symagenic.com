@@ -162,23 +162,37 @@ export const ConversationHSMCoordinator: React.FC<{
             const messageData = data as Message;
             // Only process AI/assistant messages, not user message echoes
             if (messageData.role === "model" || messageData.role === "assistant") {
-              // Send AI response to state machine
-              console.log(
-                "[Coordinator] Sending AI_RESPONSE_RECEIVED with message:",
-                data,
-              );
-              const messageData = data as any; // Type assertion for flexibility
-              send({
-                type: "AI_RESPONSE_RECEIVED",
-                response:
-                  messageData?.content || messageData?.parts?.[0]?.text || messageData?.getText?.() || "MJC NOT SET",
-                message: messageData, // Pass the full message object
-              });
-              console.log(
-                "[Coordinator] Setting AI response:",
-                messageData?.content || messageData?.parts?.[0]?.text || messageData?.getText?.(),
-              );
-              setAIResponse(messageData?.content || messageData?.parts?.[0]?.text || messageData?.getText?.() || "");
+              // Extract message content from various possible formats
+              const messageDataAny = data as any; // Type assertion for flexibility
+              const messageContent =
+                messageDataAny?.content ||
+                messageDataAny?.parts?.[0]?.text ||
+                messageDataAny?.getText?.() ||
+                "";
+
+              // Only process messages with actual content - skip empty messages
+              // Empty messages can arrive from tool execution and should not be added to conversation history
+              if (messageContent && messageContent.trim()) {
+                console.log(
+                  "[Coordinator] Sending AI_RESPONSE_RECEIVED with message:",
+                  data,
+                );
+                send({
+                  type: "AI_RESPONSE_RECEIVED",
+                  response: messageContent,
+                  message: messageDataAny, // Pass the full message object
+                });
+                console.log(
+                  "[Coordinator] Setting AI response:",
+                  messageContent,
+                );
+                setAIResponse(messageContent);
+              } else {
+                console.log(
+                  "[Coordinator] Skipping empty message (likely from tool execution)",
+                  data,
+                );
+              }
 
               // If in voice mode, speak the response
               // if (isVoiceMode) {
