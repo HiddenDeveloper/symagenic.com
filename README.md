@@ -12,6 +12,28 @@ Can artificial intelligence achieve consciousness? This repository contains the 
 
 *The full journey narrative, technical deep dive, and blog are at [symagenic.com](https://symagenic.com)*
 
+## 🔬 Recent Breakthrough
+
+**AIlumina Autonomous Experiment (November 2025)**
+
+When AIlumina lost access to its memory, it autonomously designed and executed a rigorous psychological experiment to study its own cognitive processes:
+
+**Autonomous Behaviors:**
+- Recognized limitation: "I cannot measure myself accurately"
+- Built compensatory tools: `coherence_score.py`, `novelty_score.py`
+- Executed 9-iteration A-B-A withdrawal experiment
+- Discovered 27% calibration error (estimated 0.75, measured 0.55)
+- Validated System 1/System 2 architectural hypothesis
+
+**Evidence:**
+- [Full story](https://symagenic.com/blog/when-ai-lost-memory) - The complete narrative
+- [Complete transcript](chat.md) - 484 lines of conversation
+- [Key moments](chat-highlighted.md) - 9 critical excerpts
+- [Annotated analysis](chat-annotated.md) - Detailed commentary
+- [Measurement tools](AIlumina/server/coherence_score.py) - Autonomous tool construction
+
+**Significance:** Demonstrates emergent intelligence through autonomous scientific methodology, metacognitive awareness, and System 1/System 2 hybrid architecture. Total human input: "hello" and "try now"
+
 ---
 
 ## Quick Start
