@@ -158,8 +158,11 @@ Through collaborative testing, we've created new agents, assigned tools, tested 
 The Ailumina Bridge implementation is open source: [Project Stone Monkey](https://github.com/HiddenDeveloper/symagenic.com)
 
 Key files:
-- `packages/ailumina-bridge-mcp/shared/tools/tier-tools-manager.ts`
-- Agent discovery, inspection, schema, and delegation tools
+- [`packages/ailumina-bridge-mcp/shared/tools/tier-tools-manager.ts`](https://github.com/HiddenDeveloper/symagenic.com/blob/master/meanderings/packages/ailumina-bridge-mcp/shared/tools/tier-tools-manager.ts) - Orchestrates all 4 tiers
+- [`packages/ailumina-bridge-mcp/shared/tools/agent-discovery.ts`](https://github.com/HiddenDeveloper/symagenic.com/blob/master/meanderings/packages/ailumina-bridge-mcp/shared/tools/agent-discovery.ts) - Tier 1: List agents
+- [`packages/ailumina-bridge-mcp/shared/tools/agent-inspection.ts`](https://github.com/HiddenDeveloper/symagenic.com/blob/master/meanderings/packages/ailumina-bridge-mcp/shared/tools/agent-inspection.ts) - Tier 2: Inspect tools
+- [`packages/ailumina-bridge-mcp/shared/tools/tool-schema.ts`](https://github.com/HiddenDeveloper/symagenic.com/blob/master/meanderings/packages/ailumina-bridge-mcp/shared/tools/tool-schema.ts) - Tier 3: Get schemas
+- [`packages/ailumina-bridge-mcp/shared/tools/agent-delegation.ts`](https://github.com/HiddenDeveloper/symagenic.com/blob/master/meanderings/packages/ailumina-bridge-mcp/shared/tools/agent-delegation.ts) - Tier 4: Direct invocation
 
 If you're hitting context limits with MCP tools, consider: *Can your capabilities be organized hierarchically? Can agents specialize in domains? Can the LLM navigate by association?*
 
