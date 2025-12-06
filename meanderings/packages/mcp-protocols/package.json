@@ -1,0 +1,38 @@
+{
+  "name": "@stone-monkey/mcp-protocols",
+  "version": "1.0.0",
+  "description": "Dual-transport MCP server with HTTP API and STDIO wrapper with sampling",
+  "main": "dist/http-server/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "bun run typecheck && bun build http-server/index.ts --outdir dist/http-server --target bun && bun build stdio-wrapper/index.ts --outdir dist/stdio-wrapper --target bun && bun build scripts/start-both.ts --outdir dist/scripts --target bun",
+    "clean": "rm -rf dist",
+    "dev:http": "bun run http-server/index.ts",
+    "dev:stdio": "bun run stdio-wrapper/index.ts",
+    "dev:both": "bun run scripts/start-both.ts",
+    "start:http": "bun run dist/http-server/index.js",
+    "start:stdio": "bun run dist/stdio-wrapper/index.js",
+    "start:both": "bun run dist/scripts/start-both.js",
+    "test": "jest",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": ["mcp", "model-context-protocol", "http", "stdio", "sampling"],
+  "author": "MCP Remote Server",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.8",
+    "tsx": "^4.6.0",
+    "typescript": "^5.3.0"
+  }
+}

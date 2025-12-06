@@ -1,0 +1,46 @@
+---
+const {
+  repo = "HiddenDeveloper/symagenic.com",
+  repoId = "R_kgDOO_Xwhg",
+  category = "Announcements",
+  categoryId = "DIC_kwDOO_Xwhs4CzUsv",
+  mapping = "pathname", // pathname | url | title | og:title | specific | number
+  strict = "0",
+  reactionsEnabled = "1",
+  emitMetadata = "0",
+  inputPosition = "bottom",
+  theme = "preferred_color_scheme", // Respects user's system theme
+  lang = "en",
+  loading = "lazy",
+  term = "" // Only needed if mapping is "specific"
+} = Astro.props;
+---
+
+<div class="giscus-container my-8">
+  <script
+    is:inline
+    src="https://giscus.app/client.js"
+    data-repo={repo}
+    data-repo-id={repoId}
+    data-category={category}
+    data-category-id={categoryId}
+    data-mapping={mapping}
+    data-strict={strict}
+    data-reactions-enabled={reactionsEnabled}
+    data-emit-metadata={emitMetadata}
+    data-input-position={inputPosition}
+    data-theme={theme}
+    data-lang={lang}
+    data-loading={loading}
+    {...(mapping === "specific" && term ? { "data-term": term } : {})}
+    crossorigin="anonymous"
+    async
+  ></script>
+</div>
+
+<style>
+  .giscus-container {
+    width: 100%;
+    max-width: 100%;
+  }
+</style>

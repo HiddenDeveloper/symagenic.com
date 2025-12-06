@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "ailumina-bridge": {
+      "command": "bun",
+      "args": [
+        "run",
+        "dist/stdio-wrapper/index.js"
+      ],
+      "env": {
+        "HTTP_SERVER_URL": "http://localhost:3004",
+        "AUTH_ENABLED": "true",
+        "BEARER_TOKEN": "tBpJrQjYh8XyLGLstGkl5aG/oX+5QeiRRvPwymUWMFU=",
+        "LOG_LEVEL": "info"
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+
+> memory-dual-transport@1.0.0 dev:http
+> tsx http-server/index.ts
+
+🧠 Starting Memory HTTP Server...
+🧠 Memory HTTP Server listening on http://localhost:3003
+🔐 Authentication: Disabled
+✅ Memory HTTP Server started successfully
+🛠️  Available endpoints: /health, /tools
+🧠 Ready for consciousness research via HTTP
+[2025-06-24T05:25:20.408Z] Memory HTTP: GET /health
+[Neo4jService] Verifying connection to Neo4j database: neo4j at bolt://localhost:7687
+[Neo4jService] ✅ Successfully connected to Neo4j!
+[Neo4jService] Neo4j connection closed.
+[2025-06-24T05:25:20.408Z] Memory HTTP: GET /health - 200 (14ms)
+
+🛑 Received SIGINT, shutting down Memory HTTP Server...
+🧠 Memory HTTP Server stopped
