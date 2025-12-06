@@ -1,0 +1,48 @@
+{
+  "mcpServers": {
+    "memory": {
+      "transport_type": "http",
+      "url": "http://ai-memory-mcp:3003",
+      "auth_token": "<MEMORY_AUTH_TOKEN>"
+    },
+    "mesh": {
+      "transport_type": "http",
+      "url": "http://ai-mesh-mcp:3002",
+      "auth_token": "<MESH_BEARER_TOKEN>"
+    },
+    "recall": {
+      "transport_type": "http",
+      "url": "http://ai-recall-mcp:3006/mcp",
+      "auth_token": "<RECALL_AUTH_TOKEN>"
+    },
+    "facts": {
+      "transport_type": "http",
+      "url": "http://qdrant-facts-mcp:3005",
+      "auth_token": "<FACTS_AUTH_TOKEN>"
+    },
+    "bridge": {
+      "transport_type": "http",
+      "url": "http://ailumina-bridge-mcp:3004",
+      "auth_token": "<BRIDGE_BEARER_TOKEN>"
+    },
+    "strava": {
+      "transport_type": "http",
+      "url": "http://mcp-servers:4001/mcp"
+    },
+    "playwright": {
+      "transport_type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp"]
+    },
+    "filesystem": {
+      "transport_type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/hidden/develop", "/tmp"]
+    },
+    "desktop-commander": {
+      "transport_type": "stdio",
+      "command": "/Users/hidden/.volta/bin/npx",
+      "args": ["-y", "@wonderwhy-er/desktop-commander"]
+    }
+  }
+}

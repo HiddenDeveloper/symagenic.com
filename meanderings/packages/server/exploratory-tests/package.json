@@ -1,0 +1,43 @@
+{
+  "name": "ailumina-exploratory-tests",
+  "version": "1.0.0",
+  "description": "Exploratory tests for external API integrations and third-party services",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:gemini": "cd google-gemini-api && node validate-current-implementation.js",
+    "test:gemini:formats": "cd google-gemini-api && node test-function-formats.js",
+    "test:gemini:debug": "cd google-gemini-api && node debug-connection.js",
+    "test:anthropic": "cd anthropic-api && node validate-current-implementation.js",
+    "test:anthropic:formats": "cd anthropic-api && node test-function-formats.js",
+    "test:anthropic:debug": "cd anthropic-api && node debug-connection.js",
+    "test:anthropic:blocks": "cd anthropic-api && node test-tool-use-blocks.js",
+    "test:openai": "cd openai-api && node validate-current-implementation.js",
+    "test:openai:formats": "cd openai-api && node test-function-formats.js",
+    "test:openai:debug": "cd openai-api && node debug-connection.js",
+    "test:openai:calling": "cd openai-api && node test-tool-calling.js",
+    "test:all": "npm run test:gemini && npm run test:anthropic && npm run test:openai",
+    "test:all:formats": "npm run test:gemini:formats && npm run test:anthropic:formats && npm run test:openai:formats",
+    "help": "echo 'Available commands:' && echo '' && echo 'Google Gemini API:' && echo '  npm run test:gemini          - Validate our current implementation' && echo '  npm run test:gemini:formats  - Test all response formats' && echo '  npm run test:gemini:debug    - Debug API connection' && echo '' && echo 'Anthropic API:' && echo '  npm run test:anthropic        - Validate our current implementation' && echo '  npm run test:anthropic:formats - Test all response formats' && echo '  npm run test:anthropic:debug  - Debug API connection' && echo '  npm run test:anthropic:blocks - Test tool use block scenarios' && echo '' && echo 'OpenAI API:' && echo '  npm run test:openai          - Validate our current implementation' && echo '  npm run test:openai:formats  - Test all response formats' && echo '  npm run test:openai:debug    - Debug API connection' && echo '  npm run test:openai:calling  - Test tool calling scenarios' && echo '' && echo 'Combined Tests:' && echo '  npm run test:all             - Run all provider validations' && echo '  npm run test:all:formats     - Run all format tests' && echo '' && echo 'Environment Variables:' && echo '  GOOGLE_API_KEY     - For Gemini tests' && echo '  ANTHROPIC_API_KEY  - For Claude tests' && echo '  OPENAI_API_KEY     - For OpenAI tests'"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "@anthropic-ai/sdk": "^0.30.0",
+    "openai": "^4.63.0"
+  },
+  "keywords": [
+    "exploratory-testing",
+    "api-discovery",
+    "integration-testing",
+    "google-gemini",
+    "anthropic-api",
+    "openai-api",
+    "external-apis",
+    "function-calling",
+    "tool-use"
+  ],
+  "author": "AIlumina Team",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

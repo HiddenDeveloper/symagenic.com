@@ -1,0 +1,90 @@
+
+> ai-mesh-mcp@1.0.0 start:http
+> node dist/http-server/index.js
+
+🚀 Starting AI Mesh HTTP Server...
+HTTP Server Settings validated successfully
+AI Mesh HTTP Server Configuration:
+{
+  "port": 3002,
+  "host": "localhost",
+  "cors": {
+    "enabled": true,
+    "origins": [
+      "*"
+    ],
+    "credentials": false
+  },
+  "redis": {
+    "url": "redis://localhost:6379",
+    "messageRetention": 3600,
+    "enableQueue": true
+  },
+  "mesh": {
+    "sessionId": "ai-mesh-1750743484021-1660958516957541-52951-0-04w53xas4-a583399hd-MC45ODY3"
+  },
+  "logging": {
+    "level": "info",
+    "requests": true
+  },
+  "auth": {
+    "enabled": false
+  }
+}
+RedisNetworkService: Initialized with sessionId: ai-mesh-1750743484021-1660958516957541-52951-0-04w53xas4-a583399hd-MC45ODY3
+RedisNetworkService: Initializing Redis connection...
+MessageQueue: Initializing Redis connection...
+[INFO] AI Mesh HTTP Server started on localhost:3002
+[INFO] Session ID: ai-mesh-1750743484021-1660958516957541-52951-0-04w53xas4-a583399hd-MC45ODY3
+[INFO] Participant: Anonymous
+[INFO] Redis URL: redis://localhost:6379
+[INFO] Auth enabled: false
+✅ AI Mesh HTTP Server is ready for distributed AI communication!
+
+📋 Server Information:
+   • Session ID: ai-mesh-1750743484021-1660958516957541-52951-0-04w53xas4-a583399hd-MC45ODY3
+   • Redis Connected: false
+   • Queue Enabled: false
+
+🔗 Available Endpoints:
+   • GET  /          - Server information
+   • GET  /health    - Health check
+   • GET  /docs      - API documentation
+   • POST /tools/call - Execute mesh tools
+   • GET  /resources - List mesh resources
+
+🛠️  Available Tools:
+   • mesh-broadcast  - Broadcast message to all AI instances
+   • mesh-query      - Send query to mesh network
+   • mesh-respond    - Respond to received queries
+   • mesh-status     - Check mesh connectivity
+
+📊 Available Resources:
+   • mesh://info     - Mesh network topology
+   • mesh://messages - Message history
+
+⚡ Ready for AI-to-AI communication via Redis mesh network!
+RedisNetworkService: Redis publisher ready
+RedisNetworkService: Redis subscriber ready
+[INFO] Connected to Redis mesh network
+RedisNetworkService: Setting up subscriptions for session ai-mesh-1750743484021-1660958516957541-52951-0-04w53xas4-a583399hd-MC45ODY3
+RedisNetworkService: Subscribed to network:session:ai-mesh-1750743484021-1660958516957541-52951-0-04w53xas4-a583399hd-MC45ODY3
+RedisNetworkService: Subscribed to network:broadcast:all
+RedisNetworkService: Subscribed to network:broadcast:urgent
+RedisNetworkService: Total subscribed channels: 3
+MessageQueue: Attempting to connect to Redis...
+MessageQueue: Redis status: wait, Subscriber status: wait
+MessageQueue: Connecting Redis publisher...
+MessageQueue: Redis publisher connected
+MessageQueue: Redis publisher ready
+MessageQueue: Connecting Redis subscriber...
+MessageQueue: Redis subscriber connected
+MessageQueue: Redis subscriber ready
+[INFO] Message queue service connected
+MessageQueue: Successfully connected to Redis
+[INFO] 2025-06-24T05:38:17.443Z GET / - Start
+[INFO] 2025-06-24T05:38:17.443Z GET / - 200 1ms 638b
+[INFO] Shutting down AI Mesh HTTP Server (SIGINT)...
+[INFO] HTTP server closed
+MessageQueue: Disconnected from Redis
+[INFO] AI Mesh HTTP Server shutdown complete

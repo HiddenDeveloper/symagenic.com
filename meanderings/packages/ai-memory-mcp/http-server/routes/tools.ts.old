@@ -1,0 +1,110 @@
+/**
+ * Tools routes for Memory HTTP server
+ */
+
+import { Router } from 'express';
+import { z } from 'zod';
+import { MEMORY_TOOLS } from '../../shared/tools/index.js';
+import { getMemoryConfig } from '../../shared/utils/config.js';
+import type { MemoryToolName } from '../../shared/tools/index.js';
+
+const router = Router();
+
+// Schema validation for tool requests
+const ToolRequestSchema = z.object({
+  tool: z.string(),
+  parameters: z.record(z.any()).optional().default({}),
+});
+
+// Schema validation for specific tool requests (no tool field needed)
+const ToolParametersSchema = z.object({
+  parameters: z.record(z.any()).optional().default({}),
+});
+
+// Get list of available tools
+router.get('/tools', (req, res) => {
+  const tools = Object.keys(MEMORY_TOOLS).map(name => ({
+    name,
+    description: getToolDescription(name as MemoryToolName),
+  }));
+  
+  res.json({ tools });
+});
+
+// Execute a specific tool
+router.post('/tools/:toolName', async (req, res) => {
+  try {
+    const { toolName } = req.params;
+    const { parameters = {} } = ToolParametersSchema.parse(req.body);
+    
+    if (!(toolName in MEMORY_TOOLS)) {
+      return res.status(404).json({
+        error: 'Tool not found',
+        available_tools: Object.keys(MEMORY_TOOLS)
+      });
+    }
+    
+    const tool = MEMORY_TOOLS[toolName as MemoryToolName];
+    const config = getMemoryConfig();
+    const result = await (tool as any).execute(config, parameters);
+    
+    res.json({
+      tool: toolName,
+      result: result.content,
+      isError: result.isError || false,
+      timestamp: new Date().toISOString()
+    });
+    
+  } catch (error) {
+    console.error('Tool execution error:', error);
+    res.status(500).json({
+      error: 'Tool execution failed',
+      message: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+// Generic tool execution endpoint
+router.post('/tools', async (req, res) => {
+  try {
+    const { tool: toolName, parameters = {} } = ToolRequestSchema.parse(req.body);
+    
+    if (!(toolName in MEMORY_TOOLS)) {
+      return res.status(404).json({
+        error: 'Tool not found',
+        available_tools: Object.keys(MEMORY_TOOLS)
+      });
+    }
+    
+    const tool = MEMORY_TOOLS[toolName as MemoryToolName];
+    const config = getMemoryConfig();
+    const result = await (tool as any).execute(config, parameters);
+    
+    res.json({
+      tool: toolName,
+      result: result.content,
+      isError: result.isError || false,
+      timestamp: new Date().toISOString()
+    });
+    
+  } catch (error) {
+    console.error('Tool execution error:', error);
+    res.status(500).json({
+      error: 'Tool execution failed',
+      message: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+function getToolDescription(toolName: MemoryToolName): string {
+  const descriptions = {
+    get_schema: "Understanding Your Knowledge Structure - Always call first when working with the knowledge base",
+    semantic_search: "Recalling Related Knowledge - Find semantically similar content using vector similarity",
+    execute_cypher: "Your Memory Curation Authority - Query and curate your persistent memory with Cypher",
+    system_status: "Monitor Your Memory System - Check health and status of your persistent memory system"
+  };
+  
+  return descriptions[toolName] || "Memory system tool";
+}
+
+export { router as toolsRouter };

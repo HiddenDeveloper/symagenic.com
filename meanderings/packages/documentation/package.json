@@ -1,0 +1,21 @@
+{
+  "name": "@stone-monkey/documentation",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "deploy": "npm run build && wrangler pages deploy dist --project-name=stone-monkey-site",
+    "deploy:purge": "npm run deploy && wrangler pages deployment tail --project-name=stone-monkey-site && echo 'Deployment complete. Cache purge: Cloudflare automatically purges cache on new deployments.'"
+  },
+  "dependencies": {
+    "astro": "^5.15.1",
+    "marked": "^15.0.12"
+  },
+  "devDependencies": {
+    "@astrojs/tailwind": "^6.0.2",
+    "@tailwindcss/typography": "^0.5.16",
+    "tailwindcss": "^3.0.0",
+    "wrangler": "^4.22.0"
+  }
+}

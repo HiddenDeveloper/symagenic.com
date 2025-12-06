@@ -1,0 +1,13 @@
+/**
+ * tsconfig.json
+ *
+ * Root TypeScript configuration for editor integration:
+ * - Extends tsconfig.app.json to apply app-level settings
+ * - Disables emit (noEmit) so it's only used by the IDE and ESLint
+ */
+{
+    "extends": "./tsconfig.app.json",
+    "compilerOptions": {
+      "noEmit": true
+    }
+  }

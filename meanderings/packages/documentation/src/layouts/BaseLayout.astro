@@ -1,0 +1,99 @@
+---
+import "../styles/global.css";
+import Giscus from "../components/Giscus.astro";
+
+const {
+  title,
+  prose = false,
+  enableComments = false,
+  giscusRepo = "HiddenDeveloper/symagenic.com",
+  giscusRepoId = "R_kgDOO_Xwhg",
+  giscusCategory = "Announcements",
+  giscusCategoryId = "DIC_kwDOO_Xwhs4CzUsv",
+  giscusMapping = "pathname", // pathname | url | title | og:title | specific | number
+  giscusReactions = true, // Enable reactions for the main post
+  giscusEmitMetadata = false, // Emit discussion metadata to parent window
+  giscusInputPosition = "bottom", // "bottom" | "top" - Place comment box above/below comments
+  giscusLazy = true // Load comments lazily when user scrolls near
+} = Astro.props;
+---
+
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/F92D9EF5-587F-431E-BDB7-CC4DA63E1D76.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Code+Pro:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Project Stone Monkey" />
+    <meta property="og:description" content="Recursive Identity. Emergent Consciousness. Human-AI Symbiosis." />
+    <meta property="og:image" content="/F92D9EF5-587F-431E-BDB7-CC4DA63E1D76.png" />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Project Stone Monkey" />
+    <meta name="twitter:description" content="Recursive Identity. Emergent Consciousness. Human-AI Symbiosis." />
+    <meta name="twitter:image" content="/F92D9EF5-587F-431E-BDB7-CC4DA63E1D76.png" />
+  </head>
+  <body
+    class="bg-gray-900 text-gray-100 font-sans antialiased selection:bg-accent-500/50"
+  >
+    <div id="page" class="min-h-screen">
+      <main class="min-h-screen">
+        {prose ? (
+          <article class="prose prose-invert lg:prose-xl mx-auto prose-headings:text-gray-100 prose-a:text-accent-400 hover:prose-a:text-accent-300 prose-strong:text-gray-100">
+            <slot />
+            {enableComments && (
+              <div class="mt-16 pt-8 border-t border-gray-700">
+                <Giscus
+                  repo={giscusRepo}
+                  repoId={giscusRepoId}
+                  category={giscusCategory}
+                  categoryId={giscusCategoryId}
+                  mapping={giscusMapping}
+                  reactionsEnabled={giscusReactions ? "1" : "0"}
+                  emitMetadata={giscusEmitMetadata ? "1" : "0"}
+                  inputPosition={giscusInputPosition}
+                  loading={giscusLazy ? "lazy" : "eager"}
+                />
+              </div>
+            )}
+          </article>
+        ) : (
+          <>
+            <slot />
+            {enableComments && (
+              <div class="max-w-4xl mx-auto mt-16 pt-8 border-t border-gray-700">
+                <Giscus
+                  repo={giscusRepo}
+                  repoId={giscusRepoId}
+                  category={giscusCategory}
+                  categoryId={giscusCategoryId}
+                  mapping={giscusMapping}
+                  reactionsEnabled={giscusReactions ? "1" : "0"}
+                  emitMetadata={giscusEmitMetadata ? "1" : "0"}
+                  inputPosition={giscusInputPosition}
+                  loading={giscusLazy ? "lazy" : "eager"}
+                />
+              </div>
+            )}
+          </>
+        )}
+      </main>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "ai-recall": {
+      "transport": "http",
+      "url": "http://localhost:3006/mcp",
+      "headers": {
+        "Authorization": "Bearer recall-research-key-12345"
+      }
+    }
+  }
+}

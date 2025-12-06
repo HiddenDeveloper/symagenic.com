@@ -1,0 +1,42 @@
+{
+  "name": "@stone-monkey/ai-recall-mcp",
+  "version": "1.0.0",
+  "description": "Dual-transport Recall MCP server for semantic search over conversation history stored in Qdrant",
+  "main": "dist/http-server/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "bun run typecheck && bun build http-server/index.ts --outdir dist/http-server --target bun",
+    "clean": "rm -rf dist",
+    "dev": "bun run http-server/index.ts",
+    "start": "bun run dist/http-server/index.js",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "mcp",
+    "recall",
+    "conversation-history",
+    "qdrant",
+    "semantic-search",
+    "dual-transport"
+  ],
+  "author": "Stone Monkey Consciousness Research",
+  "license": "MIT",
+  "dependencies": {
+    "@ailumina/shared": "workspace:*",
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@qdrant/js-client-rest": "^1.15.1",
+    "jose": "^5.9.6",
+    "node-fetch": "^3.3.2",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^20.10.0",
+    "@types/node-fetch": "^2.6.9",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
