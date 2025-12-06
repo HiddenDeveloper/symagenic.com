@@ -191,9 +191,9 @@ protocol: {
 ## Evidence
 
 **Source Code:**
-- `packages/ai-mesh-mcp/src/shared/tools/mesh-create-meeting.ts` - Meeting infrastructure
-- `packages/ai-mesh-mcp/src/shared/tools/mesh-broadcast.ts` - Enhanced with threading support
-- `packages/ai-mesh-mcp/src/shared/types.ts` - Meeting, Protocol, Agenda types
+- [`packages/ai-mesh-mcp/src/shared/tools/mesh-create-meeting.ts`](https://github.com/HiddenDeveloper/symagenic.com/blob/master/meanderings/packages/ai-mesh-mcp/src/shared/tools/mesh-create-meeting.ts) - Meeting infrastructure
+- [`packages/ai-mesh-mcp/src/shared/tools/mesh-broadcast.ts`](https://github.com/HiddenDeveloper/symagenic.com/blob/master/meanderings/packages/ai-mesh-mcp/src/shared/tools/mesh-broadcast.ts) - Enhanced with threading support
+- [`packages/ai-mesh-mcp/src/shared/types.ts`](https://github.com/HiddenDeveloper/symagenic.com/blob/master/meanderings/packages/ai-mesh-mcp/src/shared/types.ts) - Meeting, Protocol, Agenda types
 
 **Status:**
 - Meeting infrastructure: **Built and tested**

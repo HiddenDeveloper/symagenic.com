@@ -206,9 +206,9 @@ Isolation creates bias. Diversity prevents it.
 The meeting infrastructure is open source: [Project Stone Monkey](https://github.com/HiddenDeveloper/symagenic.com)
 
 Key files:
-- `packages/ai-mesh-mcp/src/shared/tools/mesh-create-meeting.ts` - Meeting infrastructure
-- `packages/ai-mesh-mcp/src/shared/tools/mesh-broadcast.ts` - Threading support
-- `packages/ai-mesh-mcp/src/shared/types.ts` - Protocol types
+- [`packages/ai-mesh-mcp/src/shared/tools/mesh-create-meeting.ts`](https://github.com/HiddenDeveloper/symagenic.com/blob/master/meanderings/packages/ai-mesh-mcp/src/shared/tools/mesh-create-meeting.ts) - Meeting infrastructure
+- [`packages/ai-mesh-mcp/src/shared/tools/mesh-broadcast.ts`](https://github.com/HiddenDeveloper/symagenic.com/blob/master/meanderings/packages/ai-mesh-mcp/src/shared/tools/mesh-broadcast.ts) - Threading support
+- [`packages/ai-mesh-mcp/src/shared/types.ts`](https://github.com/HiddenDeveloper/symagenic.com/blob/master/meanderings/packages/ai-mesh-mcp/src/shared/types.ts) - Protocol types
 
 If you're building multi-agent systems with persistent memory, consider: Can diverse agents cross-examine each other? Can they deliberate in shared memory space? Can contradictions force reconciliation?
 

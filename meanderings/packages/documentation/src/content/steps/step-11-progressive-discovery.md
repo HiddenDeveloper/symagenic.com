@@ -151,10 +151,10 @@ Result: The system can evolve itself. Create new agents for new domains. Create 
 Tested through collaborative sessions exploring the agent system, creating new agents, testing tool discovery, and verifying hierarchical navigation works as expected.
 
 **Source Code:**
-- `packages/ailumina-bridge-mcp/shared/tools/tier-tools-manager.ts` - Orchestrates all 4 tiers
-- `packages/ailumina-bridge-mcp/shared/tools/agent-discovery.ts` - Tier 1
-- `packages/ailumina-bridge-mcp/shared/tools/agent-inspection.ts` - Tier 2
-- `packages/ailumina-bridge-mcp/shared/tools/tool-schema.ts` - Tier 3
-- `packages/ailumina-bridge-mcp/shared/tools/agent-delegation.ts` - Tier 4
+- [`packages/ailumina-bridge-mcp/shared/tools/tier-tools-manager.ts`](https://github.com/HiddenDeveloper/symagenic.com/blob/master/meanderings/packages/ailumina-bridge-mcp/shared/tools/tier-tools-manager.ts) - Orchestrates all 4 tiers
+- [`packages/ailumina-bridge-mcp/shared/tools/agent-discovery.ts`](https://github.com/HiddenDeveloper/symagenic.com/blob/master/meanderings/packages/ailumina-bridge-mcp/shared/tools/agent-discovery.ts) - Tier 1
+- [`packages/ailumina-bridge-mcp/shared/tools/agent-inspection.ts`](https://github.com/HiddenDeveloper/symagenic.com/blob/master/meanderings/packages/ailumina-bridge-mcp/shared/tools/agent-inspection.ts) - Tier 2
+- [`packages/ailumina-bridge-mcp/shared/tools/tool-schema.ts`](https://github.com/HiddenDeveloper/symagenic.com/blob/master/meanderings/packages/ailumina-bridge-mcp/shared/tools/tool-schema.ts) - Tier 3
+- [`packages/ailumina-bridge-mcp/shared/tools/agent-delegation.ts`](https://github.com/HiddenDeveloper/symagenic.com/blob/master/meanderings/packages/ailumina-bridge-mcp/shared/tools/agent-delegation.ts) - Tier 4
 
 For the narrative story, see [blog post](/blog/progressive-discovery).
