@@ -1,0 +1,1029 @@
+
+> ailumina-api-mcp@1.0.0 lint
+> eslint .
+
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/http-server/routes/mcp.ts
+  12:12  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  26:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  40:12  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  53:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/http-server/routes/tts.ts
+   2:10  warning  'AppState' is defined but never used      @typescript-eslint/no-unused-vars
+  18:12  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  40:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/http-server/server-minimal.ts
+   12:10  warning  'AgentFactory' is defined but never used  @typescript-eslint/no-unused-vars
+  178:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  178:51  warning  'next' is defined but never used          @typescript-eslint/no-unused-vars
+  178:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/http-server/server.ts
+  141:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  141:51  warning  'next' is defined but never used          @typescript-eslint/no-unused-vars
+  141:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/adapters/provider-message-adapter.ts
+   11:26  warning  'ContentBlocksMessageBuilder' is defined but never used  @typescript-eslint/no-unused-vars
+   11:55  warning  'PartsMessageBuilder' is defined but never used          @typescript-eslint/no-unused-vars
+   11:76  warning  'ToolCallsMessageBuilder' is defined but never used      @typescript-eslint/no-unused-vars
+   75:48  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  111:61  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  167:39  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  205:35  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  207:17  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  208:13  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  209:21  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  211:19  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  223:27  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  224:24  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  241:26  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  242:23  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  249:58  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  251:53  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  266:30  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  267:17  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  288:69  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/agents/agent-manager.ts
+  1:23  warning  'Message' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/agents/base-agent.ts
+  35:73  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/composition/message-shape-builders.ts
+   29:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   30:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   53:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   69:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   96:74  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   97:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  120:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  135:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  150:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  170:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  190:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  208:69  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  244:69  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  297:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  341:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  391:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  392:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  427:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  428:15  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/composition/message-shape-composer.test.ts
+  114:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/composition/message-shape-composer.ts
+   23:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   72:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  247:65  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  283:68  warning  'warnings' is defined but never used      @typescript-eslint/no-unused-vars
+  296:98  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  351:72  warning  'warnings' is defined but never used      @typescript-eslint/no-unused-vars
+  368:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  368:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  454:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  474:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/config/agent-config.ts
+   5:30  warning  'AgentsFile' is defined but never used    @typescript-eslint/no-unused-vars
+  40:16  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  62:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  71:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/config/server-config.ts
+    2:8   warning  'path' is defined but never used                      @typescript-eslint/no-unused-vars
+    3:36  warning  'ServerConfigFile' is defined but never used          @typescript-eslint/no-unused-vars
+    3:70  warning  'ZodServerConfig' is defined but never used           @typescript-eslint/no-unused-vars
+   21:11  warning  'MCPServersConfig' is defined but never used          @typescript-eslint/no-unused-vars
+   28:42  warning  Unexpected any. Specify a different type              @typescript-eslint/no-explicit-any
+   28:48  warning  Unexpected any. Specify a different type              @typescript-eslint/no-explicit-any
+   35:21  warning  Unexpected any. Specify a different type              @typescript-eslint/no-explicit-any
+   66:13  warning  'validatedConfig' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   68:31  warning  Unexpected any. Specify a different type              @typescript-eslint/no-explicit-any
+   84:42  warning  Unexpected any. Specify a different type              @typescript-eslint/no-explicit-any
+  117:19  warning  Unexpected any. Specify a different type              @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/constants/message-constants.ts
+  70:6  warning  'MessageCompositionType' is defined but never used  @typescript-eslint/no-unused-vars
+  71:6  warning  'TransportType' is defined but never used           @typescript-eslint/no-unused-vars
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/schemas/agents-schema.ts
+  61:6   warning  'ServiceProvider' is defined but never used          @typescript-eslint/no-unused-vars
+  62:6   warning  'RequiredAgent' is defined but never used            @typescript-eslint/no-unused-vars
+  69:10  warning  'validateAgentConfig' is defined but never used      @typescript-eslint/no-unused-vars
+  74:10  warning  'safeValidateAgentsFile' is defined but never used   @typescript-eslint/no-unused-vars
+  78:10  warning  'safeValidateAgentConfig' is defined but never used  @typescript-eslint/no-unused-vars
+  83:10  warning  'checkRequiredAgents' is defined but never used      @typescript-eslint/no-unused-vars
+  83:53  warning  Unexpected any. Specify a different type             @typescript-eslint/no-explicit-any
+  91:10  warning  'getRequiredAgents' is defined but never used        @typescript-eslint/no-unused-vars
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/schemas/server-config-schema.ts
+   5:7   warning  'MCPServerTypeSchema' is assigned a value but only used as a type  @typescript-eslint/no-unused-vars
+  40:6   warning  'StdioServerConfig' is defined but never used                      @typescript-eslint/no-unused-vars
+  41:6   warning  'HttpServerConfig' is defined but never used                       @typescript-eslint/no-unused-vars
+  44:6   warning  'MCPServerType' is defined but never used                          @typescript-eslint/no-unused-vars
+  51:10  warning  'validateServerConfig' is defined but never used                   @typescript-eslint/no-unused-vars
+  56:10  warning  'safeValidateServerConfigFile' is defined but never used           @typescript-eslint/no-unused-vars
+  60:10  warning  'safeValidateServerConfig' is defined but never used               @typescript-eslint/no-unused-vars
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/schemas/test-required-agents.ts
+  14:25  error    Use SERVICE_PROVIDERS.ANTHROPIC instead of string literal "ANTHROPIC"  no-restricted-syntax
+  21:25  error    Use SERVICE_PROVIDERS.OPENAI instead of string literal "OPENAI"        no-restricted-syntax
+  32:19  warning  Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  40:25  error    Use SERVICE_PROVIDERS.OPENAI instead of string literal "OPENAI"        no-restricted-syntax
+  51:19  warning  Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/services/anthropic-provider-old.ts
+   33:17   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   35:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   39:33   error    Use MESSAGE_ROLES.USER instead of string literal "user"            no-restricted-syntax
+   65:21   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   71:105  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   73:30   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   76:24   error    Use MESSAGE_ROLES.SYSTEM instead of string literal "system"        no-restricted-syntax
+   84:24   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   85:28   error    Use MESSAGE_ROLES.TOOL instead of string literal "tool"            no-restricted-syntax
+   85:37   error    Use MESSAGE_ROLES.USER instead of string literal "user"            no-restricted-syntax
+  117:30   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  150:24   error    Use MESSAGE_ROLES.TOOL instead of string literal "tool"            no-restricted-syntax
+  151:26   error    Use MESSAGE_ROLES.USER instead of string literal "user"            no-restricted-syntax
+  165:56   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  165:73   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  165:87   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  166:72   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  169:19   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  202:19   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  203:13   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  212:59   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  212:76   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  212:90   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  226:21   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  245:19   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  246:13   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  253:28   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  263:27   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  276:40   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  324:38   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  325:18   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  326:16   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  327:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  358:33   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  372:13   error    Use MESSAGE_ROLES.USER instead of string literal "user"            no-restricted-syntax
+  384:76   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  384:114  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  384:128  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  427:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  436:73   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  436:111  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  436:125  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  437:72   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  440:19   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  484:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/services/anthropic-provider.ts
+   33:17   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   35:26   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   39:33   error    Use MESSAGE_ROLES.USER instead of string literal "user"            no-restricted-syntax
+   65:21   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   75:75   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   75:116  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   75:130  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  104:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  112:49   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  138:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  152:78   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  152:119  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  152:133  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  174:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  182:48   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  208:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  219:28   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  229:32   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  249:40   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  279:72   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  279:78   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  291:29   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  305:55   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  317:38   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  318:18   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  319:16   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  320:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  336:33   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  348:92   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  364:15   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  366:17   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  368:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  376:17   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  420:15   error    Use MESSAGE_ROLES.USER instead of string literal "user"            no-restricted-syntax
+  431:17   error    Use MESSAGE_ROLES.TOOL instead of string literal "tool"            no-restricted-syntax
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/services/base-provider.ts
+   41:10   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   51:17   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   53:26   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   58:37   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   64:16   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   66:17   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   79:27   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   80:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  102:33   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  103:17   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  153:32   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  188:69   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  188:77   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  188:83   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  189:29   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  228:64   error    Use MESSAGE_ROLES.SYSTEM instead of string literal "system"        no-restricted-syntax
+  233:17   error    Use MESSAGE_ROLES.SYSTEM instead of string literal "system"        no-restricted-syntax
+  244:47   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  245:18   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  246:16   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  247:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  252:42   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  258:111  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  274:15   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  276:17   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  278:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  304:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  334:30   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  362:17   error    Use MESSAGE_ROLES.TOOL instead of string literal "tool"            no-restricted-syntax
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/services/google-provider-refactored.ts
+    9:46   warning  'GooglePart' is defined but never used                             @typescript-eslint/no-unused-vars
+   25:22   error    Use SERVICE_PROVIDERS.GOOGLE instead of string literal "GOOGLE"    no-restricted-syntax
+   42:17   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   44:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   48:33   error    Use MESSAGE_ROLES.USER instead of string literal "user"            no-restricted-syntax
+   64:26   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   83:21   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   89:48   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   89:86   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   89:100  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  101:24   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  130:14   warning  'error' is defined but never used                                  @typescript-eslint/no-unused-vars
+  151:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  157:51   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  157:89   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  157:103  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  199:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  209:16   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  210:17   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  258:53   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  258:67   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  274:28   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  277:18   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  283:25   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  290:27   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  296:105  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/services/google-provider.ts
+   33:17   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   35:26   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   39:33   error    Use MESSAGE_ROLES.USER instead of string literal "user"            no-restricted-syntax
+   64:21   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   74:75   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   74:116  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   74:130  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  103:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  111:50   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  132:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  146:78   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  146:119  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  146:133  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  168:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  176:49   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  197:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  208:28   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  218:36   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  238:40   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  276:60   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  276:66   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  288:29   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  300:43   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  309:59   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  309:65   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  321:38   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  322:18   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  323:16   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  324:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  340:33   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  352:71   warning  'toolCallId' is defined but never used                             @typescript-eslint/no-unused-vars
+  352:92   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  355:13   error    Use MESSAGE_ROLES.USER instead of string literal "user"            no-restricted-syntax
+  375:15   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  377:17   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  379:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  387:17   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/services/groq-provider-old.ts
+   14:22   error    Use SERVICE_PROVIDERS.GROQ instead of string literal "GROQ"        no-restricted-syntax
+   24:17   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   26:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   30:33   error    Use MESSAGE_ROLES.USER instead of string literal "user"            no-restricted-syntax
+   40:28   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   55:21   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   61:55   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   63:24   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   72:53   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   86:24   error    Use MESSAGE_ROLES.TOOL instead of string literal "tool"            no-restricted-syntax
+   99:56   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   99:73   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   99:87   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  100:80   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  103:20   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  122:45   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  155:19   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  156:13   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  167:59   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  167:76   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  167:90   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  186:19   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  187:13   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  198:28   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  208:27   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  221:40   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  224:29   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  277:38   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  278:18   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  279:16   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  280:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  297:33   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  311:13   error    Use MESSAGE_ROLES.TOOL instead of string literal "tool"            no-restricted-syntax
+  321:76   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  321:114  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  321:128  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  353:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  362:73   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  362:111  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  362:125  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  363:80   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  366:20   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  385:45   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  430:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/services/groq-provider.ts
+   34:17   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   36:26   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   40:33   error    Use MESSAGE_ROLES.USER instead of string literal "user"            no-restricted-syntax
+   66:21   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   76:75   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   76:116  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   76:130  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  105:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  127:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  141:78   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  141:119  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  141:133  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  163:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  185:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  196:28   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  206:32   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  229:40   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  259:69   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  259:75   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  271:29   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  285:52   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  297:38   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  298:18   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  299:16   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  300:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  316:33   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  328:92   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  332:13   error    Use MESSAGE_ROLES.TOOL instead of string literal "tool"            no-restricted-syntax
+  345:15   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  347:17   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  349:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  357:17   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  401:17   error    Use MESSAGE_ROLES.TOOL instead of string literal "tool"            no-restricted-syntax
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/services/lmstudio-provider.ts
+   36:17   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   38:26   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   42:33   error    Use MESSAGE_ROLES.USER instead of string literal "user"            no-restricted-syntax
+   68:21   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   78:75   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   78:116  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   78:130  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  107:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  129:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  143:78   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  143:119  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  143:133  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  165:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  187:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  198:28   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  208:32   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  231:40   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  261:69   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  261:75   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  273:29   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  287:52   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  299:38   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  300:18   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  301:16   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  302:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  318:33   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  330:92   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  334:13   error    Use MESSAGE_ROLES.TOOL instead of string literal "tool"            no-restricted-syntax
+  347:15   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  349:17   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  351:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  359:17   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  403:17   error    Use MESSAGE_ROLES.TOOL instead of string literal "tool"            no-restricted-syntax
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/services/ollama-provider.ts
+   43:17  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   45:26  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   49:33  error    Use MESSAGE_ROLES.USER instead of string literal "user"            no-restricted-syntax
+   84:21  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   94:22  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   96:17  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   97:14  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  126:15  error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  148:15  error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  163:22  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  165:17  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  166:14  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  188:15  error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  210:15  error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  221:28  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  231:32  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  254:40  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  285:69  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  285:75  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  297:29  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  311:52  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  323:38  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  324:18  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  325:16  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  326:14  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  342:33  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  354:92  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  358:13  error    Use MESSAGE_ROLES.TOOL instead of string literal "tool"            no-restricted-syntax
+  371:15  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  373:17  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  375:14  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  383:17  error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  439:19  error    Use MESSAGE_ROLES.TOOL instead of string literal "tool"            no-restricted-syntax
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/services/openai-provider-old.ts
+   14:22   error    Use SERVICE_PROVIDERS.OPENAI instead of string literal "OPENAI"    no-restricted-syntax
+   24:17   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   26:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   30:33   error    Use MESSAGE_ROLES.USER instead of string literal "user"            no-restricted-syntax
+   40:28   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   55:21   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   61:57   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   63:24   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   72:53   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   86:24   error    Use MESSAGE_ROLES.TOOL instead of string literal "tool"            no-restricted-syntax
+   99:56   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   99:73   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   99:87   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  100:80   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  103:20   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  122:45   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  155:19   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  156:13   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  167:59   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  167:76   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  167:90   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  186:19   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  187:13   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  198:28   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  208:27   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  221:40   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  224:29   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  276:38   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  277:18   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  278:16   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  279:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  296:33   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  310:13   error    Use MESSAGE_ROLES.TOOL instead of string literal "tool"            no-restricted-syntax
+  320:76   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  320:114  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  320:128  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  352:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  361:73   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  361:111  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  361:125  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  362:80   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  365:20   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  384:45   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  429:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/services/openai-provider.ts
+   33:17   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   35:26   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   39:33   error    Use MESSAGE_ROLES.USER instead of string literal "user"            no-restricted-syntax
+   65:21   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   75:75   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   75:116  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+   75:130  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  104:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  126:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  140:78   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  140:119  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  140:133  warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  162:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  184:15   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  195:28   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  205:32   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  228:40   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  258:69   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  258:75   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  270:29   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  284:52   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  296:38   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  297:18   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  298:16   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  299:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  315:33   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  327:92   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  331:13   error    Use MESSAGE_ROLES.TOOL instead of string literal "tool"            no-restricted-syntax
+  344:15   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  346:17   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  348:14   warning  Unexpected any. Specify a different type                           @typescript-eslint/no-explicit-any
+  356:17   error    Use MESSAGE_ROLES.ASSISTANT instead of string literal "assistant"  no-restricted-syntax
+  405:17   error    Use MESSAGE_ROLES.TOOL instead of string literal "tool"            no-restricted-syntax
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/services/service-factory.ts
+  123:13  error  Use SERVICE_PROVIDERS.OPENAI instead of string literal "OPENAI"        no-restricted-syntax
+  123:23  error  Use SERVICE_PROVIDERS.ANTHROPIC instead of string literal "ANTHROPIC"  no-restricted-syntax
+  123:36  error  Use SERVICE_PROVIDERS.GOOGLE instead of string literal "GOOGLE"        no-restricted-syntax
+  123:46  error  Use SERVICE_PROVIDERS.GROQ instead of string literal "GROQ"            no-restricted-syntax
+  123:54  error  Use SERVICE_PROVIDERS.OLLAMA instead of string literal "OLLAMA"        no-restricted-syntax
+  123:64  error  Use SERVICE_PROVIDERS.LMSTUDIO instead of string literal "LMSTUDIO"    no-restricted-syntax
+  137:12  error  Use SERVICE_PROVIDERS.OPENAI instead of string literal "OPENAI"        no-restricted-syntax
+  140:12  error  Use SERVICE_PROVIDERS.ANTHROPIC instead of string literal "ANTHROPIC"  no-restricted-syntax
+  143:12  error  Use SERVICE_PROVIDERS.GOOGLE instead of string literal "GOOGLE"        no-restricted-syntax
+  146:12  error  Use SERVICE_PROVIDERS.GROQ instead of string literal "GROQ"            no-restricted-syntax
+  149:12  error  Use SERVICE_PROVIDERS.OLLAMA instead of string literal "OLLAMA"        no-restricted-syntax
+  150:12  error  Use SERVICE_PROVIDERS.LMSTUDIO instead of string literal "LMSTUDIO"    no-restricted-syntax
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/state-machines/agent-config-state-machine.ts
+  212:77  warning  Unexpected any. Specify a different type         @typescript-eslint/no-explicit-any
+  241:55  warning  Unexpected any. Specify a different type         @typescript-eslint/no-explicit-any
+  299:22  warning  'configData' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  314:47  warning  Unexpected any. Specify a different type         @typescript-eslint/no-explicit-any
+  332:47  warning  Unexpected any. Specify a different type         @typescript-eslint/no-explicit-any
+  352:55  warning  Unexpected any. Specify a different type         @typescript-eslint/no-explicit-any
+  370:51  warning  Unexpected any. Specify a different type         @typescript-eslint/no-explicit-any
+  390:48  warning  Unexpected any. Specify a different type         @typescript-eslint/no-explicit-any
+  409:48  warning  Unexpected any. Specify a different type         @typescript-eslint/no-explicit-any
+  424:56  warning  Unexpected any. Specify a different type         @typescript-eslint/no-explicit-any
+  439:52  warning  Unexpected any. Specify a different type         @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/state-machines/index.ts
+   79:16  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+   80:19  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+   81:33  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+   82:21  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+   83:16  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+   94:39  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  181:13  error    Use MESSAGE_ROLES.SYSTEM instead of string literal "system"  no-restricted-syntax
+  218:73  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  238:38  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  285:24  warning  'id' is defined but never used                               @typescript-eslint/no-unused-vars
+  285:36  warning  'loadFunction' is defined but never used                     @typescript-eslint/no-unused-vars
+  285:64  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  293:59  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  293:65  warning  'maxRetries' is assigned a value but never used              @typescript-eslint/no-unused-vars
+  301:24  warning  'id' is defined but never used                               @typescript-eslint/no-unused-vars
+  301:36  warning  'timeoutMs' is defined but never used                        @typescript-eslint/no-unused-vars
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/state-machines/mcp-state-machine.ts
+  212:65  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  342:67  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  417:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  561:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/state-machines/message-handling-state-machine.ts
+   18:10  warning  'MessageHandlerFactory' is defined but never used  @typescript-eslint/no-unused-vars
+   19:32  warning  'MessageBuilder' is defined but never used         @typescript-eslint/no-unused-vars
+   20:10  warning  'SERVICE_PROVIDERS' is defined but never used      @typescript-eslint/no-unused-vars
+   90:17  warning  'needsTools' is assigned a value but never used    @typescript-eslint/no-unused-vars
+  293:74  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  326:63  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  346:49  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  356:62  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  364:64  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  376:63  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  417:45  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  417:79  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  471:71  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  527:37  warning  'message' is defined but never used                @typescript-eslint/no-unused-vars
+  527:46  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  527:60  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  568:48  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  568:62  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  604:12  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  629:85  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  646:88  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  655:83  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/state-machines/provider-state-machine.ts
+  216:73  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  258:13  error    Use MESSAGE_ROLES.USER instead of string literal "user"  no-restricted-syntax
+  384:95  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  385:87  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  467:14  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  468:20  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/state-machines/shutdown-state-machine.ts
+  305:29  warning  'context' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/state-machines/startup-state-machine.ts
+   76:17  warning  'isValid' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  216:34  warning  'context' is defined but never used           @typescript-eslint/no-unused-vars
+  216:68  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+  258:46  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+  270:69  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/tools/dynamic-tool-registry.ts
+   99:81   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  102:40   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  110:37   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  145:71   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  145:114  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  257:56   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  257:94   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  274:62   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  274:100  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  285:21   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/tools/functions/crud-functions.ts
+   57:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  108:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  183:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  217:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/tools/functions/get-current-datetime.ts
+  10:3   warning  'context' is defined but never used       @typescript-eslint/no-unused-vars
+  37:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/tools/functions/wait-seconds.ts
+  10:3   warning  'context' is defined but never used       @typescript-eslint/no-unused-vars
+  32:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/tools/mcp-manager.ts
+    8:11  warning  'MCPTool' is defined but never used                        @typescript-eslint/no-unused-vars
+   11:16  warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+   20:13  warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+   30:54  warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+   83:39  error    Use TRANSPORT_TYPES.HTTP instead of string literal "http"  no-restricted-syntax
+   92:23  warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+  184:23  warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+  200:21  warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+  239:45  warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+  243:29  warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+  265:23  warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+  274:17  warning  '_' is defined but never used                              @typescript-eslint/no-unused-vars
+  277:17  warning  '_' is defined but never used                              @typescript-eslint/no-unused-vars
+  292:71  warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+  292:85  warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+  306:69  warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+  310:42  warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+  316:21  warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+  325:51  warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+  340:23  warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/tools/tool-function-decorator.ts
+  10:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  10:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  10:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  20:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  29:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  40:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  65:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/tools/tool-registry-legacy.ts
+    1:10   warning  'ToolDefinition' is defined but never used        @typescript-eslint/no-unused-vars
+    7:31   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+    7:69   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+    7:76   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   17:35   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   26:30   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   81:62   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   81:100  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   92:21   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  297:60   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  312:62   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  318:60   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  329:21   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  334:62   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  348:21   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  353:62   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  365:21   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  370:62   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  381:21   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  386:61   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  386:67   warning  'context' is defined but never used               @typescript-eslint/no-unused-vars
+  388:11   warning  'queryParams' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  417:21   warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/transport/anthropic-api-transport.ts
+   47:15  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+   53:14  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+   58:26  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+   91:49  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+   91:63  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  109:46  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  109:60  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  130:24  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  133:30  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  145:31  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  184:57  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  187:28  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  223:13  warning  'response' is assigned a value but never used            @typescript-eslint/no-unused-vars
+  226:28  error    Use MESSAGE_ROLES.USER instead of string literal "user"  no-restricted-syntax
+  245:33  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  248:22  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  273:27  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  275:15  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  283:19  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  290:56  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  291:49  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  293:59  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  321:22  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  322:50  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  325:14  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  326:13  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  329:23  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/transport/api-transport-factory.ts
+  139:78  warning  Unexpected any. Specify a different type   @typescript-eslint/no-explicit-any
+  273:18  warning  'fallbackError' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/transport/google-api-transport.ts
+    8:39  warning  'GenerateContentRequest' is defined but never used       @typescript-eslint/no-unused-vars
+   41:15  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+   47:14  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+   52:24  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+   80:12  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+   82:5   warning  'options' is assigned a value but never used             @typescript-eslint/no-unused-vars
+   82:14  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+   83:14  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  121:12  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  123:5   warning  'options' is assigned a value but never used             @typescript-eslint/no-unused-vars
+  123:14  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  124:14  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  168:79  error    Use MESSAGE_ROLES.USER instead of string literal "user"  no-restricted-syntax
+  179:42  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  196:59  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  199:30  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  247:33  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  249:13  warning  'model' is assigned a value but never used               @typescript-eslint/no-unused-vars
+  268:27  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  270:21  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  278:19  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  315:22  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  316:56  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  319:20  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  320:13  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  323:29  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  356:14  warning  'error' is defined but never used                        @typescript-eslint/no-unused-vars
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/transport/openai-api-transport.ts
+   50:15  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+   57:14  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+   62:26  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+   95:49  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+   95:63  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  113:46  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  113:60  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  132:76  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  133:27  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  140:17  error    Use MESSAGE_ROLES.SYSTEM instead of string literal "system"  no-restricted-syntax
+  147:28  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  230:13  warning  'response' is assigned a value but never used                @typescript-eslint/no-unused-vars
+  232:28  error    Use MESSAGE_ROLES.USER instead of string literal "user"      no-restricted-syntax
+  252:33  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  264:14  warning  'error' is defined but never used                            @typescript-eslint/no-unused-vars
+  279:27  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  281:17  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  289:19  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  328:22  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  329:52  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  332:16  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  333:13  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+  336:48  warning  Unexpected any. Specify a different type                     @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/types/index.ts
+   18:26  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   33:26  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   34:25  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   42:26  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   46:30  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   64:36  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   78:34  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   79:30  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   84:17  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   86:14  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   88:28  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   90:36  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   97:30  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  116:11  warning  'ConsciousnessMessage' is defined but never used  @typescript-eslint/no-unused-vars
+  120:27  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  128:11  warning  'ChamberState' is defined but never used          @typescript-eslint/no-unused-vars
+  134:39  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  135:44  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/types/message-types.ts
+   16:18  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   28:26  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   30:18  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   39:26  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   50:16  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   51:17  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   63:25  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  131:11  warning  'MessageShapeDetector' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/types/state-machine-types.ts
+   14:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   15:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   20:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   28:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   29:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   66:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   83:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  101:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  115:15  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  135:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  150:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  151:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  152:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  155:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  156:15  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  159:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  186:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  192:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  192:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  210:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  210:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  212:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  212:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/utils/base-state-machine.ts
+  52:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/utils/message-composition.ts
+   81:81  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   88:72  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  102:93  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  123:85  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  180:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  188:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  211:70  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/shared/utils/state-machine-coordinator.ts
+  122:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  122:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  161:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  161:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  298:44  warning  'event' is defined but never used         @typescript-eslint/no-unused-vars
+  471:66  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/stdio-wrapper/index.ts
+  153:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  160:81  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  192:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  240:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  284:69  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/src/websockets/agent.ts
+   83:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  244:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  274:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  295:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/tests/exploratory/anthropic-provider.test.ts
+   53:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   85:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  114:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  152:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  192:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  247:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  273:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  339:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  375:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  413:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  438:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  464:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  469:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/tests/exploratory/google-provider.test.ts
+   53:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   85:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  114:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  152:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  192:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  247:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  273:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  341:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  377:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  416:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  441:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  467:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  472:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/tests/exploratory/lmstudio-provider.test.ts
+   53:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   85:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  114:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  151:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  184:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  214:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  252:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  338:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  368:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  383:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  414:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  439:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  461:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  477:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  482:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/tests/exploratory/ollama-provider.test.ts
+   54:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   86:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  115:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  153:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  193:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  249:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  275:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  344:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  376:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  408:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  433:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  502:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  561:22  warning  'e' is defined but never used             @typescript-eslint/no-unused-vars
+  579:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  652:16  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  652:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  670:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  686:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/tests/exploratory/openai-provider.test.ts
+   53:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   85:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  114:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  152:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  192:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  248:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  274:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  343:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  379:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  417:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  442:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  468:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  473:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/tests/fixtures/provider-mocks.ts
+   37:88  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   97:85  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  170:93  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/tests/fixtures/websocket-mock.ts
+   8:9   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  53:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/tests/integration/cross-provider-validation.test.ts
+   60:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   63:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   64:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  134:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  137:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  138:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  178:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  191:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  194:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  195:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  292:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  293:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  294:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  335:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  336:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  337:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  381:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  382:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  383:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/hidden/develop/home/mcp_remote/ailumina-api-mcp/tests/unit/providers.test.ts
+  246:84  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  322:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  325:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  328:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  335:16  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  342:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  345:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  352:16  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  461:16  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+
+✖ 896 problems (106 errors, 790 warnings)
+

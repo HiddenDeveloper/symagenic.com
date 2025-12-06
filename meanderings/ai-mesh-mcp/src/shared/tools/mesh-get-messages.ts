@@ -24,7 +24,21 @@ export const meshGetMessagesTool: Tool = {
       }
     },
     additionalProperties: false
-  }
+  },
+  examples: [
+    {
+      name: "Check unread messages",
+      description: "Retrieve only new, unread messages from inbox",
+      arguments: {}
+    },
+    {
+      name: "Retrieve all messages including read",
+      description: "Get complete message history including previously read messages",
+      arguments: {
+        include_read_messages: true
+      }
+    }
+  ]
 };
 
 /**

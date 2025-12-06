@@ -84,7 +84,7 @@ Your `agents.json` must include the required agents:
     "system_prompt": "You are AIlumina...",
     "do_stream": false,
     "available_functions": ["wait_for_seconds", "get_current_datetime"],
-    "mcp_servers": ["my-memory-consciousness", "strava", "playwright"]
+    "mcp_servers": ["memory", "mesh", "recall", "facts", "bridge", "strava", "claude-code"]
   },
   "OtherAgent": {
     // ... other agent configurations

@@ -15,6 +15,14 @@ export { DeleteToolTool } from './delete-tool.js';
 export { ReloadToolsTool } from './reload-tools.js';
 export { ListAgentsTool, GetAgentTool, CreateAgentTool, UpdateAgentTool, DeleteAgentTool } from './agent-crud.js';
 
+// Progressive Disclosure Tier tools
+export { AgentsListTool, AgentsGetTool } from './agent-discovery.js';
+export { AgentsToolsListTool, AgentsToolsCallTool } from './tool-discovery.js';
+export { AgentSearchTool } from './agent-search.js';
+export { ToolSearchTool } from './tool-search.js';
+export { WorkflowsListTool } from './workflow-discovery.js';
+export { TierToolsManager } from './tier-tools-manager.js';
+
 import { EchoTool } from './echo.js';
 import { CalculateTool } from './calculate.js';
 import { GetTimeTool } from './get-time.js';

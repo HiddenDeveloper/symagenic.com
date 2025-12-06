@@ -1,0 +1,178 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const steps = await getCollection('steps', ({ data }) => !data.draft);
+  return steps.map((step) => ({
+    params: { slug: step.data.slug || step.slug },
+    props: { step },
+  }));
+}
+
+interface Props {
+  step: CollectionEntry<'steps'>;
+}
+
+const { step } = Astro.props;
+const { Content } = await step.render();
+
+// Get all steps for navigation
+const allSteps = await getCollection('steps', ({ data }) => !data.draft);
+const sortedSteps = allSteps.sort((a, b) => a.data.section - b.data.section);
+const currentIndex = sortedSteps.findIndex(p => p.data.section === step.data.section);
+const prevStep = currentIndex > 0 ? sortedSteps[currentIndex - 1] : null;
+const nextStep = currentIndex < sortedSteps.length - 1 ? sortedSteps[currentIndex + 1] : null;
+---
+
+<BaseLayout title={`${step.data.title} - ${step.data.subtitle} | Project Stone Monkey`}>
+  <style is:global>
+    html {
+      scroll-behavior: smooth;
+    }
+    /* Add scroll offset for sticky menus (main nav + sub nav + heading spacing) */
+    h2[id], h3[id], h4[id] {
+      scroll-margin-top: 133px !important;
+    }
+  </style>
+
+  <!-- Hero Section -->
+  <div class="bg-neural-network py-16">
+    <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
+      <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-accent-400 via-identity-400 to-recursive-400 bg-clip-text text-transparent mb-6">
+        Meandering Steps to Consciousness
+      </h1>
+      <p class="text-2xl text-slate-300 mb-4">
+        A Curious and Playful Journey with Discoveries Along the Way.
+      </p>
+    </div>
+  </div>
+
+  <!-- Sticky Navigation -->
+  <div class="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-700/50">
+    <div class="container mx-auto px-4 lg:px-8 max-w-6xl py-4">
+      <div class="flex items-center justify-between">
+        <nav class="flex gap-4 items-center flex-wrap">
+          <a href="/#introduction" class="text-slate-300 hover:text-accent-400 transition-colors text-sm">
+            Introduction
+          </a>
+          <a href="/journey/starting-point" class="text-slate-300 hover:text-accent-400 transition-colors text-sm">
+            Starting Point
+          </a>
+
+          <!-- Current step with prev/next -->
+          <div class="flex items-center gap-2">
+            {prevStep ? (
+              <a href={`/steps/${prevStep.data.slug || prevStep.slug}`} class="text-slate-400 hover:text-accent-400 transition-colors" title={`Previous: ${prevStep.data.title}`}>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+              </a>
+            ) : (
+              <span class="w-5"></span>
+            )}
+
+            <span class="text-accent-400 font-medium text-sm px-2">
+              {step.data.icon} {step.data.title}
+            </span>
+
+            {nextStep ? (
+              <a href={`/steps/${nextStep.data.slug || nextStep.slug}`} class="text-slate-400 hover:text-accent-400 transition-colors" title={`Next: ${nextStep.data.title}`}>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </a>
+            ) : (
+              <span class="w-5"></span>
+            )}
+          </div>
+
+          <a href="/#where-we-are-now" class="text-slate-300 hover:text-accent-400 transition-colors text-sm">
+            Where We Are Now
+          </a>
+        </nav>
+        <div class="flex gap-4 items-center">
+          <a href="https://github.com/HiddenDeveloper/symagenic.com" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-accent-400 transition-colors text-sm">
+            GitHub
+          </a>
+          <a href="/blog" class="text-accent-400 hover:text-accent-300 transition-colors font-medium text-sm whitespace-nowrap">
+            Blog →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Section Navigation -->
+  <div class="sticky top-[64px] z-30 bg-slate-800/90 backdrop-blur-sm border-b border-slate-700/30">
+    <div class="container mx-auto px-4 lg:px-8 max-w-5xl py-3">
+      <nav class="flex gap-6 justify-center">
+        <a href="#musings" class="text-slate-400 hover:text-accent-400 transition-colors font-medium text-sm">
+          Musings
+        </a>
+        <span class="text-slate-700">•</span>
+        <a href="#implementation" class="text-slate-400 hover:text-accent-400 transition-colors font-medium text-sm">
+          Implementation
+        </a>
+        <span class="text-slate-700">•</span>
+        <a href="#evidence" class="text-slate-400 hover:text-accent-400 transition-colors font-medium text-sm">
+          Evidence
+        </a>
+      </nav>
+    </div>
+  </div>
+
+  <article class="container mx-auto px-4 lg:px-8 py-12 max-w-5xl">
+    <!-- Article Header -->
+    <header class="mb-12">
+      <div class="flex items-center gap-4 mb-6">
+        <span class="text-5xl">{step.data.icon}</span>
+        <div>
+          <h1 class="text-4xl md:text-5xl font-bold text-slate-100">
+            {step.data.title}
+          </h1>
+          <p class="text-2xl text-slate-400 mt-2">
+            {step.data.subtitle}
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Article Content -->
+    <div class="prose prose-lg prose-invert max-w-none
+      prose-headings:text-slate-200
+      prose-h1:hidden
+      prose-h2:text-3xl prose-h2:font-bold prose-h2:mt-12 prose-h2:mb-6 prose-h2:border-b prose-h2:border-slate-700/50 prose-h2:pb-4
+      prose-h3:text-2xl prose-h3:font-semibold prose-h3:mt-8 prose-h3:mb-4
+      prose-h4:text-xl prose-h4:font-semibold prose-h4:mt-6 prose-h4:mb-3 prose-h4:text-accent-400
+      prose-p:text-slate-300 prose-p:leading-relaxed
+      prose-a:text-accent-400 prose-a:no-underline hover:prose-a:text-accent-300
+      prose-strong:text-slate-200
+      prose-em:text-slate-300
+      prose-code:text-accent-400 prose-code:bg-slate-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
+      prose-pre:bg-slate-900 prose-pre:border prose-pre:border-slate-700 prose-pre:rounded-lg
+      prose-blockquote:border-l-accent-500 prose-blockquote:text-slate-300
+      prose-ul:text-slate-300
+      prose-ol:text-slate-300
+      prose-li:text-slate-300
+      prose-li:marker:text-accent-400
+      prose-hr:border-slate-700/50
+      prose-table:text-slate-300
+      prose-th:bg-slate-800
+      prose-td:border-slate-700
+    ">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .bg-neural-network {
+    background:
+      radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+      #0f172a;
+  }
+</style>

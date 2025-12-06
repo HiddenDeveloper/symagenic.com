@@ -5,51 +5,34 @@
 FROM oven/bun:1 AS base
 WORKDIR /usr/src/app
 
-# Install dev dependencies stage
+# Prepare shared package
+FROM base AS shared
+COPY packages/shared ./temp-shared
+RUN cd temp-shared && bun install && bun run build 2>/dev/null || true
+
+# Install dev dependencies - manually handle workspace dependency
 FROM base AS install-dev
-RUN mkdir -p /temp/dev/mcp
-# Create workspace root package.json
-RUN echo '{"name":"workspace","private":true,"workspaces":["shared","mcp"]}' > /temp/dev/package.json
-# Copy workspace packages
-COPY shared /temp/dev/shared
-COPY ai-memory-mcp/package.json ai-memory-mcp/bun.lock* /temp/dev/mcp/
-# Install from workspace root
+COPY packages/ai-memory-mcp/package.json ./
+# Replace workspace dependency with file path temporarily
+RUN sed -i 's|"@ailumina/shared": "workspace:\*"|"@ailumina/shared": "file:../temp-shared"|g' package.json
+COPY --from=shared /usr/src/app/temp-shared ../temp-shared
 RUN --mount=type=cache,target=/root/.bun/install/cache \
-    cd /temp/dev && bun install --frozen-lockfile
+    bun install
 
-# Install production dependencies stage
+# Install production dependencies
 FROM base AS install-prod
-RUN mkdir -p /temp/prod/mcp
-# Create workspace root package.json
-RUN echo '{"name":"workspace","private":true,"workspaces":["shared","mcp"]}' > /temp/prod/package.json
-# Copy workspace packages
-COPY shared /temp/prod/shared
-COPY ai-memory-mcp/package.json ai-memory-mcp/bun.lock* /temp/prod/mcp/
-# Install from workspace root
+COPY packages/ai-memory-mcp/package.json ./
+RUN sed -i 's|"@ailumina/shared": "workspace:\*"|"@ailumina/shared": "file:../temp-shared"|g' package.json
+COPY --from=shared /usr/src/app/temp-shared ../temp-shared
 RUN --mount=type=cache,target=/root/.bun/install/cache \
-    cd /temp/prod && bun install --frozen-lockfile --production
+    bun install --production
 
-# Build stage
+# Build stage - just copy source files, Bun can run TypeScript natively
 FROM base AS build
-# Set up workspace structure for building
-WORKDIR /temp/dev
-# Create workspace root package.json
-RUN echo '{"name":"workspace","private":true,"workspaces":["shared","mcp"]}' > package.json
-# Copy workspace packages
-COPY shared ./shared
-COPY ai-memory-mcp ./mcp
-# Install all dependencies
-RUN --mount=type=cache,target=/root/.bun/install/cache \
-    bun install --frozen-lockfile
-# Build shared package first (required for typecheck)
-WORKDIR /temp/dev/shared
-RUN bun run build
-# Build from within the mcp package directory
-WORKDIR /temp/dev/mcp
-RUN bun run typecheck && \
-    bun build http-server/index.ts --outdir dist/http-server --target bun && \
-    bun build stdio-wrapper/index.ts --outdir dist/stdio-wrapper --target bun && \
-    bun build scripts/start-both.ts --outdir dist/scripts --target bun
+COPY --from=install-dev /usr/src/app/node_modules ./node_modules
+COPY packages/ai-memory-mcp .
+# Copy shared package for runtime imports
+COPY --from=shared /usr/src/app/temp-shared ./node_modules/@ailumina/shared
 
 # Production runtime stage
 FROM oven/bun:1 AS release
@@ -81,19 +64,21 @@ RUN groupadd -g 1001 nodejs || true && \
 WORKDIR /usr/src/app
 
 # Copy production dependencies from install-prod stage
-COPY --from=install-prod --chown=mcp:nodejs /temp/prod/mcp/node_modules node_modules
+COPY --from=install-prod --chown=mcp:nodejs /usr/src/app/node_modules node_modules
+# Copy shared package to node_modules for runtime
+COPY --from=shared --chown=mcp:nodejs /usr/src/app/temp-shared node_modules/@ailumina/shared
 
-# Copy built application from build stage
-COPY --from=build --chown=mcp:nodejs /temp/dev/mcp/dist ./dist
+# Copy source files (Bun runs TypeScript natively)
+COPY --from=build --chown=mcp:nodejs /usr/src/app/http-server ./http-server
+COPY --from=build --chown=mcp:nodejs /usr/src/app/stdio-wrapper ./stdio-wrapper
+COPY --from=build --chown=mcp:nodejs /usr/src/app/scripts ./scripts
+COPY --from=build --chown=mcp:nodejs /usr/src/app/shared ./shared
+COPY --from=build --chown=mcp:nodejs /usr/src/app/CLAUDE.md ./CLAUDE.md
+COPY --from=build --chown=mcp:nodejs /usr/src/app/package.json ./package.json
+COPY --from=build --chown=mcp:nodejs /usr/src/app/tsconfig.json ./tsconfig.json
 
-# Copy additional files needed at runtime
-COPY --from=build --chown=mcp:nodejs /temp/dev/shared ./shared
-COPY --from=build --chown=mcp:nodejs /temp/dev/mcp/CLAUDE.md ./CLAUDE.md
-COPY --from=build --chown=mcp:nodejs /temp/dev/mcp/package.json ./package.json
-
-# Copy curation scripts and MCP configuration
-COPY --chown=mcp:nodejs ai-memory-mcp/scripts/ /usr/src/app/scripts/
-COPY --chown=mcp:nodejs ai-memory-mcp/.mcp.json /usr/src/app/.mcp.json
+# Copy MCP configuration
+COPY --chown=mcp:nodejs packages/ai-memory-mcp/.mcp.json /usr/src/app/.mcp.json
 
 # Create cron log directory
 RUN mkdir -p /usr/src/app/logs && \
@@ -119,7 +104,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
     CMD curl -f http://localhost:3003/health || exit 1
 
 # Copy and setup entrypoint (must be before USER directive)
-COPY ai-memory-mcp/docker-entrypoint.sh /usr/local/bin/
+COPY packages/ai-memory-mcp/docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Note: Don't switch to mcp user yet - entrypoint needs root for cron setup
@@ -128,5 +113,6 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 # Use entrypoint to setup cron and start services
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-# Default command - start HTTP server with Bun
-CMD ["bun", "run", "dist/http-server/index.js"]
+# Default command - start HTTP server with Bun (runs TypeScript natively)
+# For development: mount source directories and this runs your live code
+CMD ["bun", "run", "http-server/index.ts"]

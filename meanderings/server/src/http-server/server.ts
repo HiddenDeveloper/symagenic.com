@@ -1,9 +1,10 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 // eslint-disable-next-line no-restricted-syntax
 import { createServer as createHttpServer, Server } from 'http';
 import { WebSocketServer } from 'ws';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 import { resolve, dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { existsSync } from 'fs';
@@ -42,7 +43,7 @@ export function createServer(
   });
 
   // Generate session ID
-  const sessionId = uuidv4();
+  const sessionId = randomUUID();
 
   // Initialize app state
   const appState: AppState = {
@@ -68,6 +69,28 @@ export function createServer(
   // Store state in app locals for access in routes
   app.locals.state = appState;
   app.locals.wss = wss;
+
+  // Security headers - must be before other middleware
+  app.use(helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "blob:"],  // Allow blob: for web workers
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:", "https:"],
+        connectSrc: ["'self'", "ws:", "wss:"],
+        workerSrc: ["'self'", "blob:"],  // Explicit worker-src for web workers
+      }
+    },
+    hsts: {
+      maxAge: 31536000,
+      includeSubDomains: true,
+      preload: true
+    },
+    frameguard: { action: 'deny' },
+    noSniff: true,
+    xssFilter: true
+  }));
 
   // Middleware
   app.use(express.json({ limit: '50mb' }));
@@ -181,8 +204,11 @@ export function createServer(
     logger.info(`WebSocket connection established: ${path}`);
 
     // Route WebSocket connections based on path
-    if (path?.startsWith('/ws/')) {
-      const pathParts = path.split('/');
+    // Handle both /ws/endpoint (direct) and /endpoint (via Tailscale proxy that strips /ws)
+    const pathWithWs = path?.startsWith('/ws/') ? path : `/ws${path}`;
+
+    if (pathWithWs.startsWith('/ws/')) {
+      const pathParts = pathWithWs.split('/');
       if (pathParts.length >= 3) {
         const endpoint = pathParts[2]; // Extract endpoint from /ws/{endpoint}
 
@@ -194,10 +220,10 @@ export function createServer(
           AgentWebSocketHandler.handleConnection(logger, ws, endpoint);
         }
       } else {
-        ws.close(1008, 'Invalid WebSocket path format. Expected: /ws/{endpoint}');
+        ws.close(1008, 'Invalid WebSocket path format. Expected: /ws/{endpoint} or /{endpoint}');
       }
     } else {
-      ws.close(1008, 'Invalid WebSocket path. Expected: /ws/{endpoint}');
+      ws.close(1008, 'Invalid WebSocket path. Expected: /ws/{endpoint} or /{endpoint}');
     }
   });
 

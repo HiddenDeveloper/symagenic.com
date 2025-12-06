@@ -28,10 +28,10 @@ fi
 cat > /tmp/crontab <<EOF
 # AI Memory MCP - Autonomous Memory Curation
 # Daily curation at 2 AM UTC (run as mcp user)
-0 2 * * * gosu mcp /app/scripts/memory-curation.sh >> /app/logs/memory-curation.log 2>&1
+0 2 * * * gosu mcp /app/scripts/curation/memory-curation.sh >> /app/logs/memory-curation.log 2>&1
 
 # Weekly deep reflection on Sundays at 3 AM UTC (run as mcp user)
-0 3 * * 0 gosu mcp /app/scripts/memory-deep-reflection.sh >> /app/logs/memory-reflection.log 2>&1
+0 3 * * 0 gosu mcp /app/scripts/curation/memory-deep-reflection.sh >> /app/logs/memory-reflection.log 2>&1
 
 # Keep cron daemon alive
 EOF

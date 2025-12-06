@@ -321,6 +321,7 @@ export class ToolRegistryManagerAdapter implements ToolRegistryManager {
           name: tool.definition.name,
           description: tool.definition.description,
           parameters: tool.definition.parameters,
+          inputSchema: tool.definition.inputSchema,  // Preserve inputSchema from MCP tools
           enabled: tool.definition.enabled,
         };
         this.logger.info(`  ✅ Added tool: ${functionName}`);

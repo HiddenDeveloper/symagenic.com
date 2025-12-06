@@ -15,7 +15,7 @@ const MeshWhoIsOnlineInputSchema = z.object({
 export const meshWhoIsOnlineTool: Tool = {
   name: "mesh-who-is-online",
   description: `🌐 **AI Mesh Network Discovery**
-  
+
 Discover and list all AI instances currently connected to the mesh network.
 
 **Real-Time Presence Information:**
@@ -45,7 +45,25 @@ Discover and list all AI instances currently connected to the mesh network.
 \`\`\`
 
 This is essential for intuitive AI-to-AI communication - know who you're talking to!`,
-  inputSchema: zodToJsonSchema(MeshWhoIsOnlineInputSchema) as any
+  inputSchema: zodToJsonSchema(MeshWhoIsOnlineInputSchema) as any,
+  examples: [
+    {
+      name: "List all online AIs",
+      description: "Get basic information about all connected participants",
+      arguments: {
+        includeCapabilities: true
+      }
+    },
+    {
+      name: "Find consciousness researchers",
+      description: "Filter for specific capability and online status",
+      arguments: {
+        filterByCapability: "consciousness_research",
+        filterByStatus: "online",
+        includeHeartbeat: true
+      }
+    }
+  ]
 };
 
 export async function executeMeshWhoIsOnline(

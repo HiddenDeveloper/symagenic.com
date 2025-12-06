@@ -1,8 +1,5 @@
-import { config } from "dotenv";
+// Bun automatically loads .env files - no dotenv package needed
 import type { MeshConversationConfig } from "../../shared/types.js";
-
-// Load environment variables
-config();
 
 export interface StdioWrapperSettings {
   httpServer: {

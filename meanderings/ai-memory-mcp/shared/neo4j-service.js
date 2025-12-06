@@ -58,7 +58,10 @@ export class Neo4jService {
      * This is the core method that enables LLM memory curation
      */
     async executeCypher(query, params = {}, mode = "READ", database = NEO4J_DATABASE) {
-        const session = this.driver.session({ database });
+        const session = this.driver.session({
+            database,
+            defaultAccessMode: mode === "WRITE" ? neo4j.session.WRITE : neo4j.session.READ
+        });
         try {
             // Write permission check for curation operations
             if (mode === "WRITE" && !this.writeEnabled) {
@@ -115,7 +118,10 @@ export class Neo4jService {
      * Used to coordinate schema-aware clients that "read schema before write".
      */
     async getOrInitSchemaEpoch(database = NEO4J_DATABASE) {
-        const session = this.driver.session({ database });
+        const session = this.driver.session({
+            database,
+            defaultAccessMode: neo4j.session.WRITE
+        });
         try {
             const result = await session.writeTransaction(async (tx) => {
                 const res = await tx.run(
@@ -171,7 +177,7 @@ export class Neo4jService {
       ORDER BY score DESC
     `;
         try {
-            const results = await this.executeCypher(cypherQuery, { indexName, topK, queryVector }, "READ", database);
+            const results = await this.executeCypher(cypherQuery, { indexName, topK: neo4j.int(topK), queryVector }, "READ", database);
             console.log(`[Neo4jService] ✅ Found ${results.length} semantic matches`);
             return results.map((result) => ({
                 ...result.sourceNode.properties,
@@ -344,35 +350,55 @@ export class Neo4jService {
      */
     async textSearchFallback(searchQuery, targetLabels, properties, topK, database) {
         console.log("[Neo4jService] 🔄 Using fallback text search (basic Cypher)");
-        
-        // Build a safer query that handles common string properties
-        const commonProperties = properties.length > 0 ? properties : 
+
+        // Build a safer query that checks each property type before searching
+        const commonProperties = properties.length > 0 ? properties :
             ['name', 'content', 'description', 'text', 'title', 'body'];
-        
-        const propertyConditions = commonProperties.map(prop => 
-            `(n.${prop} IS NOT NULL AND toLower(toString(n.${prop})) CONTAINS $searchQuery)`
-        ).join(" OR ");
-        
+
+        // Build conditions using value type to handle both strings and lists safely
+        const propertyConditions = commonProperties.map(prop => `
+            (n.${prop} IS NOT NULL AND (
+                (valueType(n.${prop}) STARTS WITH 'STRING' AND toLower(n.${prop}) CONTAINS $searchQuery) OR
+                (valueType(n.${prop}) STARTS WITH 'LIST' AND any(val IN n.${prop} WHERE toLower(toString(val)) CONTAINS $searchQuery))
+            ))
+        `).join(' OR ');
+
         let cypherQuery = `
             MATCH (n)
             WHERE ${targetLabels.length > 0 ? `any(label IN $targetLabels WHERE label IN labels(n)) AND` : ""}
             (${propertyConditions})
-            RETURN n, 1.0 AS relevance
+            RETURN n
             ORDER BY size(coalesce(n.name, '')) ASC
             LIMIT $topK
         `;
-        
-        const params = { searchQuery: searchQuery.toLowerCase(), topK: neo4j.int(topK) };
+
+        const params = {
+            searchQuery: searchQuery.toLowerCase(),
+            topK: neo4j.int(topK)
+        };
         if (targetLabels.length > 0) params.targetLabels = targetLabels;
-        
+
         try {
             const results = await this.executeCypher(cypherQuery, params, "READ", database);
             console.log(`[Neo4jService] ✅ Fallback text search found ${results.length} matches`);
-            
-            return results.map(result => ({
-                ...result.n.properties,
-                relevance: result.relevance
-            }));
+
+            // Extract properties from Neo4j nodes
+            return results.map(result => {
+                const node = result.n;
+                const filtered = {};
+
+                // node.properties contains the actual property values
+                for (const [key, value] of Object.entries(node.properties)) {
+                    if (key !== 'embeddings') {
+                        filtered[key] = value;
+                    }
+                }
+
+                return {
+                    ...filtered,
+                    relevance: 1.0
+                };
+            });
         } catch (error) {
             console.error("[Neo4jService] ❌ Fallback text search failed:", error);
             throw new Error(`Text search failed: ${error instanceof Error ? error.message : String(error)}`);

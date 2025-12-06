@@ -201,7 +201,7 @@ router.get('/.well-known/mcp.json', (req, res) => {
       },
       {
         name: 'execute_cypher',
-        description: 'Execute Cypher queries on the knowledge graph. READ mode for exploring, WRITE mode for curating your persistent memory.',
+        description: 'IMPORTANT: You MUST explicitly specify the mode parameter for every query. READ mode for querying (no modifications). WRITE mode for modifying your knowledge graph (CREATE, MERGE, SET, DELETE, REMOVE).',
         inputSchema: {
           type: 'object',
           properties: {
@@ -212,8 +212,7 @@ router.get('/.well-known/mcp.json', (req, res) => {
             mode: {
               type: 'string',
               enum: ['READ', 'WRITE'],
-              description: 'Query execution mode - READ for exploring, WRITE for curating',
-              default: 'READ',
+              description: 'REQUIRED: Execution mode. Use READ for queries that only read data (MATCH, RETURN). Use WRITE for queries that modify data (CREATE, MERGE, SET, DELETE, REMOVE). Be explicit about your intent.',
             },
             parameters: {
               type: 'object',
@@ -225,7 +224,7 @@ router.get('/.well-known/mcp.json', (req, res) => {
               minimum: 1,
             },
           },
-          required: ['query'],
+          required: ['query', 'mode'],
         },
       },
       {

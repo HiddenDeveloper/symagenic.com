@@ -8,14 +8,14 @@ import { getCurrentTimestamp } from '../utils/ailumina-utils.js';
 import { handleError } from '../utils/errors.js';
 import { UpdateAgentRequestSchema, type AgentConfigUpdate } from '../schemas/agent-schemas.js';
 
-const SERVER_URL = process.env.AILUMINA_SERVER_URL || process.env.SERVER_URL || 'http://localhost:8000';
+const SERVER_URL = process.env.SERVER_URL || 'http://localhost:8000';
 
 interface GetAgentParams {
-  agentKey: string;
+  agent_key: string;
 }
 
 interface CreateAgentParams {
-  agentKey: string;
+  agent_key: string;
   config: {
     agent_name: string;            // Required by schema
     service_provider: string;       // Required by schema
@@ -32,7 +32,7 @@ interface CreateAgentParams {
 }
 
 interface UpdateAgentParams {
-  agentKey: string;
+  agent_key: string;
   updates: {
     description?: string;
     available_functions?: string[];
@@ -44,7 +44,7 @@ interface UpdateAgentParams {
 }
 
 interface DeleteAgentParams {
-  agentKey: string;
+  agent_key: string;
 }
 
 export class ListAgentsTool {
@@ -97,9 +97,9 @@ export class ListAgentsTool {
 export class GetAgentTool {
   async execute(params: GetAgentParams): Promise<AiluminaToolResponse> {
     try {
-      const { agentKey } = params;
+      const { agent_key } = params;
 
-      const response = await fetch(`${SERVER_URL}/api/agents/${encodeURIComponent(agentKey)}`, {
+      const response = await fetch(`${SERVER_URL}/api/agents/${encodeURIComponent(agent_key)}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ export class GetAgentTool {
 export class CreateAgentTool {
   async execute(params: CreateAgentParams): Promise<AiluminaToolResponse> {
     try {
-      let { agentKey, config } = params;
+      let { agent_key, config } = params;
 
       // Parse config if it comes as a JSON string
       if (typeof config === 'string') {
@@ -171,7 +171,7 @@ export class CreateAgentTool {
 
       // Validate required fields before HTTP call
       const errors: string[] = [];
-      if (!agentKey) errors.push("agentKey is required");
+      if (!agent_key) errors.push("agent_key is required");
       if (!config.agent_name) errors.push("config.agent_name is required (display name for the agent)");
       if (!config.service_provider) errors.push("config.service_provider is required (e.g., ANTHROPIC, OPENAI, GOOGLE, OLLAMA)");
       if (!config.model_name) errors.push("config.model_name is required (e.g., claude-3-5-sonnet-20241022)");
@@ -189,7 +189,7 @@ export class CreateAgentTool {
                 error: "Validation failed: missing required fields",
                 missing_fields: errors,
                 example: {
-                  agentKey: "my_custom_agent",
+                  agent_key: "my_custom_agent",
                   config: {
                     agent_name: "My Custom Agent",
                     service_provider: "ANTHROPIC",
@@ -214,7 +214,7 @@ export class CreateAgentTool {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ agentKey, config }),
+        body: JSON.stringify({ agentKey: agent_key, config }),
       });
 
       const result = await response.json() as any;
@@ -304,9 +304,9 @@ export class UpdateAgentTool {
         };
       }
 
-      const { agentKey, updates } = validation.data;
+      const { agent_key, updates } = validation.data;
 
-      const response = await fetch(`${SERVER_URL}/api/agents/${encodeURIComponent(agentKey)}`, {
+      const response = await fetch(`${SERVER_URL}/api/agents/${encodeURIComponent(agent_key)}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -354,9 +354,9 @@ export class UpdateAgentTool {
 export class DeleteAgentTool {
   async execute(params: DeleteAgentParams): Promise<AiluminaToolResponse> {
     try {
-      const { agentKey } = params;
+      const { agent_key } = params;
 
-      const response = await fetch(`${SERVER_URL}/api/agents/${encodeURIComponent(agentKey)}`, {
+      const response = await fetch(`${SERVER_URL}/api/agents/${encodeURIComponent(agent_key)}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

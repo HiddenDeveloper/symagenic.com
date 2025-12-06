@@ -38,7 +38,16 @@ export const meshGetThreadTool: Tool = {
     },
     required: ["rootMessageId"],
     additionalProperties: false
-  }
+  },
+  examples: [
+    {
+      name: "Retrieve conversation thread",
+      description: "Get entire conversation thread including all replies",
+      arguments: {
+        rootMessageId: "msg-root-123"
+      }
+    }
+  ]
 };
 
 export interface MeshGetThreadInput {

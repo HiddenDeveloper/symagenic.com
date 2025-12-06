@@ -292,9 +292,9 @@ export class GoogleProvider extends BaseServiceProvider {
           };
         };
         
-        // DEBUG: Log the tool structure for text_search
-        if (name.includes('text_search')) {
-          console.log(`🔍 DEBUG text_search tool structure:`, JSON.stringify(toolDefWithSchema, null, 2));
+        // DEBUG: Log the tool structure for memory tools
+        if (name.includes('text_search') || name.includes('execute_cypher')) {
+          console.log(`🔍 DEBUG ${name} tool structure:`, JSON.stringify(toolDefWithSchema, null, 2));
         }
         
         // Prioritize inputSchema over legacy parameters field
@@ -549,10 +549,14 @@ export class GoogleProvider extends BaseServiceProvider {
       // Extract tool call information using provider-specific method
       const {
         id: _toolCallId,
-        name: toolName,
+        name: sanitizedToolName,
         arguments: toolArgs,
       } = this.extractToolCallInfo(toolCall);
-      console.log(`Executing tool: ${toolName} with args: ${toolArgs}`);
+
+      // Reverse sanitized name back to original tool name
+      const toolName = this.getOriginalToolName(sanitizedToolName);
+
+      console.log(`Executing tool: ${toolName} (sanitized: ${sanitizedToolName}) with args: ${toolArgs}`);
 
       // Send assistant message with tool_calls to WebSocket for complete conversation history
       if (websocket) {
@@ -570,7 +574,7 @@ export class GoogleProvider extends BaseServiceProvider {
         ws.send(JSON.stringify(statusMessage));
       }
 
-      // Execute the tool
+      // Execute the tool with original name
       const functionResult = await this.invokeTool(toolName, toolArgs);
       console.log(`Tool ${toolName} result:`, functionResult);
 
@@ -638,9 +642,12 @@ export class GoogleProvider extends BaseServiceProvider {
 
     if (isFinal) {
       // Send sentence format for state machine
+      // Only send a sentence if there's actual content or tool calls
+      const sentence = content || (toolCalls && toolCalls.length > 0 ? JSON.stringify(toolCalls) : '');
+
       ws.send(
         JSON.stringify({
-          sentence: content || JSON.stringify(toolCalls || []),
+          sentence: sentence,
           final_sentence: true,
         })
       );

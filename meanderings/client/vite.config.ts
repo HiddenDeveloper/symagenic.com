@@ -10,6 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default defineConfig({
+  base: '/app/',
   plugins: [
     react(),
     tailwindcss(),
@@ -41,6 +42,6 @@ export default defineConfig({
     include: ["@xstate/react", "xstate"],
   },
   build: {
-    sourcemap: true, // Enable source maps for debugging
+    sourcemap: true,
   },
 });

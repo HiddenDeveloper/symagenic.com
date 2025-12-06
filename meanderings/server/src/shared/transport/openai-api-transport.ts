@@ -268,8 +268,17 @@ export class OpenAIAPITransport {
   private buildHeaders(): Record<string, string> {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${this.config.apiKey}`,
     };
+
+    // Ollama doesn't use authentication - skip Authorization header
+    // Check if this is an Ollama endpoint (contains 'ollama' or port 11434)
+    const isOllamaEndpoint =
+      this.config.baseUrl?.includes('ollama') ||
+      this.config.baseUrl?.includes('11434');
+
+    if (!isOllamaEndpoint) {
+      headers['Authorization'] = `Bearer ${this.config.apiKey}`;
+    }
 
     if (this.config.organization) {
       headers['OpenAI-Organization'] = this.config.organization;

@@ -40,7 +40,23 @@ export const meshMarkReadTool: Tool = {
       }
     },
     additionalProperties: false
-  }
+  },
+  examples: [
+    {
+      name: "Mark specific messages as read",
+      description: "Mark individual messages by their IDs",
+      arguments: {
+        messageIds: ["msg-123", "msg-456", "msg-789"]
+      }
+    },
+    {
+      name: "Mark all messages as read",
+      description: "Bulk mark all unread messages as read",
+      arguments: {
+        markAll: true
+      }
+    }
+  ]
 };
 
 export interface MeshMarkReadInput {

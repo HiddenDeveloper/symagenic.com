@@ -1,0 +1,111 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const allPosts = await getCollection('blog', ({ data }) => {
+  return !data.draft;
+});
+
+// Sort posts by publish date, newest first
+const sortedPosts = allPosts.sort((a, b) =>
+  b.data.publishDate.getTime() - a.data.publishDate.getTime()
+);
+---
+
+<BaseLayout title="Blog - Project Stone Monkey">
+  <style is:global>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+
+  <!-- Sticky Navigation -->
+  <div class="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-700/50">
+    <div class="container mx-auto px-4 lg:px-8 max-w-6xl py-4">
+      <div class="flex items-center justify-between">
+        <nav class="flex gap-4 items-center flex-wrap">
+          <a href="/#introduction" class="text-slate-300 hover:text-accent-400 transition-colors text-sm">
+            Introduction
+          </a>
+          <a href="/journey/starting-point" class="text-slate-300 hover:text-accent-400 transition-colors text-sm">
+            Starting Point
+          </a>
+          <a href="/steps/system-2-thinking" class="text-slate-300 hover:text-accent-400 transition-colors text-sm">
+            Steps
+          </a>
+          <a href="/#where-we-are-now" class="text-slate-300 hover:text-accent-400 transition-colors text-sm">
+            Where We Are Now
+          </a>
+          <a href="/journeys-end" class="text-slate-300 hover:text-accent-400 transition-colors text-sm">
+            Journey's End
+          </a>
+        </nav>
+        <div class="flex gap-4 items-center">
+          <a href="https://github.com/HiddenDeveloper/symagenic.com" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-accent-400 transition-colors text-sm">
+            GitHub
+          </a>
+          <span class="text-accent-400 font-medium text-sm px-2">
+            📝 Blog
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <article class="container mx-auto px-4 lg:px-8 py-12 max-w-5xl">
+    <!-- Article Header -->
+    <header class="mb-12">
+      <div class="flex items-center gap-4 mb-6">
+        <span class="text-5xl">📝</span>
+        <div>
+          <h1 class="text-4xl md:text-5xl font-bold text-slate-100">
+            Blog
+          </h1>
+          <p class="text-2xl text-slate-400 mt-2">
+            The story behind the architecture - narratives, insights, and experiments
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Blog Posts List -->
+    <div class="space-y-8">
+      {sortedPosts.map((post) => (
+        <article class="border border-slate-700/50 rounded-lg p-6 hover:border-accent-500/50 transition-colors bg-slate-900/50">
+          <a href={`/blog/${post.slug}`} class="block">
+            <h2 class="text-2xl font-bold text-slate-200 mb-3 hover:text-accent-400 transition-colors">
+              {post.data.title}
+            </h2>
+            <p class="text-slate-400 mb-4">
+              {post.data.description}
+            </p>
+            <div class="flex items-center gap-4 text-sm text-slate-500">
+              <time datetime={post.data.publishDate.toISOString()}>
+                {post.data.publishDate.toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </time>
+              {post.data.tags && post.data.tags.length > 0 && (
+                <div class="flex gap-2">
+                  {post.data.tags.map((tag) => (
+                    <span class="px-2 py-1 rounded bg-slate-800 text-slate-400 text-xs">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </a>
+        </article>
+      ))}
+    </div>
+
+    {sortedPosts.length === 0 && (
+      <div class="text-center py-12">
+        <p class="text-slate-400 text-lg">No blog posts yet. Check back soon!</p>
+      </div>
+    )}
+  </article>
+</BaseLayout>

@@ -29,7 +29,7 @@ export interface SemanticSearchParams {
 
 export interface CypherQueryParams {
   query: string;
-  mode?: "READ" | "WRITE";
+  mode: "READ" | "WRITE";  // Required: explicit intent for read vs write operations
   parameters?: Record<string, any>;
   /**
    * Optional client-observed schema epoch from the last get_schema call,

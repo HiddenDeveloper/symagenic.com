@@ -1,0 +1,14 @@
+# FastAPI and ASGI server
+fastapi==0.115.0
+uvicorn[standard]==0.32.1
+pydantic==2.10.3
+
+# Sentence Transformers and ML dependencies
+sentence-transformers==3.3.1
+torch==2.5.1
+transformers==4.46.3
+numpy==2.2.1
+
+# Optional: Performance optimizations
+# These are automatically used if available
+# huggingface-hub==0.26.2

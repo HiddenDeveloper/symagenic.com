@@ -11,6 +11,7 @@ import { meshGetMessagesTool, executeMeshGetMessages } from "./mesh-get-messages
 import { meshMarkReadTool, executeMeshMarkRead } from "./mesh-mark-read.js";
 import { meshGetThreadTool, executeMeshGetThread } from "./mesh-get-thread.js";
 import { meshDeleteMessageTool, executeMeshDeleteMessage } from "./mesh-delete-message.js";
+import { meshCreateMeetingTool, executeMeshCreateMeeting } from "./mesh-create-meeting.js";
 
 // Export tool definitions for MCP registration
 export const tools: Tool[] = [
@@ -20,7 +21,8 @@ export const tools: Tool[] = [
   meshGetMessagesTool,
   meshMarkReadTool,
   meshGetThreadTool,
-  meshDeleteMessageTool
+  meshDeleteMessageTool,
+  meshCreateMeetingTool
 ];
 
 // Tool execution with persistence services
@@ -47,6 +49,8 @@ export async function executeTool(
       return await executeMeshGetThread(sessionPersistence, messagePersistence, sessionId, input as any);
     case "mesh-delete-message":
       return await executeMeshDeleteMessage(sessionPersistence, messagePersistence, sessionId, input as any);
+    case "mesh-create-meeting":
+      return await executeMeshCreateMeeting(webSocketService, sessionPersistence, messagePersistence, sessionId, input);
     default:
       throw new Error(`Unknown tool: ${toolName}`);
   }

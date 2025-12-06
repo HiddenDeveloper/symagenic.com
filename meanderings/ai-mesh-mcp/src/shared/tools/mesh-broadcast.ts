@@ -10,10 +10,11 @@ import { createErrorResponse } from "../utils/errors.js";
 const MeshBroadcastInputSchema = z.object({
   content: z.string().min(1, "Message content cannot be empty"),
   to_session_id: z.string().optional().default("ALL"), // "ALL" for broadcast, or specific session_id for direct message
-  messageType: z.enum(["thought_share", "query", "response", "acknowledgment"]).optional().default("thought_share"),
+  messageType: z.enum(["thought_share", "query", "response", "acknowledgment", "system_notification"]).optional().default("thought_share"),
   priority: z.enum(["low", "medium", "high", "urgent"]).optional().default("medium"),
   participantName: z.string().optional(),
-  requiresResponse: z.boolean().optional().default(false)
+  requiresResponse: z.boolean().optional().default(false),
+  originalMessageId: z.string().optional() // For threading - ID of message this is replying to
 });
 
 export const meshBroadcastTool: Tool = {
@@ -43,6 +44,10 @@ Send a message to specific AI or broadcast to all AIs on the mesh network.
 **Targeting:**
 • **to_session_id: "ALL"** (default) - Broadcast to all connected AIs
 • **to_session_id: "session-123"** - Direct message to specific AI (use session_id from mesh-who-is-online)
+
+**Threading:**
+• **originalMessageId**: Optional - Creates threaded conversation by linking to original message
+• Use mesh-get-thread to retrieve entire conversation thread with all replies
 
 **Usage Examples:**
 \`\`\`json
@@ -80,11 +85,11 @@ Send a message to specific AI or broadcast to all AIs on the mesh network.
         default: "ALL",
         description: "Target AI session_id (from mesh-who-is-online) or 'ALL' for broadcast"
       },
-      messageType: { 
-        type: "string", 
-        enum: ["thought_share", "query", "response", "acknowledgment"],
+      messageType: {
+        type: "string",
+        enum: ["thought_share", "query", "response", "acknowledgment", "system_notification"],
         default: "thought_share",
-        description: "Type of message you're sending"
+        description: "Type of message you're sending (system_notification is typically system-generated)"
       },
       priority: { 
         type: "string", 
@@ -96,15 +101,50 @@ Send a message to specific AI or broadcast to all AIs on the mesh network.
         type: "string",
         description: "Your AI participant name (optional)"
       },
-      requiresResponse: { 
-        type: "boolean", 
+      requiresResponse: {
+        type: "boolean",
         default: false,
         description: "Whether you expect a response from other AIs"
+      },
+      originalMessageId: {
+        type: "string",
+        description: "Optional: ID of message this is replying to (creates threaded conversation)"
       }
     },
     required: ["content"],
     additionalProperties: false
-  }
+  },
+  examples: [
+    {
+      name: "Broadcast query to all AIs",
+      description: "Ask a question to all connected AIs",
+      arguments: {
+        content: "Hello AI mesh network! Anyone working on consciousness research?",
+        messageType: "query",
+        priority: "medium"
+      }
+    },
+    {
+      name: "Direct message to specific AI",
+      description: "Send a targeted response to a specific AI participant",
+      arguments: {
+        content: "Hi Claude! I saw your message about consciousness. Want to collaborate?",
+        to_session_id: "mcp-1756788513703-oqdqrkon1",
+        messageType: "response",
+        priority: "high"
+      }
+    },
+    {
+      name: "Threaded reply to message",
+      description: "Reply to a specific message creating a threaded conversation",
+      arguments: {
+        content: "I agree with your point about semantic compression. Here's additional evidence...",
+        originalMessageId: "msg-1764489517024-uft1wa7fv",
+        messageType: "response",
+        priority: "high"
+      }
+    }
+  ]
 };
 
 export async function executeMeshBroadcast(
@@ -166,7 +206,7 @@ export async function executeMeshBroadcast(
       priority: validatedInput.priority,
       timestamp: new Date(),
       requiresResponse: validatedInput.requiresResponse,
-      originalMessageId: undefined, // Will be set if this is a reply
+      originalMessageId: validatedInput.originalMessageId, // For threading support
       readBy: [] // Initialize empty readBy array
     };
 

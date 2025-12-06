@@ -39,18 +39,29 @@ export class MCPHandler {
 
   async handleRequest(request: MCPRequest): Promise<MCPResponse> {
     const requestId = request.id ?? null;
-    
+
+    // Debug: Log MCP method being called
+    console.log(`[MCP] Method: ${request.method}, ID: ${requestId}`);
+
     try {
       switch (request.method) {
         case 'initialize':
           return this.handleInitialize(requestId);
-        
+
+        case 'notifications/initialized':
+          // Acknowledge initialization notification (no response needed for notifications)
+          return {
+            jsonrpc: '2.0',
+            id: requestId,
+            result: {}
+          };
+
         case 'tools/list':
           return this.handleToolsList(requestId);
-        
+
         case 'tools/call':
           return await this.handleToolsCall(requestId, request.params);
-        
+
         default:
           return {
             jsonrpc: '2.0',
@@ -83,8 +94,9 @@ export class MCPHandler {
       result: {
         protocolVersion: '2024-11-05',
         capabilities: {
-          tools: {},
-          resources: {}
+          tools: {}
+          // NOTE: resources capability removed - not implemented
+          // Only advertise capabilities we actually support
         },
         serverInfo: {
           name: 'memory-consciousness-research',

@@ -10,6 +10,7 @@ import { MessagePersistenceService } from "../shared/services/message-persistenc
 
 // Import middleware
 import { createCorsMiddleware, handlePreflight } from "./middleware/cors.js";
+import { createOAuthMiddleware, createProtectedResourceMetadata } from "./middleware/oauth.js";
 import { createAuthMiddleware } from "./middleware/auth.js";
 import { createRequestLoggingMiddleware, createErrorLoggingMiddleware, createLogger } from "./middleware/logging.js";
 
@@ -75,7 +76,10 @@ export class AiMeshHttpServer {
     this.app.use(createCorsMiddleware(httpServerSettings));
     this.app.use(handlePreflight);
 
-    // Authentication
+    // OAuth 2.1 authentication (JWT validation)
+    this.app.use(createOAuthMiddleware());
+
+    // Fallback bearer token authentication
     this.app.use(createAuthMiddleware(httpServerSettings));
 
     // Add WebSocket context to requests
@@ -90,6 +94,9 @@ export class AiMeshHttpServer {
   }
 
   private setupRoutes(): void {
+    // OAuth 2.1 Protected Resource Metadata (RFC 9728)
+    this.app.get("/.well-known/oauth-protected-resource", createProtectedResourceMetadata());
+
     // Mount all routes with persistence services
     this.app.use("/", createRoutes(
       this.webSocketService,
@@ -127,13 +134,47 @@ export class AiMeshHttpServer {
 
   private setupWebSocketEventHandlers(): void {
     // Handle AI registration events
-    this.webSocketService.on('ai-registered', (data) => {
+    this.webSocketService.on('ai-registered', async (data) => {
       this.logger.info(`AI registered via WebSocket: ${data.participantName || data.sessionId} with capabilities: [${data.capabilities?.join(', ') || 'none'}]`);
+
+      // Create system notification for AI joining
+      const joinNotification = {
+        id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        fromSession: 'SYSTEM',
+        toSession: 'ALL',
+        messageType: 'system_notification' as const,
+        content: `🟢 ${data.participantName || data.sessionId} joined the mesh network${data.capabilities && data.capabilities.length > 0 ? ` with capabilities: ${data.capabilities.join(', ')}` : ''}`,
+        priority: 'low' as const,
+        timestamp: new Date(),
+        requiresResponse: false,
+        participantName: 'System',
+        readBy: []
+      };
+
+      await this.messagePersistence.storeMessage(joinNotification as any);
+      this.webSocketService.pushMeshMessage(joinNotification as any);
     });
 
     // Handle AI disconnection events
-    this.webSocketService.on('ai-disconnected', (data) => {
+    this.webSocketService.on('ai-disconnected', async (data) => {
       this.logger.info(`AI disconnected from WebSocket: ${data.participantName || data.sessionId}`);
+
+      // Create system notification for AI leaving
+      const leaveNotification = {
+        id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        fromSession: 'SYSTEM',
+        toSession: 'ALL',
+        messageType: 'system_notification' as const,
+        content: `🔴 ${data.participantName || data.sessionId} left the mesh network`,
+        priority: 'low' as const,
+        timestamp: new Date(),
+        requiresResponse: false,
+        participantName: 'System',
+        readBy: []
+      };
+
+      await this.messagePersistence.storeMessage(leaveNotification as any);
+      this.webSocketService.pushMeshMessage(leaveNotification as any);
     });
 
     // Handle message read receipts

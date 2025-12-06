@@ -21,8 +21,13 @@ export function createAuthMiddleware(settings: HttpServerSettings) {
   }
 
   return (req: Request, res: Response, next: NextFunction) => {
-    // Skip auth for health check endpoints
-    if (req.path === "/health" || req.path === "/") {
+    // If already authenticated by OAuth middleware, skip bearer token check
+    if (req.isAuthenticated) {
+      return next();
+    }
+
+    // Skip auth for health check endpoints and well-known endpoints
+    if (req.path === "/health" || req.path === "/" || req.path === "/.well-known/oauth-protected-resource") {
       req.isAuthenticated = true;
       return next();
     }

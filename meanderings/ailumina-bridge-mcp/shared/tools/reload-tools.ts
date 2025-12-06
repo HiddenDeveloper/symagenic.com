@@ -7,7 +7,7 @@ import type { AiluminaToolResponse } from '../types.js';
 import { getCurrentTimestamp } from '../utils/ailumina-utils.js';
 import { handleError } from '../utils/errors.js';
 
-const SERVER_URL = process.env.AILUMINA_SERVER_URL || process.env.SERVER_URL || 'http://localhost:8000';
+const SERVER_URL = process.env.SERVER_URL || 'http://localhost:8000';
 
 export class ReloadToolsTool {
   async execute(): Promise<AiluminaToolResponse> {
