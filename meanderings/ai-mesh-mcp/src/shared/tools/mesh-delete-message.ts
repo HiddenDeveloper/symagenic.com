@@ -39,7 +39,16 @@ export const meshDeleteMessageTool: Tool = {
     },
     required: ["messageId"],
     additionalProperties: false
-  }
+  },
+  examples: [
+    {
+      name: "Delete a message",
+      description: "Remove a specific message you sent",
+      arguments: {
+        messageId: "msg-123-to-delete"
+      }
+    }
+  ]
 };
 
 export interface MeshDeleteMessageInput {

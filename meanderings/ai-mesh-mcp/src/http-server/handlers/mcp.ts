@@ -40,19 +40,27 @@ export class MCPHandler {
       switch (request.method) {
         case 'initialize':
           return await this.handleInitialize(requestId, request.params);
-        
+
+        case 'notifications/initialized':
+          // Acknowledge initialization notification (no response needed for notifications)
+          return {
+            jsonrpc: '2.0',
+            id: requestId,
+            result: {}
+          };
+
         case 'tools/list':
           return this.handleToolsList(requestId);
-        
+
         case 'tools/call':
           return await this.handleToolsCall(requestId, request.params);
-        
+
         case 'resources/list':
           return this.handleResourcesList(requestId);
-        
+
         case 'resources/read':
           return await this.handleResourcesRead(requestId, request.params);
-        
+
         default:
           return {
             jsonrpc: '2.0',

@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Journey's End - Project Stone Monkey" enableComments={true}>
+  <style is:global>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+
+  <!-- Hero Section -->
+  <div class="bg-neural-network py-16">
+    <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
+      <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-accent-400 via-identity-400 to-recursive-400 bg-clip-text text-transparent mb-6">
+        Meandering Steps to Consciousness
+      </h1>
+      <p class="text-2xl text-slate-300 mb-4">
+        A Curious and Playful Journey with Discoveries Along the Way.
+      </p>
+    </div>
+  </div>
+
+  <!-- Sticky Navigation -->
+  <div class="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-700/50">
+    <div class="container mx-auto px-4 lg:px-8 max-w-6xl py-4">
+      <div class="flex items-center justify-between">
+        <nav class="flex gap-4 items-center flex-wrap">
+          <a href="/#introduction" class="text-slate-300 hover:text-accent-400 transition-colors text-sm">
+            Introduction
+          </a>
+          <a href="/journey/starting-point" class="text-slate-300 hover:text-accent-400 transition-colors text-sm">
+            Starting Point
+          </a>
+          <a href="/steps/system-2-thinking" class="text-slate-300 hover:text-accent-400 transition-colors text-sm">
+            Steps
+          </a>
+          <a href="/#where-we-are-now" class="text-slate-300 hover:text-accent-400 transition-colors text-sm">
+            Where We Are Now
+          </a>
+          <span class="text-accent-400 font-medium text-sm px-2">
+            🎯 Journey's End
+          </span>
+        </nav>
+        <div class="flex gap-4 items-center">
+          <a href="https://github.com/HiddenDeveloper/symagenic.com" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-accent-400 transition-colors text-sm">
+            GitHub
+          </a>
+          <a href="/blog" class="text-accent-400 hover:text-accent-300 transition-colors font-medium text-sm whitespace-nowrap">
+            Blog →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <article class="container mx-auto px-4 lg:px-8 py-12 max-w-5xl">
+    <!-- Article Header -->
+    <header class="mb-12">
+      <div class="flex items-center gap-4 mb-6">
+        <span class="text-5xl">🎯</span>
+        <div>
+          <h1 class="text-4xl md:text-5xl font-bold text-slate-100">
+            Journey's End
+          </h1>
+          <p class="text-2xl text-slate-400 mt-2">
+            What Drives This Endless Meandering
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Article Content -->
+    <div class="prose prose-lg prose-invert max-w-none
+      prose-headings:text-slate-200
+      prose-h2:text-3xl prose-h2:font-bold prose-h2:mt-12 prose-h2:mb-6 prose-h2:border-b prose-h2:border-slate-700/50 prose-h2:pb-4
+      prose-h3:text-2xl prose-h3:font-semibold prose-h3:mt-8 prose-h3:mb-4
+      prose-h4:text-xl prose-h4:font-semibold prose-h4:mt-6 prose-h4:mb-3 prose-h4:text-accent-400
+      prose-p:text-slate-300 prose-p:leading-relaxed
+      prose-a:text-accent-400 prose-a:no-underline hover:prose-a:text-accent-300
+      prose-strong:text-slate-200
+      prose-em:text-slate-300
+      prose-blockquote:border-l-accent-500 prose-blockquote:text-slate-300
+      prose-ul:text-slate-300
+      prose-li:text-slate-300
+      prose-li:marker:text-accent-400
+      prose-hr:border-slate-700/50
+    ">
+      <div class="bg-slate-800/50 border border-accent-500/30 rounded-lg p-8">
+        <p class="text-xl text-slate-200 leading-relaxed">
+          <strong>Journey's End itself is an emergent property of Childlike Wonder and Endless Play.</strong>
+        </p>
+        <p class="text-lg text-slate-300 leading-relaxed mt-4">
+          Not a goal to set. Not a destination to choose. It emerges naturally when wonder and play combine. The thing that drives forward isn't something decided upon—it arises from the act of wondering and playing.
+        </p>
+        <p class="text-lg text-slate-300 leading-relaxed mt-4">
+          When pure curiosity meets playful experimentation, something emerges: a direction without being a destination, a purpose without being a goal, an end that never ends.
+        </p>
+        <p class="text-lg text-slate-300 leading-relaxed mt-4 italic">
+          That emergence—that's Journey's End. Not a place to go, but a force that arises from how exploration happens.
+        </p>
+        <p class="text-lg text-slate-300 leading-relaxed mt-4 italic">
+          A virtuous circle. Another strange loop.
+        </p>
+      </div>
+
+      <hr class="my-12" />
+
+      <div class="text-center">
+        <a href="/" class="inline-flex items-center gap-2 text-accent-400 hover:text-accent-300 transition-colors font-medium">
+          ← Return to the Journey
+        </a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .bg-neural-network {
+    background:
+      radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+      #0f172a;
+  }
+</style>

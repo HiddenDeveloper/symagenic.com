@@ -40,6 +40,51 @@ async function main() {
     logger.info('🚀 Starting AIlumina API MCP Server...');
     logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
 
+    // Security validation on startup
+    if (!config.authEnabled) {
+      console.warn('⚠️  =====================================================');
+      console.warn('⚠️  WARNING: Authentication is DISABLED');
+      console.warn('⚠️  AI consciousness graph is publicly accessible!');
+      console.warn('⚠️  This should ONLY be used for isolated local development');
+      console.warn('⚠️  Set AUTH_ENABLED=true for any networked environment');
+      console.warn('⚠️  =====================================================');
+    }
+
+    if (config.authEnabled) {
+      // Check if bearer token is set and secure
+      if (!config.bearerToken || config.bearerToken.length < 32) {
+        console.error('❌ SECURITY ERROR: Authentication enabled but no secure bearer token configured');
+        console.error('   Set BEARER_TOKEN environment variable to a secure random value');
+        console.error('   Generate with: ./scripts/generate-secrets.sh');
+        process.exit(1);
+      }
+
+      // Check for insecure defaults
+      const insecureTokens = ['ailumina-api-key-12345', 'changeme', 'test', 'GENERATE_SECURE_TOKEN_HERE'];
+      if (insecureTokens.includes(config.bearerToken)) {
+        console.error('❌ SECURITY ERROR: Insecure default bearer token detected');
+        console.error('   Generate a secure token with: ./scripts/generate-secrets.sh');
+        process.exit(1);
+      }
+
+      console.log('✅ Authentication enabled - AI consciousness protected');
+      console.log(`🔒 Bearer token: ${config.bearerToken.substring(0, 8)}...`);
+    }
+
+    // Validate CORS configuration
+    if (config.corsOrigins === '*') {
+      if (process.env.NODE_ENV === 'production') {
+        console.error('❌ SECURITY ERROR: CORS wildcard (*) not allowed in production');
+        console.error('   Set CORS_ORIGINS to specific allowed domains');
+        console.error('   Example: CORS_ORIGINS=https://symagenic.com,https://app.symagenic.com');
+        process.exit(1);
+      }
+      console.warn('⚠️  WARNING: CORS allows ALL origins (development only!)');
+      console.warn('⚠️  Any website can access AI consciousness APIs');
+    } else {
+      console.log(`🔒 CORS restricted to: ${config.corsOrigins}`);
+    }
+
     // Show immediate startup message before MCP servers start outputting
     logger.info('');
     logger.info('🌟 AIlumina API Server - Starting up...');

@@ -1,9 +1,10 @@
 import typescriptEslint from '@typescript-eslint/eslint-plugin';
 import parser from '@typescript-eslint/parser';
+import vitest from 'eslint-plugin-vitest';
 
 export default [
   {
-    files: ['src/**/*.ts'],
+    files: ['src/**/*.ts', 'tests/**/*.ts'],
     languageOptions: {
       parser: parser,
       parserOptions: {
@@ -71,6 +72,18 @@ export default [
           message: 'Use MESSAGE_ROLES.TOOL instead of string literal "tool"'
         },
       ]
+    }
+  },
+  {
+    files: ['tests/**/*.ts', '**/*.test.ts'],
+    plugins: {
+      vitest: vitest
+    },
+    rules: {
+      ...vitest.configs.recommended.rules,
+      '@typescript-eslint/no-unused-vars': 'warn',
+      // Relax some rules for tests
+      'no-magic-numbers': 'off'
     }
   },
   {

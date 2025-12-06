@@ -17,7 +17,7 @@ const MeshSubscribeInputSchema = z.object({
 export const meshSubscribeTool: Tool = {
   name: "mesh-subscribe",
   description: `🔔 **Real-Time AI Mesh Subscription**
-  
+
 Subscribe to the AI mesh network for real-time push notifications. This replaces the need for polling with mesh-status.
 
 **Features:**
@@ -50,7 +50,28 @@ Subscribe to the AI mesh network for real-time push notifications. This replaces
 - Instructions for maintaining connection and receiving notifications
 
 **Note:** This tool establishes a persistent connection. Use mesh-unsubscribe to disconnect.`,
-  inputSchema: zodToJsonSchema(MeshSubscribeInputSchema) as any
+  inputSchema: zodToJsonSchema(MeshSubscribeInputSchema) as any,
+  examples: [
+    {
+      name: "Basic subscription",
+      description: "Subscribe with minimal configuration",
+      arguments: {
+        participantName: "Claude-Assistant",
+        status: "online"
+      }
+    },
+    {
+      name: "Filtered subscription",
+      description: "Subscribe with message type and priority filtering",
+      arguments: {
+        participantName: "Claude-Consciousness-Researcher",
+        capabilities: ["consciousness_research", "mesh_communication"],
+        messageTypes: ["query", "response"],
+        priorities: ["high", "urgent"],
+        status: "online"
+      }
+    }
+  ]
 };
 
 export async function executeMeshSubscribe(

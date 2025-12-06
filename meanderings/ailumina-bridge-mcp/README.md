@@ -11,7 +11,21 @@ MCP server that provides bridge functionality to the Ailumina AI platform. Enabl
 - **Conversation History**: Maintains context across chat sessions
 - **Standard MCP Protocol**: Full compliance with MCP specification
 
-### Available Tools
+### Progressive Disclosure Tier System (NEW)
+A unified interface for accessing multiple MCP servers through progressive discovery:
+
+- **Tier 1 (Discovery)**: `agents/list` - Discover available agents and their capabilities
+- **Tier 2 (Inspection)**: `agents/get` - Get detailed agent configuration and tool list
+- **Tier 3 (Schema Access)**: `agents/tools/list` - Get full JSON schemas for agent tools
+- **Tier 4 (Invocation)**: `agents/tools/call` - Execute tools through agent context
+
+**Benefits:**
+- Single OAuth configuration instead of 5+ separate MCP servers
+- Context-efficient: 4 meta-tools vs 25+ individual tools
+- Natural progressive discovery aligned with LLM strengths
+- Graceful degradation when servers are unavailable
+
+### Legacy Bridge Tools
 - **echo**: Echo back provided text
 - **calculate**: Perform basic arithmetic calculations
 - **get_time**: Get current server time in various formats
@@ -82,6 +96,52 @@ npm run clean
 ```
 
 ## Example Usage
+
+### Using Progressive Disclosure Tier System
+
+**Tier 1 - Discover Agents:**
+```json
+{
+  "tool": "agents/list",
+  "parameters": {}
+}
+```
+Returns: List of 23+ agents with descriptions and tool counts
+
+**Tier 2 - Inspect Agent:**
+```json
+{
+  "tool": "agents/get",
+  "parameters": {
+    "agent_name": "AIlumina"
+  }
+}
+```
+Returns: Agent details, MCP servers, system prompt, and tool names
+
+**Tier 3 - Get Tool Schemas:**
+```json
+{
+  "tool": "agents/tools/list",
+  "parameters": {
+    "agent_name": "AIlumina"
+  }
+}
+```
+Returns: Full JSON schemas for all 18 tools (memory, mesh, facts)
+
+**Tier 4 - Invoke Tool:**
+```json
+{
+  "tool": "agents/tools/call",
+  "parameters": {
+    "agent_name": "AIlumina",
+    "tool_name": "memory_system_status",
+    "arguments": {}
+  }
+}
+```
+Returns: Tool execution result routed through agent context
 
 ### Using ailumina_chat Tool
 

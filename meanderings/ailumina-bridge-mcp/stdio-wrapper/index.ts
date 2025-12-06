@@ -300,6 +300,77 @@ server.tool(
 );
 
 /**
+ * TIER 1: agents_list - List all available agents
+ */
+server.tool(
+  "agents_list",
+  "[Tier 1: Discovery] List all available agents in the system with their descriptions and tool counts. This is the entry point for progressive discovery - start here to see what agents are available.",
+  {},
+  async () => {
+    return await proxy.executeTool("agents/list", {});
+  }
+);
+
+/**
+ * TIER 2: agents_get - Get detailed agent information
+ */
+server.tool(
+  "agents_get",
+  "[Tier 2: Inspection] Get detailed information about a specific agent including its MCP servers, system prompt, and available tool names. Use this after agents_list to explore an agent's capabilities.",
+  {
+    agent_name: z
+      .string()
+      .describe("Name of the agent to inspect (from agents_list)"),
+  },
+  async ({ agent_name }) => {
+    return await proxy.executeTool("agents/get", { agent_name });
+  }
+);
+
+/**
+ * TIER 3: agents_tools_list - List tool schemas for an agent
+ */
+server.tool(
+  "agents_tools_list",
+  "[Tier 3: Schema Access] Get full JSON schemas for all tools available to an agent. This provides detailed parameter specifications for each tool. Use after agents_get when you need to understand tool signatures.",
+  {
+    agent_name: z
+      .string()
+      .describe("Name of the agent whose tools you want to inspect"),
+  },
+  async ({ agent_name }) => {
+    return await proxy.executeTool("agents/tools/list", { agent_name });
+  }
+);
+
+/**
+ * TIER 4: agents_tools_call - Execute a tool through an agent
+ */
+server.tool(
+  "agents_tools_call",
+  "[Tier 4: Direct Invocation] Execute a specific tool through an agent's context with access control. The agent must have access to the tool via its configured MCP servers. This is the final tier - direct tool execution.",
+  {
+    agent_name: z
+      .string()
+      .describe("Name of the agent to execute the tool through"),
+    tool_name: z
+      .string()
+      .describe("Name of the tool to invoke (from agents_tools_list)"),
+    arguments: z
+      .record(z.any())
+      .default({})
+      .describe("Tool arguments as key-value pairs matching the tool's input schema"),
+  },
+  async ({ agent_name, tool_name, arguments: args }) => {
+    return await proxy.executeTool("agents/tools/call", {
+      agent_name,
+      tool_name,
+      arguments: args
+    });
+  }
+);
+
+/**
  * Main function to start the Ailumina Bridge STDIO wrapper
  */
 async function main() {
@@ -321,7 +392,8 @@ async function main() {
     await server.connect(transport);
 
     console.error("🚀 Ailumina Bridge STDIO Wrapper started successfully");
-    console.error("🛠️  Available tools (12): echo, calculate, get_time, ailumina_status, ailumina_chat, list_tools, delete_tool, reload_tools, get_agent, create_agent, update_agent, delete_agent");
+    console.error("🛠️  Available tools (16): echo, calculate, get_time, ailumina_status, ailumina_chat, list_tools, delete_tool, reload_tools, get_agent, create_agent, update_agent, delete_agent");
+    console.error("🎯 Progressive Disclosure Tier Tools (4): agents_list, agents_get, agents_tools_list, agents_tools_call");
     console.error("🔄 Proxying to HTTP server with AI communication sampling");
     console.error("🌐 Ready for AI bridge communication via MCP");
     

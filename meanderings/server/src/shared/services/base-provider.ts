@@ -4,6 +4,7 @@ import { AgentConfig, Message, ServiceProvider, ToolRegistry, UsageInfo } from '
 import { ToolRegistryManagerAdapter } from '../tools/dynamic-tool-registry.js';
 import { _TOOL_REGISTRY } from '../tools/tool-function-decorator.js';
 import { MESSAGE_ROLES } from '@ailumina/shared';
+import { sanitizeToolName, ToolNameMapping } from '../utils/tool-name-sanitizer.js';
 
 /**
  * Base class for all AI service providers
@@ -17,6 +18,7 @@ export abstract class BaseServiceProvider implements ServiceProvider {
   public usage_info: UsageInfo = {};
   protected system_prompt?: string;
   protected toolRegistryAdapter?: ToolRegistryManagerAdapter;
+  protected toolNameMapping: Map<string, ToolNameMapping> = new Map();
 
   constructor(
     agentConfig: AgentConfig,
@@ -66,36 +68,47 @@ export abstract class BaseServiceProvider implements ServiceProvider {
 
     if (isFinal) {
       // Send sentence format for state machine
-      ws.send(
-        JSON.stringify({
-          sentence: content || JSON.stringify(toolCalls || []),
-          final_sentence: true,
-        })
-      );
+      // Only send a sentence if there's actual content or tool calls
+      const sentence = content || (toolCalls && toolCalls.length > 0 ? JSON.stringify(toolCalls) : '');
 
-      // Send role/content format for message display
-      const finalMessage: Record<string, unknown> = {
-        role: MESSAGE_ROLES.ASSISTANT,
-        content: content,
-        final_sentence: true,
-      };
-
-      if (toolCalls && toolCalls.length > 0) {
-        finalMessage.tool_calls = toolCalls;
+      // Only send sentence message if there's actual content
+      if (sentence) {
+        ws.send(
+          JSON.stringify({
+            sentence: sentence,
+            final_sentence: true,
+          })
+        );
       }
 
-      ws.send(JSON.stringify(finalMessage));
+      // Send role/content format for message display
+      // Only send if there's content or tool calls
+      if (content || (toolCalls && toolCalls.length > 0)) {
+        const finalMessage: Record<string, unknown> = {
+          role: MESSAGE_ROLES.ASSISTANT,
+          content: content,
+          final_sentence: true,
+        };
+
+        if (toolCalls && toolCalls.length > 0) {
+          finalMessage.tool_calls = toolCalls;
+        }
+
+        ws.send(JSON.stringify(finalMessage));
+      }
 
       // Send done signal to transition state machine back to WAITING_FOR_INPUT
       ws.send(JSON.stringify({ done: true }));
     } else {
-      // Streaming message
-      ws.send(
-        JSON.stringify({
-          sentence: content,
-          final_sentence: false,
-        })
-      );
+      // Streaming message - only send if there's actual content
+      if (content) {
+        ws.send(
+          JSON.stringify({
+            sentence: content,
+            final_sentence: false,
+          })
+        );
+      }
 
       // If this is a tool call message, also send the assistant format
       if (toolCalls && toolCalls.length > 0) {
@@ -190,22 +203,38 @@ export abstract class BaseServiceProvider implements ServiceProvider {
     // Priority 1: Use instance tool registry if available (includes agent-filtered tools)
     if (this.tool_registry !== undefined) {
       // Use the instance tool registry, even if empty (respects agent configuration)
-      for (const [name, tool] of Object.entries(this.tool_registry)) {
-        const result = formatFunction(name, tool);
+      for (const [originalName, tool] of Object.entries(this.tool_registry)) {
+        // Sanitize tool name for provider compatibility
+        const sanitizedName = sanitizeToolName(originalName);
+
+        // Store mapping for reverse lookup when LLM calls the tool
+        this.toolNameMapping.set(sanitizedName, { original: originalName, sanitized: sanitizedName });
+        this.toolNameMapping.set(originalName, { original: originalName, sanitized: sanitizedName });
+
+        // Pass sanitized name to format function
+        const result = formatFunction(sanitizedName, tool);
         if (result !== null) {
           transformedTools.push(result);
         }
       }
     } else {
       // Priority 2: Use the dynamic tool registry (fallback for legacy cases)
-      for (const [name, toolEntry] of _TOOL_REGISTRY.entries()) {
+      for (const [originalName, toolEntry] of _TOOL_REGISTRY.entries()) {
         // Skip old mcp_ prefixed tools (legacy check)
-        if (name.startsWith('mcp_')) {
+        if (originalName.startsWith('mcp_')) {
           continue;
         }
 
         if (toolEntry.definition.enabled) {
-          const result = formatFunction(name, toolEntry.definition);
+          // Sanitize tool name for provider compatibility
+          const sanitizedName = sanitizeToolName(originalName);
+
+          // Store mapping for reverse lookup when LLM calls the tool
+          this.toolNameMapping.set(sanitizedName, { original: originalName, sanitized: sanitizedName });
+          this.toolNameMapping.set(originalName, { original: originalName, sanitized: sanitizedName });
+
+          // Pass sanitized name to format function
+          const result = formatFunction(sanitizedName, toolEntry.definition);
           if (result !== null) {
             transformedTools.push(result);
           }
@@ -214,6 +243,15 @@ export abstract class BaseServiceProvider implements ServiceProvider {
     }
 
     return transformedTools;
+  }
+
+  /**
+   * Get original tool name from sanitized name
+   * Used when LLM returns tool calls with sanitized names
+   */
+  protected getOriginalToolName(sanitizedName: string): string {
+    const mapping = this.toolNameMapping.get(sanitizedName);
+    return mapping?.original || sanitizedName;
   }
 
   /**
@@ -430,7 +468,19 @@ export abstract class BaseServiceProvider implements ServiceProvider {
   protected async invokeTool(toolName: string, toolArgsString: string): Promise<string> {
     try {
       // Parse tool arguments with proper type safety
-      const toolArgs = JSON.parse(toolArgsString) as Record<string, unknown>;
+      let toolArgs = JSON.parse(toolArgsString) as Record<string, unknown>;
+
+      // Unwrap incorrectly nested parameters (some LLMs wrap params under dummy keys)
+      // If there's only one key and its value is an object, unwrap it
+      const keys = Object.keys(toolArgs);
+      if (keys.length === 1 && typeof toolArgs[keys[0]] === 'object' && toolArgs[keys[0]] !== null) {
+        const potentialWrapper = toolArgs[keys[0]] as Record<string, unknown>;
+        // Check if the wrapped object has the expected parameter names
+        if (Object.keys(potentialWrapper).length > 0) {
+          console.log(`[invokeTool] Unwrapping nested parameters for ${toolName}: ${keys[0]} -> direct params`);
+          toolArgs = potentialWrapper;
+        }
+      }
 
       // Create tool context
       const toolContext = {

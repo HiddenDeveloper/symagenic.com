@@ -153,7 +153,10 @@ export class AgentManager {
 
       return {
         success: true,
-        agent: agents[agentKey],
+        agent: {
+          key: agentKey,
+          ...agents[agentKey],
+        },
       };
 
     } catch (error: unknown) {

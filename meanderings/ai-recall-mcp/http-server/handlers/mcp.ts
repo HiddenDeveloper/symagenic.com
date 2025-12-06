@@ -5,6 +5,7 @@
 import { RECALL_TOOLS } from '../../shared/tools/index.js';
 import { RECALL_HTTP_CONFIG } from '../config/settings.js';
 import type { QdrantConfig } from '../../shared/types.js';
+import { validateToolParams } from '../../shared/validation-schemas.js';
 
 export interface MCPRequest {
   jsonrpc: '2.0';
@@ -47,6 +48,14 @@ export class MCPHandler {
       switch (request.method) {
         case 'initialize':
           return this.handleInitialize(requestId);
+
+        case 'notifications/initialized':
+          // Acknowledge initialization notification (no response needed for notifications)
+          return {
+            jsonrpc: '2.0',
+            id: requestId,
+            result: {}
+          };
 
         case 'tools/list':
           return this.handleToolsList(requestId);
@@ -226,8 +235,22 @@ export class MCPHandler {
       };
     }
 
+    // Validate parameters using Zod schemas - creates virtuous cycle
+    const validation = validateToolParams(name, args || {});
+    if (!validation.success) {
+      return {
+        jsonrpc: '2.0',
+        id,
+        error: {
+          code: -32602,
+          message: 'Invalid params',
+          data: validation.error
+        }
+      };
+    }
+
     try {
-      const result = await tool.execute(this.config, args || {});
+      const result = await tool.execute(this.config, validation.data as any);
       return {
         jsonrpc: '2.0',
         id,

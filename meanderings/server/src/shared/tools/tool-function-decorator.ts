@@ -25,6 +25,13 @@ export interface ToolMetadata {
   name: string;
   description: string;
   parameters: Record<string, unknown>;
+  // OpenAPI inputSchema for MCP tools (includes properties, required, etc.)
+  inputSchema?: {
+    type?: string;
+    properties?: Record<string, unknown>;
+    required?: string[];
+    [key: string]: unknown;
+  };
   enabled?: boolean;
 }
 

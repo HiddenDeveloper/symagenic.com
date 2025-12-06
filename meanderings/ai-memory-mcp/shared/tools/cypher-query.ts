@@ -13,7 +13,21 @@ export class CypherQueryTool {
   }
 
   async execute(config: Neo4jConfig, params: CypherQueryParams): Promise<MemoryToolResponse> {
-    const { query, mode = "READ", parameters = {}, client_schema_epoch } = params;
+    const { query, parameters = {}, client_schema_epoch, mode } = params;
+
+    // Mode is now required - enforce explicit intent
+    if (!mode) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: 'Error: The "mode" parameter is required. You must explicitly specify mode="READ" for queries or mode="WRITE" for modifications. This ensures clarity and prevents unintended changes to your knowledge graph.'
+          }
+        ],
+        isError: true,
+      };
+    }
+
     const service = this.createService(config);
     
     try {

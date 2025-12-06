@@ -1,13 +1,4 @@
-import dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// Load environment variables
-dotenv.config({ path: join(__dirname, '../../../.env') });
-
+// Bun automatically loads .env files - no dotenv package needed
 export const config = {
   // Server settings
   port: parseInt(process.env.HTTP_PORT || '8000', 10),

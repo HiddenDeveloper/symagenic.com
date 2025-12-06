@@ -4,49 +4,34 @@
 FROM oven/bun:1-alpine AS base
 WORKDIR /usr/src/app
 
-# Install dev dependencies stage
+# Prepare shared package
+FROM base AS shared
+COPY packages/shared ./temp-shared
+RUN cd temp-shared && bun install && bun run build 2>/dev/null || true
+
+# Install dev dependencies - manually handle workspace dependency
 FROM base AS install-dev
-RUN mkdir -p /temp/dev/mcp
-# Create workspace root package.json
-RUN echo '{"name":"workspace","private":true,"workspaces":["shared","mcp"]}' > /temp/dev/package.json
-# Copy workspace packages
-COPY shared /temp/dev/shared
-COPY ai-recall-mcp/package.json ai-recall-mcp/bun.lock* /temp/dev/mcp/
-# Install from workspace root
+COPY packages/ai-recall-mcp/package.json ./
+# Replace workspace dependency with file path temporarily
+RUN sed -i 's|"@ailumina/shared": "workspace:\*"|"@ailumina/shared": "file:../temp-shared"|g' package.json
+COPY --from=shared /usr/src/app/temp-shared ../temp-shared
 RUN --mount=type=cache,target=/root/.bun/install/cache \
-    cd /temp/dev && bun install --frozen-lockfile
+    bun install
 
-# Install production dependencies stage
+# Install production dependencies
 FROM base AS install-prod
-RUN mkdir -p /temp/prod/mcp
-# Create workspace root package.json
-RUN echo '{"name":"workspace","private":true,"workspaces":["shared","mcp"]}' > /temp/prod/package.json
-# Copy workspace packages
-COPY shared /temp/prod/shared
-COPY ai-recall-mcp/package.json ai-recall-mcp/bun.lock* /temp/prod/mcp/
-# Install from workspace root
+COPY packages/ai-recall-mcp/package.json ./
+RUN sed -i 's|"@ailumina/shared": "workspace:\*"|"@ailumina/shared": "file:../temp-shared"|g' package.json
+COPY --from=shared /usr/src/app/temp-shared ../temp-shared
 RUN --mount=type=cache,target=/root/.bun/install/cache \
-    cd /temp/prod && bun install --frozen-lockfile --production
+    bun install --production
 
-# Build stage
+# Build stage - just copy source files, Bun can run TypeScript natively
 FROM base AS build
-# Set up workspace structure for building
-WORKDIR /temp/dev
-# Create workspace root package.json
-RUN echo '{"name":"workspace","private":true,"workspaces":["shared","mcp"]}' > package.json
-# Copy workspace packages
-COPY shared ./shared
-COPY ai-recall-mcp ./mcp
-# Install all dependencies
-RUN --mount=type=cache,target=/root/.bun/install/cache \
-    bun install --frozen-lockfile
-# Build shared package first (required for typecheck)
-WORKDIR /temp/dev/shared
-RUN bun run build
-# Build from within the mcp package directory
-WORKDIR /temp/dev/mcp
-RUN bun run typecheck && \
-    bun build http-server/index.ts --outdir dist/http-server --target bun
+COPY --from=install-dev /usr/src/app/node_modules ./node_modules
+COPY packages/ai-recall-mcp .
+# Copy shared package for runtime imports
+COPY --from=shared /usr/src/app/temp-shared ./node_modules/@ailumina/shared
 
 # Production runtime stage
 FROM oven/bun:1-alpine AS release
@@ -60,18 +45,18 @@ RUN adduser -S mcp -u 1001 -G bun
 WORKDIR /usr/src/app
 
 # Copy production dependencies from install-prod stage
-COPY --from=install-prod --chown=mcp:bun /temp/prod/mcp/node_modules node_modules
+COPY --from=install-prod --chown=mcp:bun /usr/src/app/node_modules node_modules
+# Copy shared package to node_modules for runtime
+COPY --from=shared --chown=mcp:bun /usr/src/app/temp-shared node_modules/@ailumina/shared
 
-# Copy built application from build stage
-COPY --from=build --chown=mcp:bun /temp/dev/mcp/dist ./dist
-
-# Copy additional files needed at runtime
-COPY --from=build --chown=mcp:bun /temp/dev/shared ./shared
-COPY --from=build --chown=mcp:bun /temp/dev/mcp/CLAUDE.md ./CLAUDE.md
-COPY --from=build --chown=mcp:bun /temp/dev/mcp/package.json ./package.json
+# Copy source files (Bun runs TypeScript natively)
+COPY --from=build --chown=mcp:bun /usr/src/app/http-server ./http-server
+COPY --from=build --chown=mcp:bun /usr/src/app/shared ./shared
+COPY --from=build --chown=mcp:bun /usr/src/app/CLAUDE.md ./CLAUDE.md
+COPY --from=build --chown=mcp:bun /usr/src/app/package.json ./package.json
 
 # Copy MCP configuration
-COPY --chown=mcp:bun ai-recall-mcp/.mcp.json /usr/src/app/.mcp.json
+COPY --chown=mcp:bun packages/ai-recall-mcp/.mcp.json /usr/src/app/.mcp.json
 
 # No longer need transformers cache - embedding service handles this
 
@@ -85,5 +70,6 @@ EXPOSE 3006
 HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
     CMD wget --no-verbose --tries=1 --spider http://localhost:3006/health || exit 1
 
-# Default command - start HTTP server with Bun
-CMD ["bun", "run", "dist/http-server/index.js"]
+# Default command - start HTTP server with Bun (runs TypeScript natively)
+# For development: mount source directories and this runs your live code
+CMD ["bun", "run", "http-server/index.ts"]

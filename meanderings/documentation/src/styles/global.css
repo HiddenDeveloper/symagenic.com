@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  #page {
+    animation: fadeIn 1s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #1e293b;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+  }
+}
+
+@layer components {
+  /* Concept Cards */
+  .concept-card {
+    @apply bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-slate-600/50;
+  }
+
+  .concept-card-journey {
+    @apply border-system1-500/30 bg-gradient-to-br from-system1-900/20 to-slate-900/50;
+  }
+
+  .concept-card-technical {
+    @apply border-system2-500/30 bg-gradient-to-br from-system2-900/20 to-slate-900/50;
+  }
+
+  .concept-card-evolution {
+    @apply border-accent-500/30 bg-gradient-to-br from-accent-900/20 to-slate-900/50;
+  }
+
+  .concept-card-research {
+    @apply border-memory-500/30 bg-gradient-to-br from-memory-900/20 to-slate-900/50;
+  }
+
+  /* Section Indicators */
+  .section-indicator {
+    @apply w-1 bg-gradient-to-b from-transparent via-accent-500 to-transparent absolute left-0 top-0 h-full opacity-0 transition-opacity duration-300;
+  }
+
+  .section-indicator.active {
+    @apply opacity-100;
+  }
+
+  /* Progress Bar */
+  .progress-bar {
+    @apply fixed top-0 left-0 h-1 bg-gradient-to-r from-accent-500 to-identity-500 z-50 transition-all duration-300;
+  }
+
+  /* Callout Boxes */
+  .callout {
+    @apply border-l-4 pl-6 py-4 my-6 bg-slate-800/30 rounded-r-lg backdrop-blur-sm;
+  }
+
+  .callout-insight {
+    @apply border-boundary-400 bg-boundary-900/10;
+  }
+
+  .callout-definition {
+    @apply border-accent-400 bg-accent-900/10;
+  }
+
+  .callout-experiment {
+    @apply border-identity-400 bg-identity-900/10;
+  }
+
+  /* Animated Background Elements */
+  .bg-neural-network {
+    background-image: 
+      radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 40% 80%, rgba(34, 197, 94, 0.05) 0%, transparent 50%);
+  }
+
+  /* Typography Enhancements */
+  .section-title {
+    @apply text-2xl md:text-3xl font-bold bg-gradient-to-r from-slate-100 to-slate-300 bg-clip-text text-transparent mb-4;
+  }
+
+  .subsection-title {
+    @apply text-xl font-semibold text-slate-200 mb-4 flex items-center gap-3;
+  }
+
+  /* Navigation Enhancements */
+  .nav-link {
+    @apply relative px-3 py-2 rounded-lg transition-all duration-300 hover:bg-slate-800/50 hover:text-white;
+  }
+
+  .nav-link::before {
+    @apply content-[''] absolute left-0 top-1/2 -translate-y-1/2 w-0 h-0.5 bg-accent-400 transition-all duration-300;
+  }
+
+  .nav-link:hover::before {
+    @apply w-2;
+  }
+
+  .nav-link.active {
+    @apply text-white bg-slate-800/30;
+  }
+
+  .nav-link.active::before {
+    @apply w-2;
+  }
+
+  /* Concept Icons */
+  .concept-icon {
+    @apply w-6 h-6 text-current opacity-80;
+  }
+
+  /* Floating Elements */
+  .floating {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* Visual Dividers */
+  .section-divider {
+    @apply h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent my-12;
+  }
+}

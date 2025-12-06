@@ -126,14 +126,19 @@ export class MCPClientManager {
         const transport = new StreamableHTTPClientTransport(
           new URL(config.url!), // We already validated url exists above
           {
-            // Add auth token if provided
+            // Add auth token and SSE support headers
             requestInit: config.auth_token
               ? {
                   headers: {
                     Authorization: `Bearer ${config.auth_token}`,
+                    Accept: 'application/json, text/event-stream',
                   },
                 }
-              : undefined,
+              : {
+                  headers: {
+                    Accept: 'application/json, text/event-stream',
+                  },
+                },
           }
         );
 

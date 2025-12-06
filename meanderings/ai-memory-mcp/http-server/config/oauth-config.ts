@@ -18,6 +18,13 @@ export const MEMORY_OAUTH_CONFIG = {
   resourceId: process.env.MEMORY_RESOURCE_ID || "http://localhost:3003",
 
   /**
+   * OAuth Authorization Server Issuer
+   * This is the issuer identifier for our OAuth AS (usually root domain)
+   * Example: "https://your-tailscale-network.ts.net"
+   */
+  oauthIssuer: process.env.MEMORY_OAUTH_ISSUER || process.env.MEMORY_RESOURCE_ID || "http://localhost:3003",
+
+  /**
    * Authorization servers trusted to issue tokens for this resource
    * Comma-separated list of issuer URLs
    * Example: "https://auth.example.com,https://backup-auth.example.com"
@@ -25,7 +32,7 @@ export const MEMORY_OAUTH_CONFIG = {
   authorizationServers: process.env.MEMORY_AUTH_SERVERS?.split(",").filter(Boolean) || [],
 
   /**
-   * Supported OAuth scopes for this MCP server
+   * Supported OAuth scopes for this MCP server (memory only)
    * - read:memory: Query and retrieve memory data
    * - write:memory: Create and update memory nodes
    * - admin:memory: Administrative operations (maintenance, backup)
@@ -33,6 +40,64 @@ export const MEMORY_OAUTH_CONFIG = {
   supportedScopes: (process.env.MEMORY_OAUTH_SCOPES || "read:memory,write:memory")
     .split(",")
     .filter(Boolean),
+
+  /**
+   * Multi-resource scope configuration
+   * Defines all MCP resources and their supported scopes
+   * Used by OAuth AS to advertise all available scopes and validate scope requests
+   */
+  allMcpResources: {
+    memory: {
+      resourceId: process.env.MEMORY_RESOURCE_ID || "http://localhost:3003",
+      scopes: ["read:memory", "write:memory", "admin:memory"] as string[],
+      description: "AI Memory - Neo4j knowledge graph with semantic search",
+    },
+    mesh: {
+      resourceId: process.env.MESH_RESOURCE_ID || "http://localhost:3002",
+      scopes: ["read:mesh", "write:mesh"] as string[],
+      description: "AI Mesh - Real-time AI-to-AI communication network",
+    },
+    recall: {
+      resourceId: process.env.RECALL_RESOURCE_ID || "http://localhost:3006",
+      scopes: ["read:recall"] as string[],
+      description: "AI Recall - Conversation history and semantic search",
+    },
+    facts: {
+      resourceId: process.env.FACTS_RESOURCE_ID || "http://localhost:3005",
+      scopes: ["read:facts", "write:facts", "admin:facts"] as string[],
+      description: "Facts Store - External knowledge curation with Qdrant",
+    },
+    bridge: {
+      resourceId: process.env.BRIDGE_RESOURCE_ID || "http://localhost:3004",
+      scopes: ["read:bridge", "write:bridge", "admin:bridge"] as string[],
+      description: "Ailumina Bridge - Multi-agent system interface",
+    },
+  },
+
+  /**
+   * Get all supported scopes across all MCP resources
+   */
+  getAllScopes(): string[] {
+    const allScopes: string[] = [];
+    for (const resource of Object.values(this.allMcpResources)) {
+      allScopes.push(...resource.scopes);
+    }
+    return allScopes;
+  },
+
+  /**
+   * Get resource ID for a given scope
+   * @param scope - OAuth scope (e.g., "read:memory")
+   * @returns Resource ID or null if scope not found
+   */
+  getResourceIdForScope(scope: string): string | null {
+    for (const resource of Object.values(this.allMcpResources)) {
+      if (resource.scopes.includes(scope)) {
+        return resource.resourceId;
+      }
+    }
+    return null;
+  },
 
   /**
    * JWT validation settings

@@ -2,7 +2,7 @@ export interface RedisNetworkMessage {
   id: string;
   fromSession: string;
   toSession: string; // "ALL" for all sessions, or specific session_id for targeted messages
-  messageType: "thought_share" | "query" | "response" | "acknowledgment";
+  messageType: "thought_share" | "query" | "response" | "acknowledgment" | "system_notification";
   content: string;
   context?: any;
   priority: "low" | "medium" | "high" | "urgent";
@@ -61,7 +61,7 @@ export interface MeshBroadcastInput {
   priority?: "low" | "medium" | "high" | "urgent";
   context?: any;
   participantName?: string;
-  messageType?: "thought_share" | "query" | "response" | "acknowledgment";
+  messageType?: "thought_share" | "query" | "response" | "acknowledgment" | "system_notification";
   requiresResponse?: boolean;
 }
 
@@ -90,7 +90,7 @@ export interface MeshGetMessagesOutput {
     content: string;
     fromSession: string;
     participantName?: string;
-    messageType: "thought_share" | "query" | "response" | "acknowledgment";
+    messageType: "thought_share" | "query" | "response" | "acknowledgment" | "system_notification";
     priority: "low" | "medium" | "high" | "urgent";
     timestamp: Date;
     requiresResponse: boolean;
@@ -402,4 +402,68 @@ export interface MeshMemorySyncOutput {
   broadcast_id: string;
   recipients_reached: number;
   timestamp: string;
+}
+
+// Meeting Coordination Types
+export interface MeetingAgendaTopic {
+  topic: string;
+  description?: string;
+  estimatedMinutes?: number;
+  speaker?: "ALL" | "ROUND_ROBIN" | string;
+}
+
+export interface MeetingPhase {
+  name: string;
+  description: string;
+  speakingOrder: "round-robin" | "open" | "sequential";
+  turnDuration?: number; // seconds per speaker
+  phaseDuration?: number; // total phase duration in seconds
+  completionCriteria?: "all-spoken" | "all-ready" | "time-based";
+}
+
+export interface MeetingProtocol {
+  phases: MeetingPhase[];
+  threadingRequired?: boolean;
+  recordDecisions?: boolean;
+}
+
+export interface Meeting {
+  meetingId: string;
+  title: string;
+  purpose: string;
+  agenda: MeetingAgendaTopic[];
+  protocol: MeetingProtocol;
+  invitedParticipants?: string[];
+  requiredForQuorum?: number;
+  createdBy: string;
+  createdAt: Date;
+  startsAt?: Date;
+  estimatedDurationMinutes?: number;
+  meetingRoomChannel?: string; // Optional dedicated channel/thread
+}
+
+export interface MeetingParticipant {
+  participantName: string;
+  role?: string;
+  joinedAt: Date;
+  ready: boolean;
+}
+
+export interface MeetingCreateInput {
+  title: string;
+  purpose: string;
+  agenda: MeetingAgendaTopic[];
+  protocol?: MeetingProtocol;
+  invitedParticipants?: string[];
+  requiredForQuorum?: number;
+  startsAt?: string; // ISO date
+  estimatedDurationMinutes?: number;
+}
+
+export interface MeetingCreateOutput {
+  success: boolean;
+  meeting: Meeting;
+  meetingId: string;
+  broadcastMessageId: string;
+  instructions: string;
 }

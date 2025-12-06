@@ -11,13 +11,8 @@ export class AiluminaChatTool {
   async execute(params: AiluminaChatParams): Promise<AiluminaToolResponse> {
     try {
       const { agent_type, user_input, chat_messages = [], fileId, server_url } = params;
-      
-      // Validate required parameters
-      if (!agent_type || !user_input) {
-        throw new Error('Missing required parameters: agent_type and user_input');
-      }
 
-      // No agent_type validation - allow communication with any configured agent
+      // Validation handled by Zod schemas before execution
 
       const options = server_url ? { serverUrl: server_url } : undefined;
       const response = await executeAiluminaChat(

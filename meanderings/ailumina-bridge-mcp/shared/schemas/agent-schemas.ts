@@ -41,7 +41,7 @@ export const AgentConfigUpdateSchema = AgentConfigSchema.partial();
  * Create agent request schema
  */
 export const CreateAgentRequestSchema = z.object({
-  agentKey: z.string().min(1, 'Agent key is required'),
+  agent_key: z.string().min(1, 'Agent key is required'),
   config: AgentConfigSchema,
 });
 
@@ -49,7 +49,7 @@ export const CreateAgentRequestSchema = z.object({
  * Update agent request schema
  */
 export const UpdateAgentRequestSchema = z.object({
-  agentKey: z.string().min(1, 'Agent key is required'),
+  agent_key: z.string().min(1, 'Agent key is required'),
   updates: AgentConfigUpdateSchema,
 });
 

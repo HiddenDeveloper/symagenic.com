@@ -1,0 +1,44 @@
+{
+  "$ref": "#/definitions/prerequisites",
+  "definitions": {
+    "prerequisites": {
+      "type": "object",
+      "properties": {
+        "section": {
+          "type": "number"
+        },
+        "title": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "lastVerified": {
+          "type": "string"
+        },
+        "draft": {
+          "type": "boolean",
+          "default": false
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "section",
+        "title",
+        "subtitle",
+        "icon",
+        "lastVerified"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

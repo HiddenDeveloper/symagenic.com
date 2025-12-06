@@ -6,6 +6,7 @@ import type { MessagePersistenceService } from "../../shared/services/message-pe
 import { tools } from "../../shared/tools/index.js";
 import { resources } from "../../shared/resources/index.js";
 import { MCPHandler, MCPRequest } from "../handlers/mcp.js";
+import { validateToolParams } from "../../shared/validation-schemas.js";
 
 export function createRoutes(
   webSocketService: WebSocketService,
@@ -144,7 +145,7 @@ export function createRoutes(
     });
   });
 
-  // MCP Tools call endpoint  
+  // MCP Tools call endpoint
   router.post("/tools/call", async (req: Request, res: Response): Promise<void> => {
     const { name: toolName, arguments: toolArgs } = req.body;
 
@@ -155,9 +156,24 @@ export function createRoutes(
         sessionId = `rest-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       }
 
-      // Execute tools with persistence services
+      // Validate parameters using Zod schemas - creates virtuous cycle
+      const validation = validateToolParams(toolName, toolArgs || {});
+      if (!validation.success) {
+        res.status(400).json({
+          content: [
+            {
+              type: "text",
+              text: validation.error
+            }
+          ],
+          isError: true
+        });
+        return;
+      }
+
+      // Execute tools with persistence services using validated params
       const { executeTool } = await import("../../shared/tools/index.js");
-      const result = await executeTool(toolName, webSocketService, sessionPersistence, messagePersistence, sessionId, toolArgs);
+      const result = await executeTool(toolName, webSocketService, sessionPersistence, messagePersistence, sessionId, validation.data);
 
       res.json({
         content: [
