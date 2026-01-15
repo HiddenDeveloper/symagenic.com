@@ -64,8 +64,8 @@ const AILUMINA_DATA_DIR = process.env.AILUMINA_DATA_DIR || '/app/data';
 const CREDENTIALS_DIR = path.join(AILUMINA_DATA_DIR, 'credentials');
 const TOKENS_PATH = path.join(CREDENTIALS_DIR, 'strava-tokens.json');
 
-const STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID || 'REDACTED_ID';
-const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET || 'REDACTED_SECRET';
+const STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID || '';
+const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET || '';
 
 /**
  * Ensure credentials directory exists
